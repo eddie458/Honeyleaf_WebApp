@@ -52,6 +52,7 @@ export function Panel({ title, x, y, width, height, from = 'left', variant = 'ca
       className={`${s.panel} ${s[variant]} ${className ?? ''}`}
       style={style}
       role="dialog"
+      data-panel=""
       aria-label={title}
       tabIndex={-1}
       initial={reduced ? { opacity: 0 } : { opacity: 0, x: offset.x, y: offset.y, rotate: tilt - 4 }}

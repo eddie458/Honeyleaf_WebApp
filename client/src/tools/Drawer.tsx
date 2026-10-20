@@ -80,6 +80,11 @@ function SettingsSection() {
         <span className={s.box} aria-hidden="true" />
         {t.drawer.readableFont}
       </label>
+      <label className={s.check}>
+        <input type="checkbox" checked={data.spellcheck !== false} onChange={(e) => update({ spellcheck: e.target.checked })} />
+        <span className={s.box} aria-hidden="true" />
+        {t.drawer.spellcheck}
+      </label>
       <fieldset className={s.field}>
         <legend>{t.drawer.reducedMotion}</legend>
         <div className={s.chips}>

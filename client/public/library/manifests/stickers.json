@@ -6,32 +6,250 @@
       "id": "cozy",
       "name": "Cozy autumn",
       "stickers": [
-        { "id": "honey-jar", "name": "Honey jar", "size": 104 },
-        { "id": "maple-leaf", "name": "Maple leaf", "size": 92 },
-        { "id": "mushroom", "name": "Toadstool", "size": 80 },
-        { "id": "star", "name": "Gold star", "size": 44 },
-        { "id": "heart", "name": "Heart", "size": 52 },
-        { "id": "acorn", "name": "Acorn", "size": 74 },
-        { "id": "pumpkin", "name": "Pumpkin", "size": 92 },
-        { "id": "teacup", "name": "Cup of tea", "size": 96 },
-        { "id": "candle", "name": "Little candle", "size": 84 },
-        { "id": "apple", "name": "Red apple", "size": 76 }
+        {
+          "id": "honey-jar",
+          "name": "Honey jar",
+          "size": 104
+        },
+        {
+          "id": "maple-leaf",
+          "name": "Maple leaf",
+          "size": 92
+        },
+        {
+          "id": "mushroom",
+          "name": "Toadstool",
+          "size": 80
+        },
+        {
+          "id": "star",
+          "name": "Gold star",
+          "size": 44
+        },
+        {
+          "id": "heart",
+          "name": "Heart",
+          "size": 52
+        },
+        {
+          "id": "acorn",
+          "name": "Acorn",
+          "size": 74
+        },
+        {
+          "id": "pumpkin",
+          "name": "Pumpkin",
+          "size": 92
+        },
+        {
+          "id": "teacup",
+          "name": "Cup of tea",
+          "size": 96
+        },
+        {
+          "id": "candle",
+          "name": "Little candle",
+          "size": 84
+        },
+        {
+          "id": "apple",
+          "name": "Red apple",
+          "size": 76
+        }
       ]
     },
     {
       "id": "stationery",
       "name": "Stationery",
       "stickers": [
-        { "id": "paperclip", "name": "Paperclip", "size": 72 },
-        { "id": "pencil", "name": "Pencil", "size": 100 },
-        { "id": "envelope", "name": "Love letter", "size": 92 },
-        { "id": "postage-stamp", "name": "Postage stamp", "size": 84 },
-        { "id": "ribbon-bow", "name": "Ribbon bow", "size": 80 },
-        { "id": "push-pin", "name": "Push pin", "size": 54 },
-        { "id": "scissors", "name": "Scissors", "size": 90 },
-        { "id": "hello-bubble", "name": "Say hi", "size": 88 },
-        { "id": "bookmark", "name": "Bookmark", "size": 90 },
-        { "id": "paint-palette", "name": "Paint palette", "size": 96 }
+        {
+          "id": "paperclip",
+          "name": "Paperclip",
+          "size": 72
+        },
+        {
+          "id": "pencil",
+          "name": "Pencil",
+          "size": 100
+        },
+        {
+          "id": "envelope",
+          "name": "Love letter",
+          "size": 92
+        },
+        {
+          "id": "postage-stamp",
+          "name": "Postage stamp",
+          "size": 84
+        },
+        {
+          "id": "ribbon-bow",
+          "name": "Ribbon bow",
+          "size": 80
+        },
+        {
+          "id": "push-pin",
+          "name": "Push pin",
+          "size": 54
+        },
+        {
+          "id": "scissors",
+          "name": "Scissors",
+          "size": 90
+        },
+        {
+          "id": "hello-bubble",
+          "name": "Say hi",
+          "size": 88
+        },
+        {
+          "id": "bookmark",
+          "name": "Bookmark",
+          "size": 90
+        },
+        {
+          "id": "paint-palette",
+          "name": "Paint palette",
+          "size": 96
+        }
+      ]
+    },
+    {
+      "id": "friends",
+      "name": "Little friends",
+      "stickers": [
+        {
+          "id": "sleepy-cat",
+          "name": "Sleepy cat",
+          "size": 100
+        },
+        {
+          "id": "bunny",
+          "name": "Bunny",
+          "size": 92
+        },
+        {
+          "id": "bear",
+          "name": "Teddy bear",
+          "size": 92
+        },
+        {
+          "id": "bee",
+          "name": "Bumblebee",
+          "size": 84
+        },
+        {
+          "id": "robin",
+          "name": "Robin",
+          "size": 84
+        },
+        {
+          "id": "fox",
+          "name": "Little fox",
+          "size": 92
+        },
+        {
+          "id": "hedgehog",
+          "name": "Hedgehog",
+          "size": 92
+        },
+        {
+          "id": "frog",
+          "name": "Frog",
+          "size": 92
+        }
+      ]
+    },
+    {
+      "id": "sky",
+      "name": "Sky & weather",
+      "stickers": [
+        {
+          "id": "sun",
+          "name": "Sunshine",
+          "size": 92
+        },
+        {
+          "id": "cloud",
+          "name": "Fluffy cloud",
+          "size": 96
+        },
+        {
+          "id": "rain-cloud",
+          "name": "Rain cloud",
+          "size": 96
+        },
+        {
+          "id": "rainbow",
+          "name": "Rainbow",
+          "size": 104
+        },
+        {
+          "id": "moon",
+          "name": "Sleepy moon",
+          "size": 88
+        },
+        {
+          "id": "snowflake",
+          "name": "Snowflake",
+          "size": 72
+        },
+        {
+          "id": "umbrella",
+          "name": "Umbrella",
+          "size": 92
+        },
+        {
+          "id": "sprout",
+          "name": "Sprout",
+          "size": 80
+        }
+      ]
+    },
+    {
+      "id": "treats",
+      "name": "Sweet treats",
+      "stickers": [
+        {
+          "id": "cupcake",
+          "name": "Cupcake",
+          "size": 92
+        },
+        {
+          "id": "croissant",
+          "name": "Croissant",
+          "size": 96
+        },
+        {
+          "id": "strawberry",
+          "name": "Strawberry",
+          "size": 76
+        },
+        {
+          "id": "donut",
+          "name": "Donut",
+          "size": 84
+        },
+        {
+          "id": "cookie",
+          "name": "Cookie",
+          "size": 80
+        },
+        {
+          "id": "boba",
+          "name": "Bubble tea",
+          "size": 92
+        },
+        {
+          "id": "cake-slice",
+          "name": "Slice of cake",
+          "size": 96
+        },
+        {
+          "id": "ice-cream",
+          "name": "Ice cream",
+          "size": 92
+        }
       ]
     }
   ]

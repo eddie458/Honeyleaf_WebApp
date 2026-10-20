@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bee-body" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffe680"/>
+      <stop offset="0.6" stop-color="#f7c336"/>
+      <stop offset="1" stop-color="#de9b12"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <ellipse cx="86" cy="66" rx="25" ry="35" transform="rotate(-26 86 66)" fill="#eef8ff" stroke="#5a6f86" stroke-width="4"/>
+    <ellipse cx="128" cy="62" rx="23" ry="33" transform="rotate(22 128 62)" fill="#eef8ff" stroke="#5a6f86" stroke-width="4"/>
+    <path d="M80 48C76 57 76 67 80 76" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="104" cy="124" rx="64" ry="50" fill="url(#bee-body)" stroke="#4a2e10" stroke-width="4.5"/>
+    <path d="M118 75.5C125 100 125 148 118 172.5L138 166.4C145 140 145 108 138 81.6Z" fill="#3b2418"/>
+    <path d="M152 91C157 106 157 142 152 157L162 145C165 132 165 116 162 103Z" fill="#3b2418"/>
+    <path d="M167 118L183 124L167 130Z" fill="#3b2418" stroke="#3b2418" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="104" cy="124" rx="64" ry="50" fill="none" stroke="#4a2e10" stroke-width="4.5"/>
+    <path d="M70 80C64 66 58 56 52 48" fill="none" stroke="#3b2418" stroke-width="4" stroke-linecap="round"/>
+    <path d="M92 76C94 62 98 52 104 44" fill="none" stroke="#3b2418" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="50" cy="45" r="6" fill="#3b2418"/>
+    <circle cx="106" cy="41" r="6" fill="#3b2418"/>
+    <ellipse cx="66" cy="118" rx="5.5" ry="7" fill="#3b2418"/>
+    <ellipse cx="94" cy="118" rx="5.5" ry="7" fill="#3b2418"/>
+    <circle cx="68" cy="115" r="2" fill="#ffffff"/>
+    <circle cx="96" cy="115" r="2" fill="#ffffff"/>
+    <ellipse cx="56" cy="134" rx="8" ry="5" fill="#f58f6a" opacity="0.6"/>
+    <ellipse cx="104" cy="134" rx="8" ry="5" fill="#f58f6a" opacity="0.6"/>
+    <path d="M72 132Q80 139 88 132" fill="none" stroke="#3b2418" stroke-width="3" stroke-linecap="round"/>
+    <path d="M52 108C54 96 62 86 74 80" fill="none" stroke="#fff6cf" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  </g>
+</svg>

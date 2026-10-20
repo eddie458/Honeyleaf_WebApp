@@ -19,29 +19,50 @@
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5);
 }
 
-/* Instant photo: a thick bottom border for the caption. */
-.instant {
+/* A photo: its paper (if any) with a window onto the picture. */
+.print {
+  position: absolute;
+  inset: 0;
+}
+
+/* Instant film: a card with a wide strip at the bottom for a caption. */
+.print[data-look='card'] {
   background-color: #fbf8f1;
   background-image: var(--tex-paper-grain);
   background-size: var(--tex-paper-grain-w) var(--tex-paper-grain-h);
   background-blend-mode: multiply;
   border-radius: 2px;
-  padding: 6.2% 6.2% 0;
+}
+
+/* A classic print: bright paper, a slim even border and a little gloss. */
+.print[data-look='print'] {
+  background-color: #fdfbf6;
+  background-image: linear-gradient(150deg, rgb(255 255 255 / 0.5), transparent 38%), var(--tex-paper-grain);
+  background-size:
+    100% 100%,
+    var(--tex-paper-grain-w) var(--tex-paper-grain-h);
+  background-blend-mode: normal, multiply;
+  border-radius: 1.5px;
+}
+
+/* An old deckle-cut print: creamy card, scalloped all round. */
+.print[data-look='deckled'] {
+  background-color: #f4ecda;
+  background-image: var(--tex-paper-grain);
+  background-size: var(--tex-paper-grain-w) var(--tex-paper-grain-h);
+  background-blend-mode: multiply;
 }
 
 .window {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
+  position: absolute;
   overflow: hidden;
   background: #2c2830;
   box-shadow: inset 0 0 0 1px rgb(40 26 14 / 0.25);
 }
 
-.window img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.picture {
+  position: absolute;
+  max-width: none;
 }
 
 .window::after {
@@ -50,6 +71,28 @@
   inset: 0;
   box-shadow: inset 2px 3px 6px rgb(40 24 10 / 0.35);
   background: linear-gradient(135deg, rgb(255 255 255 / 0.16), transparent 40%);
+  pointer-events: none;
+}
+
+.print[data-look='print'] .window::after {
+  box-shadow: inset 1px 1.5px 3px rgb(40 24 10 / 0.25);
+}
+
+/* Old prints fade toward their edges. */
+.print[data-look='deckled'] .window::after {
+  box-shadow: inset 1px 2px 4px rgb(60 38 16 / 0.3);
+  background: radial-gradient(closest-side, transparent 72%, rgb(92 62 28 / 0.16)), linear-gradient(135deg, rgb(255 246 226 / 0.12), transparent 45%);
+}
+
+/* No border: the photo alone, a glossy sheet with rounded corners. */
+.print[data-look='plain'] .window {
+  border-radius: 2.5px;
+  box-shadow: none;
+}
+
+.print[data-look='plain'] .window::after {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+  background: linear-gradient(140deg, rgb(255 255 255 / 0.18), transparent 36%);
 }
 
 .caption {
@@ -57,7 +100,6 @@
   left: 6%;
   right: 6%;
   bottom: 0;
-  height: 22%;
   display: flex;
   align-items: center;
   justify-content: center;

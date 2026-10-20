@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { libraryUrl } from '../library/library';
 import { PAGE_H, PAGE_W } from '../model/page';
-import type { Box } from '../model/transform';
 import type { Decoration, PageDoc } from '../model/types';
+import type { DecoDraft } from '../decor/decorate';
 import { DecorationView, type WashiTile } from '../decor/DecorationView';
 import s from './PageSurface.module.css';
 
@@ -30,8 +30,8 @@ interface Props {
   children?: ReactNode;
   /** Editing aids drawn above everything (decoration handles, margin clips). */
   overlay?: ReactNode;
-  /** A decoration being dragged right now, drawn at its live box. */
-  override?: { id: string; box: Box } | null;
+  /** A decoration being dragged or arranged right now, drawn as it is so far. */
+  override?: DecoDraft | null;
   /** Decorations that are mid-crumple. */
   leaving?: ReadonlySet<string>;
   entryId?: string;
@@ -56,7 +56,7 @@ export function PageSurface({ page, side, paper, washi, header, children, overla
   const area = page.area;
   const sorted = [...page.decorations].sort((a, b) => a.z - b.z);
   const view = (d: Decoration) => {
-    const live = override?.id === d.id ? { ...d, ...override.box } : d;
+    const live = override?.id === d.id ? { ...d, ...override.box, ...(override.crop && d.type === 'photo' ? { crop: override.crop, ratio: d.ratio ?? override.ratio } : {}) } : d;
     return <DecorationView key={d.id} deco={live as Decoration} washi={washi} leaving={leaving?.has(d.id) ?? false} />;
   };
   return (

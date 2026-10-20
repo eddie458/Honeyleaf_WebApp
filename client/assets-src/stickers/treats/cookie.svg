@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="cookie-dough" cx="0.4" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="#fbd28e"/>
+      <stop offset="0.65" stop-color="#e2a456"/>
+      <stop offset="1" stop-color="#b8783a"/>
+    </radialGradient>
+  </defs>
+  <g id="art">
+    <path d="M100 28C60 28 28 60 28 100C28 140 60 172 100 172C140 172 172 140 172 100C172 92 171 85 168 79C160 83 150 80 147 72C138 74 129 68 129 58C122 57 116 50 116 42C113 33 108 28 100 28Z" fill="url(#cookie-dough)" stroke="#5a3414" stroke-width="4.5" stroke-linejoin="round"/>
+    <g fill="#4a2a14">
+      <path d="M62 70C68 64 78 66 78 74C78 82 68 84 63 80C58 77 58 73 62 70Z"/>
+      <path d="M96 92C103 88 112 92 110 100C108 107 98 108 94 103C91 99 92 95 96 92Z"/>
+      <path d="M58 116C64 112 72 115 72 122C71 128 63 130 59 126C55 123 55 119 58 116Z"/>
+      <path d="M118 128C124 123 134 126 133 134C132 141 122 142 118 137C115 134 115 131 118 128Z"/>
+      <path d="M86 140C91 137 98 140 97 146C96 152 88 152 85 148C83 145 83 142 86 140Z"/>
+      <path d="M138 98C143 95 149 98 148 104C147 109 140 109 137 105C135 102 135 100 138 98Z"/>
+      <path d="M82 50C86 47 92 49 91 54C90 58 84 59 82 56C80 54 80 52 82 50Z"/>
+    </g>
+    <g fill="#ffffff" opacity="0.35">
+      <circle cx="66" cy="71" r="2.5"/>
+      <circle cx="99" cy="94" r="2.5"/>
+      <circle cx="121" cy="129" r="2.5"/>
+    </g>
+    <path d="M44 86C48 70 58 56 72 48" fill="none" stroke="#fff0cf" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="160" cy="62" r="3.5" fill="#e2a456" stroke="#5a3414" stroke-width="2"/>
+    <circle cx="172" cy="70" r="2.5" fill="#e2a456" stroke="#5a3414" stroke-width="2"/>
+    <circle cx="150" cy="54" r="2" fill="#e2a456" stroke="#5a3414" stroke-width="1.8"/>
+  </g>
+</svg>

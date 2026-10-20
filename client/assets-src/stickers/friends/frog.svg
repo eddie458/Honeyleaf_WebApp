@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="frog-skin" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#b6e48a"/>
+      <stop offset="0.6" stop-color="#80c457"/>
+      <stop offset="1" stop-color="#5a9a3c"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <circle cx="64" cy="80" r="27" fill="url(#frog-skin)" stroke="#2f5a22" stroke-width="4.5"/>
+    <circle cx="136" cy="80" r="27" fill="url(#frog-skin)" stroke="#2f5a22" stroke-width="4.5"/>
+    <ellipse cx="100" cy="126" rx="78" ry="52" fill="url(#frog-skin)" stroke="#2f5a22" stroke-width="4.5"/>
+    <circle cx="64" cy="80" r="15" fill="#ffffff" stroke="#2f5a22" stroke-width="3"/>
+    <circle cx="136" cy="80" r="15" fill="#ffffff" stroke="#2f5a22" stroke-width="3"/>
+    <circle cx="67" cy="82" r="7.5" fill="#2a1a10"/>
+    <circle cx="139" cy="82" r="7.5" fill="#2a1a10"/>
+    <circle cx="69.5" cy="79" r="2.4" fill="#ffffff"/>
+    <circle cx="141.5" cy="79" r="2.4" fill="#ffffff"/>
+    <circle cx="92" cy="114" r="2.5" fill="#2f5a22"/>
+    <circle cx="108" cy="114" r="2.5" fill="#2f5a22"/>
+    <path d="M58 134C74 152 126 152 142 134" fill="none" stroke="#2f5a22" stroke-width="4" stroke-linecap="round"/>
+    <path d="M90 146C94 154 106 154 110 146" fill="#f78f8f" stroke="#2f5a22" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="46" cy="136" rx="11" ry="6.5" fill="#f58f86" opacity="0.6"/>
+    <ellipse cx="154" cy="136" rx="11" ry="6.5" fill="#f58f86" opacity="0.6"/>
+    <path d="M44 66C48 58 56 54 64 54" fill="none" stroke="#e2f6c8" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  </g>
+</svg>

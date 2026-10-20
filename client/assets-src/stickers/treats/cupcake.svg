@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="cup-wrap" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffd0dc"/>
+      <stop offset="1" stop-color="#f29ab2"/>
+    </linearGradient>
+    <linearGradient id="cup-frost" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#fff4f7"/>
+      <stop offset="0.6" stop-color="#ffd3df"/>
+      <stop offset="1" stop-color="#f4a6bc"/>
+    </linearGradient>
+    <radialGradient id="cup-cherry" cx="0.35" cy="0.3" r="0.75">
+      <stop offset="0" stop-color="#ff8a8a"/>
+      <stop offset="1" stop-color="#cf2f3a"/>
+    </radialGradient>
+  </defs>
+  <g id="art">
+    <path d="M50 120L64 178H136L150 120Z" fill="url(#cup-wrap)" stroke="#6b2a3a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M74 122L80 176M98 122V176M122 122L118 176M140 122L130 176M58 122L68 172" fill="none" stroke="#e4809c" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M42 124C34 108 44 92 60 94C58 74 78 62 94 70C102 52 132 56 134 76C152 74 166 90 158 106C168 112 164 128 150 128Z" fill="url(#cup-frost)" stroke="#6b2a3a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M60 110C76 100 96 102 108 110M100 88C112 82 126 84 134 92" fill="none" stroke="#e98ca7" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M56 100C58 90 66 84 74 84" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+    <path d="M104 52C108 40 116 32 126 28" fill="none" stroke="#5a3a1a" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="100" cy="58" r="14" fill="url(#cup-cherry)" stroke="#6b1a1a" stroke-width="4"/>
+    <circle cx="95" cy="53" r="3.5" fill="#ffffff" opacity="0.8"/>
+    <rect x="70" y="80" width="10" height="4" rx="2" fill="#7cc6f0" transform="rotate(-30 75 82)"/>
+    <rect x="118" y="98" width="10" height="4" rx="2" fill="#ffd34d" transform="rotate(25 123 100)"/>
+    <rect x="84" y="112" width="10" height="4" rx="2" fill="#a6dca6" transform="rotate(15 89 114)"/>
+    <rect x="136" y="114" width="10" height="4" rx="2" fill="#b49cf0" transform="rotate(-20 141 116)"/>
+    <rect x="58" y="114" width="10" height="4" rx="2" fill="#ffd34d" transform="rotate(40 63 116)"/>
+    <rect x="122" y="76" width="10" height="4" rx="2" fill="#7cc6f0" transform="rotate(-10 127 78)"/>
+  </g>
+</svg>

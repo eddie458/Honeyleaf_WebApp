@@ -4,6 +4,7 @@
 // old tab can never overwrite it with less).
 
 import { DEFAULT_AREA, PAGE_H, PAGE_W, type WritingArea } from './page';
+import { cleanCrop, cleanRatio } from './photo';
 import { PAGE_SCHEMA, type Decoration, type EntryHeader, type PageDoc, type TextDoc } from './types';
 
 export class NewerDocumentError extends Error {
@@ -40,8 +41,16 @@ function cleanArea(a: unknown): WritingArea {
 
 const DECORATION_TYPES = new Set(['sticker', 'tape', 'photo', 'stamp', 'paper', 'text', 'drawing']);
 
-function cleanDecoration(d: unknown): Decoration | null {
-  if (!isObj(d) || typeof d.type !== 'string' || !DECORATION_TYPES.has(d.type) || typeof d.id !== 'string') return null;
+function cleanDecoration(raw: unknown): Decoration | null {
+  if (!isObj(raw) || typeof raw.type !== 'string' || !DECORATION_TYPES.has(raw.type) || typeof raw.id !== 'string') return null;
+  let d = raw;
+  if (d.type === 'photo') {
+    // A photo's shape and arrangement are optional; anything unreadable is dropped.
+    const { crop, ratio, ...rest } = d;
+    const c = cleanCrop(crop);
+    const r = cleanRatio(ratio);
+    d = { ...rest, ...(c ? { crop: c } : {}), ...(r ? { ratio: r } : {}) };
+  }
   return {
     ...(d as unknown as Decoration),
     x: num(d.x, PAGE_W / 2, -PAGE_W, PAGE_W * 2),

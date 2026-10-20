@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="sun-rays" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffcf6b"/>
+      <stop offset="1" stop-color="#f08a2a"/>
+    </linearGradient>
+    <radialGradient id="sun-disk" cx="0.4" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="#fff6b4"/>
+      <stop offset="0.6" stop-color="#ffd84a"/>
+      <stop offset="1" stop-color="#f4ae2a"/>
+    </radialGradient>
+  </defs>
+  <g id="art">
+    <path d="M188 100L161.8 116.6L176.2 144L145.3 145.3L144 176.2L116.6 161.8L100 188L83.4 161.8L56 176.2L54.7 145.3L23.8 144L38.2 116.6L12 100L38.2 83.4L23.8 56L54.7 54.7L56 23.8L83.4 38.2L100 12L116.6 38.2L144 23.8L145.3 54.7L176.2 56L161.8 83.4Z" fill="url(#sun-rays)" stroke="#8a4a12" stroke-width="4.5" stroke-linejoin="round"/>
+    <circle cx="100" cy="100" r="56" fill="url(#sun-disk)" stroke="#8a4a12" stroke-width="4.5"/>
+    <path d="M74 94Q82 86 90 94M110 94Q118 86 126 94" fill="none" stroke="#5a2e0e" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M86 112Q100 126 114 112" fill="none" stroke="#5a2e0e" stroke-width="3.5" stroke-linecap="round"/>
+    <ellipse cx="70" cy="110" rx="9" ry="5.5" fill="#f7835e" opacity="0.55"/>
+    <ellipse cx="130" cy="110" rx="9" ry="5.5" fill="#f7835e" opacity="0.55"/>
+    <path d="M62 80C66 70 74 62 84 58" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+  </g>
+</svg>

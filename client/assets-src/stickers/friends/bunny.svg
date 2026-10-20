@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bunny-fur" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.6" stop-color="#f4eff5"/>
+      <stop offset="1" stop-color="#ddd2e2"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M70 98C56 72 52 38 62 23C72 10 87 22 88 44C90 62 89 82 87 99Z" fill="url(#bunny-fur)" stroke="#6a5870" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M113 99C111 80 112 58 118 40C124 21 140 14 146 30C152 46 142 76 131 99Z" fill="url(#bunny-fur)" stroke="#6a5870" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M73 88C65 68 63 46 68 34C73 26 80 34 80 48C81 62 80 76 79 89Z" fill="#f7b6c4"/>
+    <path d="M121 89C120 73 121 57 125 45C129 35 137 33 138 41C139 53 134 73 128 89Z" fill="#f7b6c4"/>
+    <ellipse cx="100" cy="128" rx="64" ry="52" fill="url(#bunny-fur)" stroke="#6a5870" stroke-width="4.5"/>
+    <ellipse cx="78" cy="124" rx="5.5" ry="7" fill="#3b2418"/>
+    <ellipse cx="122" cy="124" rx="5.5" ry="7" fill="#3b2418"/>
+    <circle cx="80" cy="121" r="2" fill="#ffffff"/>
+    <circle cx="124" cy="121" r="2" fill="#ffffff"/>
+    <ellipse cx="64" cy="142" rx="10" ry="6" fill="#f7a1b4" opacity="0.65"/>
+    <ellipse cx="136" cy="142" rx="10" ry="6" fill="#f7a1b4" opacity="0.65"/>
+    <path d="M94 135Q100 131 106 135Q100 141 94 135Z" fill="#f08aa0" stroke="#6a5870" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M100 139V145M100 145Q95 150 90 146M100 145Q105 150 110 146" fill="none" stroke="#3b2418" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M150 104C146 94 140 88 132 84" fill="none" stroke="#c9bccf" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  </g>
+</svg>

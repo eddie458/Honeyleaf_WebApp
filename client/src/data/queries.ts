@@ -48,6 +48,10 @@ export interface Settings {
   welcomed?: boolean;
   mug?: 'cocoa' | 'coffee' | 'tea';
   lamp?: boolean;
+  /** The print style new photos come out in. */
+  photoFrame?: string;
+  /** Red wavy lines under misspelled words (on unless switched off). */
+  spellcheck?: boolean;
   [key: string]: unknown;
 }
 

@@ -45,6 +45,19 @@
   pointer-events: none;
   mix-blend-mode: overlay;
   opacity: 0.62;
+  transition: opacity 1.2s ease;
+}
+
+/* Moonlight through the same window: cool, faint, only after dark. */
+.moonLight {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 1.2s ease;
 }
 
 /* Warm low sun from the top-left, and the room darkening toward the far corner. */
@@ -55,6 +68,82 @@
   background:
     radial-gradient(90% 75% at 12% 6%, rgb(255 210 140 / 0.55), rgb(255 190 120 / 0.12) 55%, transparent 75%);
   mix-blend-mode: soft-light;
+  transition: opacity 1.2s ease;
+}
+
+/* Night: deep blue dusk over the room. The middle, where the open book
+   lies, keeps more light, so pages stay easy to read; the corners sink into
+   the dark but never disappear. */
+.night {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 58% at 50% 47%, rgb(56 60 118 / 0.34), rgb(32 36 86 / 0.56) 62%, rgb(14 16 44 / 0.74) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.room[data-lamp='off'] .night,
+.room[data-lamp='off'] .moonLight {
+  opacity: 1;
+}
+
+.room[data-lamp='off'] .moonLight {
+  opacity: 0.3;
+}
+
+.room[data-lamp='off'] .windowLight,
+.room[data-lamp='off'] .sunWash {
+  opacity: 0;
+}
+
+/* Above the room's light: the fairy lights (with the zoomed desk)... */
+.stageGlow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  scale: var(--s);
+  pointer-events: none;
+}
+
+/* ...and the panels you read and use, always at the whole-desk size. */
+.stageAbove {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  scale: var(--fit);
+  pointer-events: none;
+}
+
+.stageAbove > * {
+  pointer-events: auto;
+}
+
+.stage,
+.stageGlow {
+  transition:
+    scale 0.35s cubic-bezier(0.25, 0.8, 0.3, 1),
+    translate 0.35s cubic-bezier(0.25, 0.8, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .stageGlow {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .windowLight,
+  .moonLight,
+  .sunWash,
+  .night {
+    transition: none;
+  }
 }
 
 .vignette {
@@ -67,15 +156,8 @@
   mix-blend-mode: multiply;
 }
 
-/* The desk lamp switched on: a warm pool spilling onto the journal. */
-.lampPool {
-  position: absolute;
-  width: 1100px;
-  height: 900px;
-  translate: -18% -10%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgb(255 217 160 / 0.55), rgb(255 200 130 / 0.22) 55%, transparent);
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: 5;
+
+:global([data-zooming]) .stage,
+:global([data-zooming]) .stageGlow {
+  transition: none;
 }

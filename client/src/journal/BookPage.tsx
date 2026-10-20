@@ -3,10 +3,9 @@ import { useBook } from '../data/bookStore';
 import { useLibrary } from '../library/useLibrary';
 import type { BookSlot } from '../model/book';
 import { GRID, PAGE_H, PAGE_W, type WritingArea } from '../model/page';
-import type { Box } from '../model/transform';
 import type { Decoration, PageDoc, Stroke, StrokePoint } from '../model/types';
 import { DecorationEditor } from '../decor/DecorationEditor';
-import { addDecoration } from '../decor/decorate';
+import { addDecoration, type DecoDraft } from '../decor/decorate';
 import { strokePath } from '../decor/DecorationView';
 import { PageEditor } from '../editor/PageEditor';
 import { reflowEntry } from '../editor/flowController';
@@ -43,9 +42,9 @@ function JournalPage({ entryId, pageId, side, live }: { entryId: string; pageId:
   const papers = useLibrary((st) => st.papers);
   const washi = useLibrary((st) => st.washi);
   const defaults = useDefaults();
-  const [draft, setDraft] = useState<{ id: string; box: Box } | null>(null);
+  const [draft, setDraft] = useState<DecoDraft | null>(null);
   const [leaving, setLeaving] = useState<ReadonlySet<string>>(new Set());
-  const onDraft = useCallback((d: { id: string; box: Box } | null) => setDraft(d), []);
+  const onDraft = useCallback((d: DecoDraft | null) => setDraft(d), []);
   const onToss = useCallback(
     (id: string) =>
       new Promise<void>((resolve) => {

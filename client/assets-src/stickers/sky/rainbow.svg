@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="rb-cloud" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dbe8f3"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M35.5 146A64.5 64.5 0 0 1 164.5 146" fill="none" stroke="#5a4636" stroke-width="57" stroke-linecap="butt"/>
+    <path d="M16 146A84 84 0 0 1 184 146" fill="none" stroke="#f59a9a" stroke-width="13"/>
+    <path d="M29 146A71 71 0 0 1 171 146" fill="none" stroke="#ffd27e" stroke-width="13"/>
+    <path d="M42 146A58 58 0 0 1 158 146" fill="none" stroke="#a6dca6" stroke-width="13"/>
+    <path d="M55 146A45 45 0 0 1 145 146" fill="none" stroke="#9cc8f0" stroke-width="13"/>
+    <path d="M25 128A78 78 0 0 1 64 76" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    <path d="M8 160C2 160 0 152 4 148C6 140 16 138 22 142C26 132 40 132 44 140C52 138 60 144 58 152C62 160 56 166 50 166H14C10 166 8 164 8 160Z" fill="url(#rb-cloud)" stroke="#5a7896" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M150 160C144 160 142 152 146 148C148 140 158 138 164 142C168 132 182 132 186 140C194 138 202 144 200 152C202 160 196 166 190 166H156C152 166 150 164 150 160Z" fill="url(#rb-cloud)" stroke="#5a7896" stroke-width="4" stroke-linejoin="round" transform="translate(-6 0)"/>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="robin-back" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#c9a487"/>
+      <stop offset="0.6" stop-color="#a07858"/>
+      <stop offset="1" stop-color="#7a563c"/>
+    </linearGradient>
+    <linearGradient id="robin-breast" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffa878"/>
+      <stop offset="1" stop-color="#e0623a"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M156 126L190 112L186 146L158 148Z" fill="url(#robin-back)" stroke="#45301f" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M90 170L86 186M112 170L116 186M80 186H92M110 186H122" fill="none" stroke="#e08a3a" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M46 124C46 86 74 62 108 62C144 62 168 90 168 120C168 152 142 172 106 172C72 172 46 156 46 124Z" fill="url(#robin-back)" stroke="#45301f" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M50 128C54 104 72 92 92 96C106 116 104 150 88 168C66 162 50 148 50 128Z" fill="url(#robin-breast)"/>
+    <path d="M46 124C46 86 74 62 108 62C144 62 168 90 168 120C168 152 142 172 106 172C72 172 46 156 46 124Z" fill="none" stroke="#45301f" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M110 104C132 98 154 108 160 128C150 140 128 144 108 136C102 124 102 112 110 104Z" fill="#8a6246" stroke="#45301f" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M118 120C130 122 142 126 150 132M116 130C126 132 136 134 144 138" fill="none" stroke="#5e412c" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M47 102L26 110L47 118Z" fill="#f6b13a" stroke="#6b3a12" stroke-width="3.5" stroke-linejoin="round"/>
+    <ellipse cx="74" cy="96" rx="5.5" ry="7" fill="#2a1a10"/>
+    <circle cx="76" cy="93" r="2" fill="#ffffff"/>
+    <ellipse cx="72" cy="114" rx="7" ry="4.5" fill="#ff8a8a" opacity="0.55"/>
+    <path d="M78 74C88 68 100 66 110 67" fill="none" stroke="#e6d0bc" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  </g>
+</svg>

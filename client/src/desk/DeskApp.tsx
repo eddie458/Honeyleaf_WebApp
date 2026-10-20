@@ -18,11 +18,13 @@ import { Drawer } from '../tools/Drawer';
 import { KeyRing } from '../tools/KeyRing';
 import { lockNow, Padlock } from '../tools/Padlock';
 import { PenCup } from '../tools/PenCup';
+import { Radio } from '../tools/Radio';
 import { StickerBook } from '../tools/StickerBook';
 import { WashiRolls } from '../tools/WashiRolls';
 import { Wastebasket } from '../tools/Wastebasket';
 import { DeskScene, type Camera as Cam, type DeskObjectSpec } from './DeskScene';
-import { AutumnLeaves, CalendarFace, Steam } from './DeskLife';
+import { AutumnLeaves, CalendarFace, RadioGlow, Steam } from './DeskLife';
+import { silence, useRadio, type Station } from './radio';
 import { InkLoader } from './InkLoader';
 import { PencilCase } from './PencilCase';
 import { PenTray } from './PenTray';
@@ -30,9 +32,11 @@ import { STAGE_H, STAGE_W, useLayoutMode, useStageScale, useTallStage } from './
 import { useDeskKeys } from './useDeskKeys';
 import { useIdleLock } from './useIdleLock';
 import { useJournalBoot } from './useJournalBoot';
+import { toggleMagnifier, useDeskZoom } from './zoom';
+import { ZoomControls } from './ZoomControls';
 import s from './DeskApp.module.css';
 
-export type ToolId = 'pens' | 'washi' | 'stickers' | 'camera' | 'calendar' | 'drawer' | 'padlock' | 'keyring' | 'trash';
+export type ToolId = 'pens' | 'washi' | 'stickers' | 'camera' | 'calendar' | 'drawer' | 'padlock' | 'keyring' | 'trash' | 'radio';
 
 const SINGLE_STAGE = { w: 760, h: 1240 };
 const MUGS = ['cocoa', 'coffee', 'tea'] as const;
@@ -49,6 +53,7 @@ const PANEL_AT: Record<ToolId, { x: number; y: number }> = {
   padlock: { x: 560, y: 860 },
   keyring: { x: 550, y: 160 },
   trash: { x: 1680, y: 560 },
+  radio: { x: 1160, y: 230 },
 };
 
 export function DeskApp({ user }: { user: SessionUser }) {
@@ -67,15 +72,34 @@ export function DeskApp({ user }: { user: SessionUser }) {
   const close = useCallback(() => setTool(null), []);
 
   useIdleLock(lockMinutes, lockNow);
+  const playing = useRadio((st) => st.playing);
+  // The radio remembers its station and volume, and goes quiet when you leave the desk.
+  const radioSettings = settings.data?.radio as { station?: Station; volume?: number } | undefined;
+  useEffect(() => {
+    if (radioSettings && !useRadio.getState().playing) useRadio.getState().set({ station: radioSettings.station ?? 'piano', volume: radioSettings.volume ?? 0.6 });
+  }, [radioSettings]);
+  useEffect(() => () => silence(), []);
+  // Red lines under misspelled words: every text field on the desk follows the drawer's setting.
+  const spelling = settings.data?.spellcheck !== false;
+  useEffect(() => {
+    const root = document.documentElement;
+    if (spelling) root.removeAttribute('spellcheck');
+    else root.setAttribute('spellcheck', 'false');
+    return () => root.removeAttribute('spellcheck');
+  }, [spelling]);
   useDeskKeys(close);
   useFileDrops();
 
   const pages = useMemo(() => index.reduce((n, e) => n + e.pageIds.length, 0), [index]);
   const mug = settings.data?.mug ?? 'cocoa';
-  const lampOn = Boolean(settings.data?.lamp);
+  // The lamp is on unless switched off; off means night falls on the desk.
+  const lampOn = settings.data?.lamp !== false;
   const tall = useTallStage(SINGLE_STAGE.w, SINGLE_STAGE.h);
   const stage = layout === 'spread' ? { w: STAGE_W, h: STAGE_H } : tall;
-  const camera = useCaretCamera(layout === 'single', stage);
+  const fitted = useStageScale(stage.w, stage.h);
+  const zoomCamera = useDeskZoom(stage, fitted);
+  const caretCamera = useCaretCamera(layout === 'single' && !zoomCamera, stage);
+  const camera = zoomCamera ?? caretCamera;
 
   if (boot === 'error') return <InkLoader label={t.errors.network} />;
   if (boot === 'loading' || !scene) return <InkLoader label={t.app.loading} />;
@@ -103,13 +127,13 @@ export function DeskApp({ user }: { user: SessionUser }) {
       src: libraryUrl(`props/mug-${mug}.svg`),
       overlay: <Steam />,
     },
+    magnifier: { label: zoomCamera ? t.desk.magnifierDown : t.desk.magnifier, onActivate: toggleMagnifier, pressed: Boolean(zoomCamera) },
+    radio: { label: playing ? t.radio.playing : t.desk.radio, onActivate: open('radio'), pressed: tool === 'radio', ...(playing ? { overlay: <RadioGlow /> } : {}) },
     plant: { label: t.desk.plant, onActivate: () => toast(t.desk.plantEntries(pages), 'info'), src: libraryUrl(`props/plant-${plantStage}.svg`) },
     // Quiet for now: their tools arrive in later milestones.
     stamps: { label: t.desk.stamps },
     stickyNotes: { label: t.desk.stickyNotes },
-    magnifier: { label: t.desk.magnifier },
     promptJar: { label: t.desk.promptJar },
-    radio: { label: t.desk.radio },
     journals: { label: t.desk.journals },
   };
   if (user.role === 'admin') objects.keyring = { label: t.desk.keyring, onActivate: open('keyring'), pressed: tool === 'keyring' };
@@ -133,6 +157,8 @@ export function DeskApp({ user }: { user: SessionUser }) {
         return <Padlock key="padlock" {...panelProps('padlock')} />;
       case 'keyring':
         return <KeyRing key="keyring" {...panelProps('keyring')} myId={user.id} />;
+      case 'radio':
+        return <Radio key="radio" {...panelProps('radio')} />;
       case 'trash':
         return <Wastebasket key="trash" {...panelProps('trash')} onRestored={() => void trash.refetch()} />;
       default:
@@ -156,24 +182,19 @@ export function DeskApp({ user }: { user: SessionUser }) {
         stage={stage}
         layout={layout === 'spread' ? scene.layout : {}}
         objects={objects}
-        lampOn={lampOn}
+        night={!lampOn}
         camera={camera}
         scatter={layout === 'spread' ? <AutumnLeaves /> : null}
         front={
-          <>
-            {layout === 'spread' ? (
-              <PenTray x={1300} y={1212} mode={mode} onMode={setMode} />
-            ) : (
-              <PencilCase objects={objects} mode={mode} onMode={setMode} stage={tall} />
-            )}
-            <AnimatePresence>{panel}</AnimatePresence>
-          </>
+          layout === 'spread' ? <PenTray x={1300} y={1212} mode={mode} onMode={setMode} /> : <PencilCase objects={objects} mode={mode} onMode={setMode} stage={tall} />
         }
+        above={<AnimatePresence>{panel}</AnimatePresence>}
       >
         <div style={journalStyle} className={s.journal} data-mode={mode}>
           <Book layout={layout} />
         </div>
       </DeskScene>
+      {zoomCamera && <ZoomControls />}
       <TextToolbar />
       <Toasts />
     </>

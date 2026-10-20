@@ -242,7 +242,10 @@ includes `user_id = :me`. Soft deletes (`deleted_at`) give the 30-day trash.
 ```
 
 Decoration types: `sticker`, `tape` (two points + width), `photo` (asset +
-frame + crop + filter + caption), `stamp` (asset + ink + seed for the patchy
+frame + the picture's own shape + crop + filter + caption; the crop is the
+point of the picture at the middle of the frame's window and how far it is
+zoomed, so a photo can be rearranged or put in another frame at any time
+without losing anything), `stamp` (asset + ink + seed for the patchy
 print), `paper` (sticky note, index card, scrap, label, ticket, envelope with a
 hidden note), `text` (free text box with TipTap JSON), `drawing` (strokes with
 pressure), `doodle`. Entry-level fields (date, title, mood, weather, tags,

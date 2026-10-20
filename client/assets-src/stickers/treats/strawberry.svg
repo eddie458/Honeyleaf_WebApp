@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="berry-red" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ff8080"/>
+      <stop offset="0.6" stop-color="#e8424c"/>
+      <stop offset="1" stop-color="#b8283a"/>
+    </linearGradient>
+    <linearGradient id="berry-leaf" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#a9de78"/>
+      <stop offset="1" stop-color="#4f8f34"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M100 180C70 172 38 138 40 102C42 78 62 68 82 72C90 66 110 66 118 72C138 68 158 78 160 102C162 138 130 172 100 180Z" fill="url(#berry-red)" stroke="#5a1420" stroke-width="4.5" stroke-linejoin="round"/>
+    <g fill="#ffe28a">
+      <ellipse cx="66" cy="106" rx="2.6" ry="4" transform="rotate(-20 66 106)"/>
+      <ellipse cx="134" cy="106" rx="2.6" ry="4" transform="rotate(20 134 106)"/>
+      <ellipse cx="60" cy="132" rx="2.6" ry="4" transform="rotate(-25 60 132)"/>
+      <ellipse cx="140" cy="132" rx="2.6" ry="4" transform="rotate(25 140 132)"/>
+      <ellipse cx="78" cy="152" rx="2.6" ry="4" transform="rotate(-15 78 152)"/>
+      <ellipse cx="122" cy="152" rx="2.6" ry="4" transform="rotate(15 122 152)"/>
+      <ellipse cx="100" cy="164" rx="2.6" ry="4"/>
+      <ellipse cx="84" cy="94" rx="2.6" ry="4" transform="rotate(-10 84 94)"/>
+      <ellipse cx="116" cy="94" rx="2.6" ry="4" transform="rotate(10 116 94)"/>
+    </g>
+    <ellipse cx="86" cy="120" rx="5" ry="6.5" fill="#3b1418"/>
+    <ellipse cx="114" cy="120" rx="5" ry="6.5" fill="#3b1418"/>
+    <circle cx="88" cy="117" r="1.9" fill="#ffffff"/>
+    <circle cx="116" cy="117" r="1.9" fill="#ffffff"/>
+    <path d="M94 132Q100 138 106 132" fill="none" stroke="#3b1418" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="74" cy="132" rx="7" ry="4.5" fill="#ffb3b3" opacity="0.7"/>
+    <ellipse cx="126" cy="132" rx="7" ry="4.5" fill="#ffb3b3" opacity="0.7"/>
+    <path d="M100 76C92 60 78 56 64 62C76 66 86 72 92 80C80 80 70 86 64 98C80 96 92 90 100 84C108 90 120 96 136 98C130 86 120 80 108 80C114 72 124 66 136 62C122 56 108 60 100 76Z" fill="url(#berry-leaf)" stroke="#2f5a22" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M100 66V46" fill="none" stroke="#2f5a22" stroke-width="5" stroke-linecap="round"/>
+    <path d="M52 110C54 96 62 86 72 82" fill="none" stroke="#ffd6d6" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  </g>
+</svg>

@@ -35,8 +35,8 @@ export function PageEditor({ entryId, pageId, defaults, placeholder }: Props) {
       content: text ?? EMPTY_TEXT,
       editorProps: {
         attributes: {
+          // No spellcheck attribute: it follows the drawer's setting on the page root.
           class: 'hl-flow hl-grid',
-          spellcheck: 'true',
           role: 'textbox',
           'aria-multiline': 'true',
           'aria-label': t.journal.pageText,

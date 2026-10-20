@@ -40,6 +40,25 @@ export function assetSrc(asset: string, size: 'full' | 'thumb' = 'full'): string
   return libraryUrl(asset);
 }
 
+const ratios = new Map<string, Promise<number | null>>();
+
+/** A picture's own width ÷ height, read from its small file (and remembered). */
+export function pictureRatio(asset: string): Promise<number | null> {
+  let known = ratios.get(asset);
+  if (!known) {
+    known = new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(img.naturalWidth > 0 && img.naturalHeight > 0 ? img.naturalWidth / img.naturalHeight : null);
+      img.onerror = () => resolve(null);
+      img.src = assetSrc(asset, 'thumb');
+    });
+    ratios.set(asset, known);
+    // A picture that couldn't be read may load later (it was still uploading).
+    void known.then((r) => r === null && ratios.delete(asset));
+  }
+  return known;
+}
+
 async function encode(bitmap: ImageBitmap, maxEdge: number): Promise<{ blob: Blob; width: number; height: number }> {
   const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
   const width = Math.max(1, Math.round(bitmap.width * scale));

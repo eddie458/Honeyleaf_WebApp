@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="cloud-puff" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.6" stop-color="#eef5fb"/>
+      <stop offset="1" stop-color="#cfe0ef"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M48 150C26 150 16 134 20 118C24 102 40 96 52 100C54 76 74 60 98 64C114 46 146 50 154 74C174 74 188 92 184 112C188 134 172 152 150 150Z" fill="url(#cloud-puff)" stroke="#5a7896" stroke-width="4.5" stroke-linejoin="round"/>
+    <ellipse cx="86" cy="114" rx="5" ry="6.5" fill="#2e3a4a"/>
+    <ellipse cx="118" cy="114" rx="5" ry="6.5" fill="#2e3a4a"/>
+    <circle cx="88" cy="111" r="1.8" fill="#ffffff"/>
+    <circle cx="120" cy="111" r="1.8" fill="#ffffff"/>
+    <path d="M94 126Q102 133 110 126" fill="none" stroke="#2e3a4a" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="74" cy="128" rx="8" ry="5" fill="#f7a1b4" opacity="0.6"/>
+    <ellipse cx="130" cy="128" rx="8" ry="5" fill="#f7a1b4" opacity="0.6"/>
+    <path d="M64 92C70 80 80 74 92 72" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>

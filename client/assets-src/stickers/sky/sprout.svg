@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="sprout-leaf" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#c3ec98"/>
+      <stop offset="0.6" stop-color="#84c65a"/>
+      <stop offset="1" stop-color="#5a9a3c"/>
+    </linearGradient>
+    <linearGradient id="sprout-soil" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#b08058"/>
+      <stop offset="1" stop-color="#6c4529"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M100 150C100 130 98 112 100 94" fill="none" stroke="#3f6a26" stroke-width="10" stroke-linecap="round"/>
+    <path d="M100 150C100 130 98 112 100 94" fill="none" stroke="#7cbf55" stroke-width="5" stroke-linecap="round"/>
+    <path d="M100 106C88 82 62 76 42 84C50 108 76 118 100 106Z" fill="url(#sprout-leaf)" stroke="#2f5a22" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M100 94C110 66 138 54 160 60C154 86 128 102 100 94Z" fill="url(#sprout-leaf)" stroke="#2f5a22" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M94 104C80 94 66 90 54 90M106 90C120 78 134 70 148 68" fill="none" stroke="#e2f6c8" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+    <path d="M38 174C46 154 72 146 100 146C128 146 154 154 162 174Z" fill="url(#sprout-soil)" stroke="#4a2e17" stroke-width="4.5" stroke-linejoin="round"/>
+    <circle cx="70" cy="162" r="3" fill="#4a2e17" opacity="0.6"/>
+    <circle cx="124" cy="160" r="3.5" fill="#4a2e17" opacity="0.6"/>
+    <circle cx="146" cy="168" r="2.5" fill="#4a2e17" opacity="0.6"/>
+    <path d="M150 34L153 41L160 42L155 47L156 54L150 50L144 54L145 47L140 42L147 41Z" fill="#ffe17e" stroke="#8a6a1a" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+</svg>

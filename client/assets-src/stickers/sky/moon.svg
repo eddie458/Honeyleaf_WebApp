@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="moon-glow" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#fff8c8"/>
+      <stop offset="0.6" stop-color="#ffe17e"/>
+      <stop offset="1" stop-color="#f0be4c"/>
+    </linearGradient>
+    <linearGradient id="moon-star" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#fff3a0"/>
+      <stop offset="1" stop-color="#f6c234"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M116 26A74 74 0 1 0 176 124A58 58 0 1 1 116 26Z" fill="url(#moon-glow)" stroke="#8a6a1a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M56 96Q64 104 72 96" fill="none" stroke="#5a4210" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M64 124Q72 130 80 124" fill="none" stroke="#5a4210" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="54" cy="114" rx="8" ry="5" fill="#f7a08a" opacity="0.6"/>
+    <path d="M60 58C68 48 80 40 94 36" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+    <path d="M156 40L161 52L174 53L164 61L167 74L156 67L145 74L148 61L138 53L151 52Z" fill="url(#moon-star)" stroke="#8a6a1a" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M176 104L178 110L184 112L178 114L176 120L174 114L168 112L174 110Z" fill="#fff3a0" stroke="#8a6a1a" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+</svg>

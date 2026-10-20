@@ -98,6 +98,9 @@ interface DecorationBase {
 export type PhotoFrame =
   | 'instant'
   | 'instant-wide'
+  | 'instant-mini'
+  | 'print'
+  | 'plain'
   | 'deckled'
   | 'corners'
   | 'film-strip'
@@ -127,7 +130,19 @@ export type PaperKind = 'sticky' | 'index' | 'scrap' | 'label' | 'ticket' | 'env
 export type Decoration =
   | (DecorationBase & { type: 'sticker'; asset: string })
   | (DecorationBase & { type: 'tape'; asset: string; ends: 'torn' | 'zigzag' | 'straight'; seed: number })
-  | (DecorationBase & { type: 'photo'; asset: string; frame: PhotoFrame; filter: PhotoFilter; caption?: string; captionFont?: string; captionInk?: string })
+  | (DecorationBase & {
+      type: 'photo';
+      asset: string;
+      frame: PhotoFrame;
+      filter: PhotoFilter;
+      /** The picture's own width ÷ height, when known. */
+      ratio?: number;
+      /** Which part shows in the frame's window (see model/photo.ts). */
+      crop?: { x: number; y: number; zoom: number };
+      caption?: string;
+      captionFont?: string;
+      captionInk?: string;
+    })
   | (DecorationBase & { type: 'stamp'; asset: string; ink: string; seed: number; text?: string })
   | (DecorationBase & { type: 'paper'; kind: PaperKind; color?: string; text: TextDoc; seed: number })
   | (DecorationBase & { type: 'text'; text: TextDoc })

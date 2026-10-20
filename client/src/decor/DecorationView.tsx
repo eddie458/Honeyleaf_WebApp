@@ -4,6 +4,7 @@ import { assetSrc, freshPhotos } from '../data/assets';
 import { freshDecorations } from './decorate';
 import { fontFamily } from '../library/fonts';
 import { libraryUrl } from '../library/library';
+import { DEFAULT_CROP, DEFAULT_RATIO, deckleEdge, hasCaptionStrip, photoLayout, type Rect } from '../model/photo';
 import type { Decoration, PhotoFilter, Stroke } from '../model/types';
 import { RichText } from '../text/RichText';
 import { dropShadow, seeded } from './shadow';
@@ -62,7 +63,7 @@ function Body({ deco, washi }: { deco: Decoration; washi: Record<string, WashiTi
     }
 
     case 'photo':
-      return <InstantPhoto deco={deco} shadow={shadow(2.4, 4, 2.4, 0.38)} />;
+      return <PhotoPrint deco={deco} shadow={shadow(2.4, 4, 2.4, 0.38)} />;
 
     case 'stamp':
       return <Postmark id={deco.id} text={deco.text ?? ''} ink={deco.ink} seed={deco.seed} />;
@@ -105,7 +106,7 @@ function Body({ deco, washi }: { deco: Decoration; washi: Record<string, WashiTi
   }
 }
 
-const PHOTO_FILTERS: Record<PhotoFilter, string> = {
+export const PHOTO_FILTERS: Record<PhotoFilter, string> = {
   none: 'none',
   warm: 'sepia(0.16) saturate(1.12) brightness(1.03)',
   faded: 'contrast(0.84) brightness(1.08) saturate(0.78)',
@@ -113,30 +114,60 @@ const PHOTO_FILTERS: Record<PhotoFilter, string> = {
   sepia: 'sepia(0.78) contrast(0.96)',
 };
 
-/** An instant print. A photo added just now develops from pale as it lands. */
-function InstantPhoto({ deco, shadow }: { deco: Extract<Decoration, { type: 'photo' }>; shadow: string }) {
+type PhotoDeco = Extract<Decoration, { type: 'photo' }>;
+
+/** The small file is enough until the picture is drawn large (zoomed in, or a big print). */
+export const pictureSize = (picture: Rect): 'full' | 'thumb' => (Math.max(picture.w, picture.h) > 340 ? 'full' : 'thumb');
+
+/** How a frame is drawn: instant film cards, a classic print, a deckle-edged print, or the photo alone. */
+export const frameLook = (frame: PhotoDeco['frame']) => (hasCaptionStrip(frame) ? 'card' : frame);
+
+/**
+ * A photo in its frame, showing the part of the picture that was chosen for
+ * its window. A photo added just now develops from pale as it lands.
+ */
+function PhotoPrint({ deco, shadow }: { deco: PhotoDeco; shadow: string }) {
   const id = deco.asset.startsWith('user:') ? deco.asset.slice(5) : '';
   const [developing] = useState(() => id !== '' && freshPhotos.delete(id));
   const [missing, setMissing] = useState(false);
+  // Older photos don't know their shape: it's read from the picture itself.
+  const [natural, setNatural] = useState<number | null>(null);
+  const ratio = deco.ratio ?? natural;
+  const { window: win, picture } = photoLayout(deco.frame, deco.w, deco.h, ratio ?? DEFAULT_RATIO, deco.crop ?? DEFAULT_CROP);
+  // Once the large file is in use, keep it (no flicker back to the small one).
+  const [size, setSize] = useState<'full' | 'thumb'>('thumb');
+  if (size === 'thumb' && pictureSize(picture) === 'full') setSize('full');
+  const look = frameLook(deco.frame);
+  const filter = PHOTO_FILTERS[deco.filter];
+  const placed: CSSProperties = ratio
+    ? { left: picture.x - win.x, top: picture.y - win.y, width: picture.w, height: picture.h, filter }
+    : { left: 0, top: 0, width: '100%', height: '100%', objectFit: 'cover', filter };
   return (
-    <div className={`${s.fill} ${s.instant}`} style={{ filter: shadow }}>
-      <div className={s.window}>
-        {!missing && (
-          <img
-            src={assetSrc(deco.asset, deco.w > 320 ? 'full' : 'thumb')}
-            alt=""
-            draggable={false}
-            style={{ filter: PHOTO_FILTERS[deco.filter] }}
-            onError={() => setMissing(true)}
-          />
-        )}
-        {developing && <span className={s.develop} aria-hidden="true" />}
-      </div>
-      {deco.caption && (
-        <div className={s.caption} style={{ fontFamily: `${fontFamily(deco.captionFont ?? 'gochi-hand')}, cursive`, color: deco.captionInk ?? '#3b2a22' }}>
-          {deco.caption}
+    <div className={s.fill} style={{ filter: shadow }}>
+      <div className={s.print} data-look={look} style={{ clipPath: look === 'deckled' ? `path("${deckleEdge(deco.w, deco.h)}")` : undefined }}>
+        <div className={s.window} style={{ left: win.x, top: win.y, width: win.w, height: win.h }}>
+          {!missing && (
+            <img
+              className={s.picture}
+              src={assetSrc(deco.asset, size)}
+              alt=""
+              draggable={false}
+              style={placed}
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                if (deco.ratio === undefined && img.naturalWidth > 0 && img.naturalHeight > 0) setNatural(img.naturalWidth / img.naturalHeight);
+              }}
+              onError={() => setMissing(true)}
+            />
+          )}
+          {developing && <span className={s.develop} aria-hidden="true" />}
         </div>
-      )}
+        {look === 'card' && deco.caption && (
+          <div className={s.caption} style={{ top: win.y + win.h, fontFamily: `${fontFamily(deco.captionFont ?? 'gochi-hand')}, cursive`, color: deco.captionInk ?? '#3b2a22' }}>
+            {deco.caption}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

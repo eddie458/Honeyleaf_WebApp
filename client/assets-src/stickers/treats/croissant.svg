@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="crois-dough" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffd896"/>
+      <stop offset="0.55" stop-color="#f0a650"/>
+      <stop offset="1" stop-color="#c8742a"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M22 142C14 132 18 116 30 112C36 90 58 74 78 72C84 60 116 60 122 72C142 74 164 90 170 112C182 116 186 132 178 142C170 150 158 148 150 138C142 120 126 110 112 108C108 116 92 116 88 108C74 110 58 120 50 138C42 148 30 150 22 142Z" fill="url(#crois-dough)" stroke="#6b3a12" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M30 112C40 116 48 126 50 138M78 72C82 86 86 98 88 108M122 72C118 86 114 98 112 108M170 112C160 116 152 126 150 138" fill="none" stroke="#a85e20" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M36 120C42 112 50 108 58 106M86 76C94 72 106 72 114 76M142 106C150 108 158 112 164 120" fill="none" stroke="#fff0cf" stroke-width="4.5" stroke-linecap="round" opacity="0.85"/>
+    <path d="M60 104C68 96 74 92 80 90M120 90C126 92 132 96 140 104" fill="none" stroke="#fff0cf" stroke-width="3.5" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="66" cy="94" r="1.8" fill="#8a4a16" opacity="0.5"/>
+    <circle cx="134" cy="94" r="1.8" fill="#8a4a16" opacity="0.5"/>
+    <circle cx="100" cy="88" r="1.8" fill="#8a4a16" opacity="0.5"/>
+  </g>
+</svg>

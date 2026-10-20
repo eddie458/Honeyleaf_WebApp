@@ -1,12 +1,23 @@
 // Creating and changing decorations through the book store.
 
+import { pictureRatio } from '../data/assets';
 import { useBook } from '../data/bookStore';
 import { ulid } from '../model/ids';
 import { PAGE_H, PAGE_W } from '../model/page';
+import { DEFAULT_RATIO, photoSize, type Crop } from '../model/photo';
 import { keepOnPage, type Box, type Point } from '../model/transform';
-import type { Decoration } from '../model/types';
+import type { Decoration, PhotoFrame } from '../model/types';
 
 type NewDecoration = Decoration extends infer D ? (D extends Decoration ? Omit<D, 'id' | 'z'> : never) : never;
+
+/** A decoration being changed right now, drawn live before it is saved. */
+export interface DecoDraft {
+  id: string;
+  box: Box;
+  /** A photo being arranged in its frame. */
+  crop?: Crop;
+  ratio?: number;
+}
 
 /** Decorations placed just now: they press down with a little bounce. */
 export const freshDecorations = new Set<string>();
@@ -37,8 +48,42 @@ export function tapeBox(asset: string, box: Box): NewDecoration {
   return { type: 'tape', asset, ends: Math.random() < 0.5 ? 'torn' : 'zigzag', seed: Math.floor(Math.random() * 1000), ...box, layer: 'front' };
 }
 
-export function photoAt(asset: string, p: Point, width = 236): NewDecoration {
-  return { type: 'photo', asset, frame: 'instant', filter: 'none', x: p.x, y: p.y, w: width, h: Math.round(width * (318 / 262)), rot: tilt(), layer: 'front' };
+/** A new print; `ratio` is the picture's own width ÷ height, when known. */
+export function photoAt(asset: string, p: Point, frame: PhotoFrame = 'instant', ratio?: number): NewDecoration {
+  const size = photoSize(frame, ratio ?? DEFAULT_RATIO);
+  return { type: 'photo', asset, frame, filter: 'none', ...(ratio ? { ratio } : {}), x: p.x, y: p.y, w: size.w, h: size.h, rot: tilt(), layer: 'front' };
+}
+
+/** Puts a photo in another frame, keeping how much it has been enlarged or shrunk. */
+export async function reframePhoto(entryId: string, pageId: string, decoId: string, frame: PhotoFrame): Promise<void> {
+  const page = useBook.getState().entries[entryId]?.pages.find((p) => p.id === pageId);
+  const deco = page?.doc.decorations.find((x) => x.id === decoId);
+  if (deco?.type !== 'photo') return;
+  const ratio = deco.ratio ?? (await pictureRatio(deco.asset)) ?? DEFAULT_RATIO;
+  useBook.getState().editDecoration(entryId, pageId, decoId, (d) => {
+    if (d.type !== 'photo' || d.frame === frame) return d;
+    const scale = d.w / photoSize(d.frame, ratio).w;
+    const size = photoSize(frame, ratio, scale);
+    const b = keepOnPage({ x: d.x, y: d.y, w: size.w, h: size.h, rot: d.rot }, PAGE_W, PAGE_H);
+    return { ...d, frame, ratio, x: b.x, y: b.y, w: b.w, h: b.h };
+  });
+}
+
+/** Saves which part of a photo shows in its frame (null: centered, not zoomed). */
+export function arrangePhoto(entryId: string, pageId: string, decoId: string, crop: Crop | null, ratio: number): void {
+  useBook.getState().editDecoration(
+    entryId,
+    pageId,
+    decoId,
+    (d) => {
+      if (d.type !== 'photo') return d;
+      const { crop: _old, ...rest } = d;
+      void _old;
+      const round = (n: number, k: number) => Math.round(n * k) / k;
+      return crop ? { ...rest, ratio: d.ratio ?? ratio, crop: { x: round(crop.x, 1e4), y: round(crop.y, 1e4), zoom: round(crop.zoom, 1e3) } } : { ...rest, ratio: d.ratio ?? ratio };
+    },
+    `arrange:${decoId}`,
+  );
 }
 
 export function updateBox(entryId: string, pageId: string, decoId: string, box: Box): void {

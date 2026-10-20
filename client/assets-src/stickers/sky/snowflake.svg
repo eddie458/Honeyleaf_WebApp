@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <g id="art">
+    <g fill="none" stroke="#4a6f96" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(60 100 100)"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(120 100 100)"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(180 100 100)"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(240 100 100)"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(300 100 100)"/>
+    </g>
+    <g fill="none" stroke="#e4f3ff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(60 100 100)"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(120 100 100)"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(180 100 100)"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(240 100 100)"/>
+      <path d="M100 100V26M100 52L84 38M100 52L116 38M100 76L88 66M100 76L112 66" transform="rotate(300 100 100)"/>
+    </g>
+    <circle cx="100" cy="100" r="15" fill="#e4f3ff" stroke="#4a6f96" stroke-width="4"/>
+    <circle cx="100" cy="100" r="5" fill="#9cc8f0"/>
+  </g>
+</svg>

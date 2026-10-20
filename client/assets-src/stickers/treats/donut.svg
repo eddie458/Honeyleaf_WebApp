@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="donut-dough" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f7cf96"/>
+      <stop offset="1" stop-color="#d0914c"/>
+    </linearGradient>
+    <linearGradient id="donut-icing" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffc8d8"/>
+      <stop offset="1" stop-color="#f287a8"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M28 104a72 66 0 1 0 144 0a72 66 0 1 0 -144 0ZM80 102a20 17 0 1 1 40 0a20 17 0 1 1 -40 0Z" fill="url(#donut-dough)" fill-rule="evenodd" stroke="#6b3a12" stroke-width="4.5"/>
+    <path d="M40 98C38 72 66 50 100 48C134 46 162 68 162 96C162 110 156 118 150 124C148 134 138 136 134 126C126 136 114 140 102 138C96 150 82 150 82 138C66 136 52 128 46 118C40 116 40 108 40 98ZM80 100a20 17 0 1 0 40 0a20 17 0 1 0 -40 0Z" fill="url(#donut-icing)" fill-rule="evenodd" stroke="#6b2a3a" stroke-width="4"/>
+    <path d="M56 76C64 64 78 56 92 54" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+    <rect x="62" y="96" width="11" height="4" rx="2" fill="#7cc6f0" transform="rotate(-30 67 98)"/>
+    <rect x="128" y="84" width="11" height="4" rx="2" fill="#ffe17e" transform="rotate(25 133 86)"/>
+    <rect x="96" y="66" width="11" height="4" rx="2" fill="#a6dca6" transform="rotate(10 101 68)"/>
+    <rect x="132" y="112" width="11" height="4" rx="2" fill="#b49cf0" transform="rotate(-40 137 114)"/>
+    <rect x="70" y="118" width="11" height="4" rx="2" fill="#ffffff" transform="rotate(30 75 120)"/>
+    <rect x="112" y="122" width="11" height="4" rx="2" fill="#7cc6f0" transform="rotate(-15 117 124)"/>
+    <rect x="76" y="70" width="11" height="4" rx="2" fill="#ffffff" transform="rotate(50 81 72)"/>
+    <rect x="144" y="96" width="11" height="4" rx="2" fill="#a6dca6" transform="rotate(70 149 98)"/>
+  </g>
+</svg>
