@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+  <!-- Fine oak fibers and pores, drawn as dark brown with low alpha over the wood light map. -->
+  <filter id="f" x="0" y="0" width="320" height="320" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.0125 0.36" numOctaves="3" seed="4" stitchTiles="stitch" result="fib"/>
+    <feColorMatrix in="fib" type="matrix" values="0 0 0 0 0.24  0 0 0 0 0.13  0 0 0 0 0.05  0.62 0 0 0 -0.3" result="fibers"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.05 0.9" numOctaves="2" seed="12" stitchTiles="stitch" result="por"/>
+    <feColorMatrix in="por" type="matrix" values="0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0 0.04  1.6 0 0 0 -1.08" result="pores"/>
+    <feMerge><feMergeNode in="fibers"/><feMergeNode in="pores"/></feMerge>
+  </filter>
+  <rect width="320" height="320" filter="url(#f)"/>
+</svg>

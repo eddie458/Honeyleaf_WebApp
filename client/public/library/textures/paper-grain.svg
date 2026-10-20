@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- Paper grain light map (near-white), multiplied over the paper color. -->
+  <filter id="g" x="0" y="0" width="256" height="256" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="2" stitchTiles="stitch" result="fine"/>
+    <feColorMatrix in="fine" type="matrix" values="0.13 0 0 0 0.9  0.13 0 0 0 0.9  0.13 0 0 0 0.9  0 0 0 0 1" result="f"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.031" numOctaves="3" seed="9" stitchTiles="stitch" result="mottle"/>
+    <feColorMatrix in="mottle" type="matrix" values="0.09 0 0 0 0.935  0.09 0 0 0 0.935  0.09 0 0 0 0.935  0 0 0 0 1" result="m"/>
+    <feBlend in="f" in2="m" mode="multiply"/>
+  </filter>
+  <rect width="256" height="256" filter="url(#g)"/>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="pencil-wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fae6c4"/>
+      <stop offset="1" stop-color="#dfae72"/>
+    </linearGradient>
+    <linearGradient id="pencil-metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6f4ef"/>
+      <stop offset="0.6" stop-color="#cbc6bb"/>
+      <stop offset="1" stop-color="#a29b8f"/>
+    </linearGradient>
+    <linearGradient id="pencil-eraser" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f9cdc6"/>
+      <stop offset="0.6" stop-color="#e3a19e"/>
+      <stop offset="1" stop-color="#c47e7d"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <g transform="translate(100 100) rotate(-45)">
+      <path d="M-54 -15.5L-95 -1.5C-97.5 -0.6 -97.5 0.6 -95 1.5L-54 15.5Z" fill="url(#pencil-wood)" stroke="#5a341a" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M-84 -5.3L-95 -1.5C-97.5 -0.6 -97.5 0.6 -95 1.5L-84 5.3C-82 2 -82 -2 -84 -5.3Z" fill="#4c4441" stroke="#3a2a20" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M64 -16L-52 -16Q-62 -10.7 -52 -5.3Q-63 0 -52 5.3Q-62 10.7 -52 16L64 16Z" fill="#f2bd45"/>
+      <path d="M64 -16L-52 -16Q-62 -10.7 -52 -5.3L64 -5.3Z" fill="#ffe08e"/>
+      <path d="M64 5.3L-52 5.3Q-62 10.7 -52 16L64 16Z" fill="#d8962c"/>
+      <path d="M-52 -5.3H64M-52 5.3H64" fill="none" stroke="#b07a22" stroke-width="2" opacity="0.7"/>
+      <path d="M64 -16L-52 -16Q-62 -10.7 -52 -5.3Q-63 0 -52 5.3Q-62 10.7 -52 16L64 16Z" fill="none" stroke="#6b4512" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M-42 -11H50" fill="none" stroke="#fffbe8" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+      <path d="M80 -15H90C96 -15 99 -9 99 0C99 9 96 15 90 15H80Z" fill="url(#pencil-eraser)" stroke="#6b2a2e" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M85 -10H91" fill="none" stroke="#fff3ef" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+      <path d="M60 -17H80V17H60Z" fill="url(#pencil-metal)" stroke="#4a443c" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M66.5 -17V17M73.5 -17V17" fill="none" stroke="#8c857a" stroke-width="2.5"/>
+      <path d="M63 -12V-4" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    </g>
+  </g>
+</svg>

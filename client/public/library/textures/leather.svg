@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+  <!-- Pebbled leather: creased noise lit from the top-left, as a light map. -->
+  <filter id="l" x="0" y="0" width="220" height="220" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="turbulence" baseFrequency="0.09" numOctaves="2" seed="5" stitchTiles="stitch" result="t"/>
+    <feDiffuseLighting in="t" surfaceScale="1.4" diffuseConstant="1" lighting-color="#ffffff" result="lit">
+      <feDistantLight azimuth="225" elevation="58"/>
+    </feDiffuseLighting>
+    <feColorMatrix in="lit" type="matrix" values="0.3 0 0 0 0.7  0.3 0 0 0 0.7  0.3 0 0 0 0.7  0 0 0 0 1"/>
+  </filter>
+  <rect width="220" height="220" filter="url(#l)"/>
+</svg>

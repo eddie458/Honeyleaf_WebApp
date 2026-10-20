@@ -1,0 +1,68 @@
+/* The back of a turning leaf in single-page view: plain paper. */
+.reverse {
+  background-color: #f6eedd;
+  background-image: var(--tex-paper-grain);
+  background-size: var(--tex-paper-grain-w) var(--tex-paper-grain-h);
+  background-blend-mode: multiply;
+}
+
+/* Page corners you can grab. A tiny curl hints that they lift. */
+.corner {
+  position: absolute;
+  z-index: 25;
+  touch-action: none;
+  cursor: grab;
+  background: none;
+}
+
+.corner::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease,
+    width 0.25s ease,
+    height 0.25s ease;
+  pointer-events: none;
+}
+
+.corner[data-side='right'][data-corner='bottom']::after {
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 49%, #e9dcc0 50%, #fbf4e6 72%, #d8c7a4);
+  box-shadow: -2px -2px 4px rgb(58 34 16 / 0.18);
+}
+
+.corner[data-side='right'][data-corner='top']::after {
+  right: 0;
+  top: 0;
+  background: linear-gradient(45deg, transparent 49%, #e9dcc0 50%, #fbf4e6 72%, #d8c7a4);
+  box-shadow: -2px 2px 4px rgb(58 34 16 / 0.18);
+}
+
+.corner[data-side='left'][data-corner='bottom']::after {
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(225deg, transparent 49%, #e9dcc0 50%, #fbf4e6 72%, #d8c7a4);
+  box-shadow: 2px -2px 4px rgb(58 34 16 / 0.18);
+}
+
+.corner[data-side='left'][data-corner='top']::after {
+  left: 0;
+  top: 0;
+  background: linear-gradient(315deg, transparent 49%, #e9dcc0 50%, #fbf4e6 72%, #d8c7a4);
+  box-shadow: 2px 2px 4px rgb(58 34 16 / 0.18);
+}
+
+.corner:hover::after,
+.corner:focus-visible::after {
+  width: 34px;
+  height: 34px;
+  opacity: 1;
+}
+
+.corner:focus-visible {
+  outline: none;
+}

@@ -1,0 +1,8 @@
+# Honeyleaf API: api/<route> → api/index.php?r=<route>
+# (Caching is set by the API itself: JSON is never stored, photos are kept
+# privately by the owner's browser.)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php?r=$1 [QSA,L]
+</IfModule>

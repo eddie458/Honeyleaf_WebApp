@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="apple-skin" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f8b468"/>
+      <stop offset="0.35" stop-color="#ee7552"/>
+      <stop offset="0.72" stop-color="#d6463a"/>
+      <stop offset="1" stop-color="#a6302a"/>
+    </linearGradient>
+    <linearGradient id="apple-leaf" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#cadcae"/>
+      <stop offset="0.6" stop-color="#9db48c"/>
+      <stop offset="1" stop-color="#76916a"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M98 70C98 56 100 44 106 34C109 32 113 34 112 38C106 46 104 58 104 70Z" fill="#8a5a32" stroke="#4a2a14" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M100 66C88 54 62 50 46 64C28 80 26 116 38 142C50 168 72 182 90 176C95 174 105 174 110 176C128 182 150 168 162 142C174 116 172 80 154 64C138 50 112 54 100 66Z" fill="url(#apple-skin)" stroke="#6b2420" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M88 68C94 73 106 73 112 68" fill="none" stroke="#8e2f25" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+    <path d="M56 86C49 100 49 116 54 130" fill="none" stroke="#fff1e6" stroke-width="7" stroke-linecap="round" opacity="0.8"/>
+    <path d="M66 72L62 75" fill="none" stroke="#fff1e6" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+    <g fill="#ffe2c4" opacity="0.6">
+      <circle cx="128" cy="112" r="1.8"/>
+      <circle cx="142" cy="128" r="1.8"/>
+      <circle cx="120" cy="140" r="1.8"/>
+      <circle cx="136" cy="150" r="1.8"/>
+      <circle cx="104" cy="156" r="1.8"/>
+      <circle cx="150" cy="104" r="1.8"/>
+      <circle cx="84" cy="150" r="1.8"/>
+    </g>
+    <path d="M106 52C116 34 138 26 160 32C152 50 130 60 106 52Z" fill="url(#apple-leaf)" stroke="#3f5a2a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M111 50C124 42 140 36 153 34" fill="none" stroke="#eef4df" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+  </g>
+</svg>

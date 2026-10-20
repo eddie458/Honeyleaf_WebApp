@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="pin-plastic" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#f69a89"/>
+      <stop offset="0.55" stop-color="#e05e4e"/>
+      <stop offset="1" stop-color="#ad3d36"/>
+    </linearGradient>
+    <linearGradient id="pin-top" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffb3a5"/>
+      <stop offset="1" stop-color="#ea7766"/>
+    </linearGradient>
+    <linearGradient id="pin-metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f6f4f0"/>
+      <stop offset="0.6" stop-color="#c4c1bb"/>
+      <stop offset="1" stop-color="#8f8c86"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <g transform="rotate(30 100 100)">
+      <path d="M96.5 106L96.5 158L100 172L103.5 158L103.5 106Z" fill="url(#pin-metal)" stroke="#4a4440" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M62 96L62 101C62 113 138 113 138 101L138 96Z" fill="url(#pin-plastic)" stroke="#6b2420" stroke-width="4.5" stroke-linejoin="round"/>
+      <ellipse cx="100" cy="96" rx="38" ry="9" fill="url(#pin-top)" stroke="#6b2420" stroke-width="4.5"/>
+      <path d="M70 95C74 92 80 90.5 86 90" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+      <path d="M86 96C88 86 89 76 88 64L112 64C111 76 112 86 114 96C114 100.5 86 100.5 86 96Z" fill="url(#pin-plastic)" stroke="#6b2420" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M93 72V89" fill="none" stroke="#fff1ec" stroke-width="3.5" stroke-linecap="round" opacity="0.7"/>
+      <path d="M66 40L66 56C66 70 134 70 134 56L134 40Z" fill="url(#pin-plastic)" stroke="#6b2420" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M72.5 48V59" fill="none" stroke="#fff1ec" stroke-width="4.5" stroke-linecap="round" opacity="0.8"/>
+      <ellipse cx="100" cy="40" rx="34" ry="10" fill="url(#pin-top)" stroke="#6b2420" stroke-width="4.5"/>
+      <path d="M78 37C84 33.5 92 32 100 32" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+    </g>
+  </g>
+</svg>

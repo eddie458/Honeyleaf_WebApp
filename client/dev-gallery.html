@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Honeyleaf art gallery (dev only)</title>
+    <style>
+      body { margin: 0; background: #c48c55 url(library/textures/wood-planks.gen.png); background-blend-mode: multiply; background-size: 1536px auto; }
+      .grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 24px; align-items: flex-start; }
+      figure { margin: 0; }
+      img { display: block; }
+      img.shadow { filter: drop-shadow(10px 16px 8px rgb(58 34 16 / .35)); }
+      figcaption { font: 13px monospace; color: #3b2a22; padding-top: 4px; }
+    </style>
+  </head>
+  <body>
+    <div class="grid" id="grid"></div>
+    <script type="module">
+      const params = new URLSearchParams(location.search);
+      const names = (params.get('only') ?? '').split(',').filter(Boolean);
+      const scale = Number(params.get('scale') ?? 1);
+      const list = names.length ? names : ['lamp','pencil-cup','washi-rolls','sticker-book','camera','stamps','sticky-notes','calendar','magnifier','prompt-jar','radio','mug-cocoa','mug-coffee','mug-tea','plant-1','plant-3','plant-5','drawer','journal-stack','padlock','keyring','wastebasket','pen-tray','tool-fountain-pen','tool-tweezers','tool-pencil','leaf-maple-red','leaf-maple-gold','leaf-oak','leaf-birch'];
+      const grid = document.getElementById('grid');
+      for (const n of list) {
+        const fig = document.createElement('figure');
+        const img = new Image();
+        img.src = `library/props/${n}.svg`;
+        img.className = 'shadow';
+        img.onload = () => { img.width = img.naturalWidth * scale; };
+        const cap = document.createElement('figcaption');
+        cap.textContent = n;
+        fig.append(img, cap);
+        grid.append(fig);
+      }
+    </script>
+  </body>
+</html>

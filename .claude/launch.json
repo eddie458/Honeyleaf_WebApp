@@ -1,0 +1,55 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "honeyleaf-mock",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "vite",
+        "--mode",
+        "mock",
+        "--port",
+        "5173",
+        "--strictPort"
+      ],
+      "port": 5173
+    },
+    {
+      "name": "honeyleaf-client",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "vite",
+        "--port",
+        "5173",
+        "--strictPort"
+      ],
+      "port": 5173
+    },
+    {
+      "name": "honeyleaf-api",
+      "runtimeExecutable": ".tools/php/php.exe",
+      "runtimeArgs": [
+        "-S",
+        "127.0.0.1:8787",
+        "-t",
+        "server/public",
+        "server/dev-router.php"
+      ],
+      "port": 8787
+    },
+    {
+      "name": "honeyleaf-php",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "vite",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "5180",
+        "--strictPort"
+      ],
+      "port": 5180,
+      "url": "http://127.0.0.1:5180"
+    }
+  ]
+}

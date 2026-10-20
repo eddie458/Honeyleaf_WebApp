@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <!-- Stamp ink coverage mask: mostly solid, with patchy thin areas and pinholes. -->
+  <filter id="s" x="0" y="0" width="240" height="240" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="8" stitchTiles="stitch" result="big"/>
+    <feComponentTransfer in="big" result="bigA">
+      <feFuncR type="discrete" tableValues="1"/><feFuncG type="discrete" tableValues="1"/><feFuncB type="discrete" tableValues="1"/>
+      <feFuncA type="table" tableValues="0 0.2 0.6 0.95 1 1"/>
+    </feComponentTransfer>
+    <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="13" stitchTiles="stitch" result="fine"/>
+    <feComponentTransfer in="fine" result="fineA">
+      <feFuncR type="discrete" tableValues="1"/><feFuncG type="discrete" tableValues="1"/><feFuncB type="discrete" tableValues="1"/>
+      <feFuncA type="table" tableValues="0 0.15 0.8 1 1 1"/>
+    </feComponentTransfer>
+    <feComposite in="bigA" in2="fineA" operator="in"/>
+  </filter>
+  <rect width="240" height="240" filter="url(#s)"/>
+</svg>

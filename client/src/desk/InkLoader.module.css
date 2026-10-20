@@ -1,0 +1,42 @@
+.wrap {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  color: #f6e7c8;
+  background: radial-gradient(circle at 40% 35%, #a8713f, #6e4422 70%);
+}
+
+.svg {
+  width: 160px;
+  height: 120px;
+}
+
+.loop {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: doodle 1.8s ease-in-out infinite;
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: 22px;
+  letter-spacing: 0.02em;
+}
+
+@keyframes doodle {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  70% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}

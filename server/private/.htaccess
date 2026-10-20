@@ -1,0 +1,10 @@
+# honeyleaf_private: code, settings and photos. Nothing here is ever served,
+# even if this folder ends up inside the web root by mistake.
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>
+Options -Indexes

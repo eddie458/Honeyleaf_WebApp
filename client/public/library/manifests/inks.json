@@ -1,0 +1,30 @@
+{
+  "$comment": "Inks. 'kind' groups them in the pencil cup; metallic inks get a subtle shimmer; highlighters are drawn as marker strokes behind text.",
+  "version": 1,
+  "inks": [
+    { "id": "brown-black", "name": "Brown-black", "kind": "fountain", "color": "#3b2a22" },
+    { "id": "midnight", "name": "Midnight blue", "kind": "fountain", "color": "#22324f" },
+    { "id": "teal", "name": "Deep teal", "kind": "fountain", "color": "#1f5f63" },
+    { "id": "oxblood", "name": "Oxblood", "kind": "fountain", "color": "#6b2430" },
+    { "id": "forest", "name": "Forest", "kind": "fountain", "color": "#2f4f36" },
+    { "id": "sepia", "name": "Sepia", "kind": "fountain", "color": "#704c2e" },
+    { "id": "gel-rose", "name": "Rose gel", "kind": "gel", "color": "#d97b8c" },
+    { "id": "gel-lilac", "name": "Lilac gel", "kind": "gel", "color": "#9a7fc4" },
+    { "id": "gel-mint", "name": "Mint gel", "kind": "gel", "color": "#4fa88c" },
+    { "id": "gel-sky", "name": "Sky gel", "kind": "gel", "color": "#4f97c9" },
+    { "id": "gel-peach", "name": "Peach gel", "kind": "gel", "color": "#e48a5a" },
+    { "id": "gel-butter", "name": "Butter gel", "kind": "gel", "color": "#c9a227" },
+    { "id": "gold", "name": "Gold", "kind": "metallic", "color": "#b8903a" },
+    { "id": "copper", "name": "Copper", "kind": "metallic", "color": "#b0643a" },
+    { "id": "silver", "name": "Silver", "kind": "metallic", "color": "#8e9099" },
+    { "id": "rose-gold", "name": "Rose gold", "kind": "metallic", "color": "#c98a7a" },
+    { "id": "tomato", "name": "Tomato marker", "kind": "marker", "color": "#d0533b" },
+    { "id": "mustard", "name": "Mustard marker", "kind": "marker", "color": "#c99522" },
+    { "id": "sage", "name": "Sage marker", "kind": "marker", "color": "#5f8a4e" },
+    { "id": "plum", "name": "Plum marker", "kind": "marker", "color": "#7d3d6e" },
+    { "id": "neon-yellow", "name": "Neon yellow", "kind": "highlighter", "color": "#ffe94a" },
+    { "id": "neon-pink", "name": "Neon pink", "kind": "highlighter", "color": "#ff8ec1" },
+    { "id": "neon-green", "name": "Neon green", "kind": "highlighter", "color": "#9cf27a" },
+    { "id": "neon-orange", "name": "Neon orange", "kind": "highlighter", "color": "#ffb15a" }
+  ]
+}

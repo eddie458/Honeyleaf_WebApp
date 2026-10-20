@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="scissors-handle" x1="0.35" y1="0" x2="0.65" y2="1">
+      <stop offset="0" stop-color="#cadcb5"/>
+      <stop offset="0.6" stop-color="#9db48c"/>
+      <stop offset="1" stop-color="#6f8b63"/>
+    </linearGradient>
+    <linearGradient id="scissors-handle-back" x1="0.35" y1="1" x2="0.65" y2="0">
+      <stop offset="0" stop-color="#bdd0a8"/>
+      <stop offset="0.6" stop-color="#90a880"/>
+      <stop offset="1" stop-color="#66815b"/>
+    </linearGradient>
+    <linearGradient id="scissors-blade" x1="0.4" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#f8f9f9"/>
+      <stop offset="0.6" stop-color="#cbd0d4"/>
+      <stop offset="1" stop-color="#99a2a9"/>
+    </linearGradient>
+    <linearGradient id="scissors-blade-back" x1="0.4" y1="1" x2="0.6" y2="0">
+      <stop offset="0" stop-color="#eceeef"/>
+      <stop offset="0.6" stop-color="#bcc2c7"/>
+      <stop offset="1" stop-color="#8e979e"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <g transform="translate(100 100) rotate(-45) translate(-9 0)">
+      <g transform="rotate(8) scale(1 -1)">
+        <circle cx="-46" cy="17" r="11" fill="#fffdf8"/>
+        <path d="M8 -5C-10 -3 -35 0.7 -42.9 -0.7A18 18 0 1 0 -32.2 28.6C-25.8 20.9 -4 12 10 7C12 4 11 -3 8 -5ZM-56 17A10 10 0 1 1 -36 17A10 10 0 1 1 -56 17Z" fill="url(#scissors-handle-back)" fill-rule="evenodd" stroke="#3f5a2a" stroke-width="4.5" stroke-linejoin="round"/>
+        <path d="M-6 3L72 1C80 0.5 84 -3 82 -7C80 -11 74 -13 68 -13C50 -15 32 -18 16 -18C4 -18 -6 -12 -8 -4Z" fill="url(#scissors-blade-back)" stroke="#4a4440" stroke-width="4" stroke-linejoin="round"/>
+      </g>
+      <g transform="rotate(-8)">
+        <circle cx="-46" cy="17" r="11" fill="#fffdf8"/>
+        <path d="M8 -5C-10 -3 -35 0.7 -42.9 -0.7A18 18 0 1 0 -32.2 28.6C-25.8 20.9 -4 12 10 7C12 4 11 -3 8 -5ZM-56 17A10 10 0 1 1 -36 17A10 10 0 1 1 -56 17Z" fill="url(#scissors-handle)" fill-rule="evenodd" stroke="#3f5a2a" stroke-width="4.5" stroke-linejoin="round"/>
+        <path d="M-57 9C-55 5 -51 3 -47 3M-12 -0.5L-28 0.5" fill="none" stroke="#f4f8ee" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+        <path d="M-6 3L72 1C80 0.5 84 -3 82 -7C80 -11 74 -13 68 -13C50 -15 32 -18 16 -18C4 -18 -6 -12 -8 -4Z" fill="url(#scissors-blade)" stroke="#4a4440" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M14 -12.5C32 -12.5 52 -10.5 68 -8.5" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+      </g>
+      <circle cx="0" cy="0" r="6.5" fill="#d9dde0" stroke="#4a4440" stroke-width="3.5"/>
+      <path d="M-3 -2L3 2" fill="none" stroke="#6e6a64" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="stamp-paper" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#fffdf8"/>
+      <stop offset="0.6" stop-color="#f6ecd9"/>
+      <stop offset="1" stop-color="#e4d2b2"/>
+    </linearGradient>
+    <linearGradient id="stamp-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fcbe6"/>
+      <stop offset="1" stop-color="#e3f1f3"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <g transform="rotate(5 100 100)">
+      <path d="M40 28L43 28A4.5 4.5 0 0 0 52 28L58 28A4.5 4.5 0 0 0 67 28L73 28A4.5 4.5 0 0 0 82 28L88 28A4.5 4.5 0 0 0 97 28L103 28A4.5 4.5 0 0 0 112 28L118 28A4.5 4.5 0 0 0 127 28L133 28A4.5 4.5 0 0 0 142 28L148 28A4.5 4.5 0 0 0 157 28L160 28L160 30.7A4.5 4.5 0 0 0 160 39.7L160 45.1A4.5 4.5 0 0 0 160 54.1L160 59.5A4.5 4.5 0 0 0 160 68.5L160 73.9A4.5 4.5 0 0 0 160 82.9L160 88.3A4.5 4.5 0 0 0 160 97.3L160 102.7A4.5 4.5 0 0 0 160 111.7L160 117.1A4.5 4.5 0 0 0 160 126.1L160 131.5A4.5 4.5 0 0 0 160 140.5L160 145.9A4.5 4.5 0 0 0 160 154.9L160 160.3A4.5 4.5 0 0 0 160 169.3L160 172L157 172A4.5 4.5 0 0 0 148 172L142 172A4.5 4.5 0 0 0 133 172L127 172A4.5 4.5 0 0 0 118 172L112 172A4.5 4.5 0 0 0 103 172L97 172A4.5 4.5 0 0 0 88 172L82 172A4.5 4.5 0 0 0 73 172L67 172A4.5 4.5 0 0 0 58 172L52 172A4.5 4.5 0 0 0 43 172L40 172L40 169.3A4.5 4.5 0 0 0 40 160.3L40 154.9A4.5 4.5 0 0 0 40 145.9L40 140.5A4.5 4.5 0 0 0 40 131.5L40 126.1A4.5 4.5 0 0 0 40 117.1L40 111.7A4.5 4.5 0 0 0 40 102.7L40 97.3A4.5 4.5 0 0 0 40 88.3L40 82.9A4.5 4.5 0 0 0 40 73.9L40 68.5A4.5 4.5 0 0 0 40 59.5L40 54.1A4.5 4.5 0 0 0 40 45.1L40 39.7A4.5 4.5 0 0 0 40 30.7Z" fill="url(#stamp-paper)" stroke="#5a341a" stroke-width="4" stroke-linejoin="round"/>
+      <rect x="52" y="40" width="96" height="120" fill="url(#stamp-sky)"/>
+      <circle cx="78" cy="66" r="12" fill="#f7cb5e"/>
+      <circle cx="75" cy="63" r="5" fill="#fde6a0"/>
+      <path d="M106 72C103 66 109 61 114 63C116 57 126 57 128 63C134 62 137 68 133 72Z" fill="#fffaf0"/>
+      <path d="M52 112C66 100 82 98 96 104C110 96 130 94 148 104V160H52Z" fill="#b8cfa2"/>
+      <path d="M52 130C72 117 96 115 116 125C128 119 140 119 148 123V160H52Z" fill="#8dab7a"/>
+      <path d="M90 160C94 148 104 140 114 134" fill="none" stroke="#f3e4c4" stroke-width="5" stroke-linecap="round"/>
+      <path d="M126 112V103M136 109V102" fill="none" stroke="#7a5a3a" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="126" cy="98" r="7" fill="#6e8f5e"/>
+      <circle cx="136" cy="98" r="5" fill="#7d9c69"/>
+      <path d="M92 52Q95 49 98 52Q101 49 104 52" fill="none" stroke="#5e6e7e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="52" y="40" width="96" height="120" fill="none" stroke="#6b4a2a" stroke-width="3"/>
+      <path d="M46 40V96" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+    </g>
+  </g>
+</svg>

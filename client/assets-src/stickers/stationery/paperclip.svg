@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="paperclip-wire" gradientUnits="userSpaceOnUse" x1="-33" y1="-2" x2="55" y2="13">
+      <stop offset="0" stop-color="#d6ecf8"/>
+      <stop offset="0.55" stop-color="#9ccae3"/>
+      <stop offset="1" stop-color="#6a9bc0"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <g transform="translate(100 100) rotate(35) translate(-11 -5.5)">
+      <path d="M-22 -40A22 22 0 0 1 22 -40L44 -30L44 40A33 33 0 0 1 -22 40Z" fill="#fffdf8"/>
+      <path d="M6 -26L6 30A5 5 0 0 0 11 35A5 5 0 0 0 16 30L16 -40A16 16 0 0 0 0 -56A16 16 0 0 0 -16 -40L-16 40A27 27 0 0 0 11 67A27 27 0 0 0 38 40L38 -30A6 6 0 0 1 44 -36A6 6 0 0 1 50 -30L50 40A39 39 0 0 1 11 79A39 39 0 0 1 -28 40L-28 -40A28 28 0 0 1 0 -68A28 28 0 0 1 28 -40L28 30A17 17 0 0 1 11 47A17 17 0 0 1 -6 30L-6 -26A6 6 0 0 1 0 -32A6 6 0 0 1 6 -26Z" fill="url(#paperclip-wire)" stroke="#463f4c" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M-24.5 -38V36M40.5 -24V38M-2.5 -22V24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+    </g>
+    <path d="M62 34C63.5 44 66 46.5 76 48C66 49.5 63.5 52 62 62C60.5 52 58 49.5 48 48C58 46.5 60.5 44 62 34Z" fill="#ffd66b" stroke="#6b4512" stroke-width="3.5" stroke-linejoin="round"/>
+    <circle cx="81" cy="30" r="4" fill="#ffd66b" stroke="#6b4512" stroke-width="2.5"/>
+  </g>
+</svg>

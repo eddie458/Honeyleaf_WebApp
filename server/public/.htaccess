@@ -1,0 +1,42 @@
+# Honeyleaf: the diary's front door (Apache or LiteSpeed, as on Hostinger).
+# No php_flag/php_value lines here on purpose: on many hosts they cause a 500.
+
+Options -Indexes
+DirectoryIndex index.php
+AddDefaultCharset utf-8
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # The page always comes from index.php (it adds the <base href> and headers).
+  RewriteRule ^index\.html$ index.php [L]
+</IfModule>
+
+# Never served: dotfiles, the folder locator, source maps.
+<FilesMatch "(^\.|^hl-locate\.php$|\.map$)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "same-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; media-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+  # The art, fonts and lists in library/: a day, then check for changes.
+  <FilesMatch "\.(json|svg|png|webp|woff2)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>

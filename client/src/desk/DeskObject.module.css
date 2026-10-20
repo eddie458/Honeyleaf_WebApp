@@ -1,0 +1,131 @@
+.object {
+  position: absolute;
+  display: block;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.object:focus-visible {
+  outline: none;
+}
+
+.shadow,
+.shadowUp,
+.body {
+  position: absolute;
+  inset: 0;
+  rotate: var(--rot);
+}
+
+.shadow img,
+.shadowUp img,
+.art {
+  width: 100%;
+  height: 100%;
+}
+
+/* Silhouette shadows. The filters are static; only transform and opacity move. */
+.shadow {
+  translate: var(--sx) var(--sy);
+  opacity: 0.36;
+  transition: opacity 0.3s ease;
+}
+
+.shadow img {
+  filter: brightness(0) blur(var(--blur));
+}
+
+.shadowUp {
+  translate: calc(var(--sx) * 1.7 + 6px) calc(var(--sy) * 1.7 + 10px);
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    translate 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.shadowUp img {
+  filter: brightness(0) blur(var(--blur-up));
+}
+
+.body {
+  transition:
+    translate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    scale 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.object:hover .body,
+.object:focus-visible .body {
+  translate: -3px -9px;
+  scale: 1.04;
+  animation: wiggle 0.55s ease-in-out;
+}
+
+.object:hover .shadow,
+.object:focus-visible .shadow {
+  opacity: 0.12;
+}
+
+.object:hover .shadowUp,
+.object:focus-visible .shadowUp {
+  opacity: 0.28;
+}
+
+.object:active .body {
+  translate: -1px -3px;
+  scale: 1.01;
+  transition-duration: 0.08s;
+}
+
+@keyframes wiggle {
+  0% {
+    rotate: var(--rot);
+  }
+  30% {
+    rotate: calc(var(--rot) - 2.4deg);
+  }
+  62% {
+    rotate: calc(var(--rot) + 1.7deg);
+  }
+  100% {
+    rotate: var(--rot);
+  }
+}
+
+.tag {
+  opacity: 0;
+  scale: 0.7;
+  rotate: -14deg;
+  transform-origin: 0 0;
+  transition:
+    opacity 0.18s ease,
+    scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    rotate 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.object:hover .tag,
+.object:focus-visible .tag {
+  opacity: 1;
+  scale: 1;
+  rotate: 0deg;
+  transition-delay: 0.12s;
+}
+
+.ring {
+  position: absolute;
+  inset: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  color: color-mix(in srgb, var(--c-mustard) 70%, var(--c-ink));
+  opacity: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.object:focus-visible .ring {
+  opacity: 1;
+}
+
+/* Objects that don't open anything yet: no lift, no tag, no pointer. */
+.quiet {
+  pointer-events: none;
+}

@@ -1,0 +1,46 @@
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 2px;
+  font-family: var(--font-hand);
+  font-size: 22px;
+  color: rgb(251 240 220 / 0.92);
+  text-shadow: 0 1px 2px rgb(58 34 16 / 0.6);
+  white-space: nowrap;
+  transition: opacity 0.4s ease;
+}
+
+.mark svg {
+  width: 18px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mark[data-status='saved'] {
+  opacity: 0.8;
+}
+
+.mark[data-status='offline'],
+.mark[data-status='error'] {
+  color: #ffe2b0;
+}
+
+.drop {
+  width: 9px;
+  height: 12px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: currentColor;
+  animation: dry 1.4s ease-in-out infinite;
+}
+
+@keyframes dry {
+  50% {
+    opacity: 0.35;
+    scale: 0.8;
+  }
+}

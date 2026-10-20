@@ -1,0 +1,81 @@
+.tray {
+  position: absolute;
+  width: 480px;
+  height: 130px;
+}
+
+.wood {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(6px 10px 7px rgb(58 34 16 / 0.38));
+}
+
+.tool {
+  position: absolute;
+  left: 52px;
+  width: 376px;
+  height: 40px;
+  outline: none;
+}
+
+.toolArt,
+.toolShadow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 376px;
+  height: 40px;
+  transition:
+    translate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    rotate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.3s ease;
+}
+
+.toolShadow {
+  filter: brightness(0) blur(2px);
+  opacity: 0.4;
+  translate: 2px 3px;
+}
+
+.tool:hover .toolArt {
+  translate: 0 -3px;
+}
+
+.active .toolArt {
+  translate: -6px -16px;
+  rotate: -3deg;
+}
+
+.active .toolShadow {
+  translate: 10px 12px;
+  rotate: -3deg;
+  opacity: 0.24;
+  filter: brightness(0) blur(6px);
+}
+
+.tool:focus-visible .toolArt {
+  outline: 3px solid color-mix(in srgb, var(--c-mustard) 80%, var(--c-ink));
+  outline-offset: 2px;
+  border-radius: 20px;
+}
+
+.tag {
+  position: absolute;
+  right: -118px;
+  top: -16px;
+  height: 34px;
+  padding: 5px 12px 0 18px;
+  font-family: var(--font-ui);
+  font-size: 21px;
+  color: var(--c-ink);
+  white-space: nowrap;
+  background-color: var(--c-tag);
+  background-image: var(--tex-kraft);
+  background-size: var(--tex-kraft-w) var(--tex-kraft-h);
+  background-blend-mode: multiply;
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
+  filter: drop-shadow(2px 3px 2px rgb(58 34 16 / 0.35));
+  rotate: 4deg;
+}

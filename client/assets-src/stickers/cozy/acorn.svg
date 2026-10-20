@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="acorn-nut" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f7d08c"/>
+      <stop offset="0.55" stop-color="#dd9a4c"/>
+      <stop offset="1" stop-color="#b0682d"/>
+    </linearGradient>
+    <linearGradient id="acorn-cap" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#bd8a57"/>
+      <stop offset="0.6" stop-color="#8f5e34"/>
+      <stop offset="1" stop-color="#6b4224"/>
+    </linearGradient>
+    <linearGradient id="acorn-leaf" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#cadcae"/>
+      <stop offset="0.6" stop-color="#9db48c"/>
+      <stop offset="1" stop-color="#76916a"/>
+    </linearGradient>
+    <pattern id="acorn-scales" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 5.5H11M5.5 0V11" stroke="#4a2a14" stroke-width="2" opacity="0.32"/>
+    </pattern>
+  </defs>
+  <g id="art">
+    <g transform="translate(110 54) rotate(-14)">
+      <path d="M0 0C2 -7 7 -13 13 -13C17 -13 20 -10 22 -7C24 -14 30 -19 36 -17C41 -15 42 -11 43 -8C46 -14 52 -17 57 -13C60 -10 60 -8 61 -6C67 -7 73 -4 73 0C73 4 67 7 61 6C60 8 60 10 57 13C52 17 46 14 43 8C42 11 41 15 36 17C30 19 24 14 22 7C20 10 17 13 13 13C7 13 2 7 0 0Z" fill="url(#acorn-leaf)" stroke="#3f5a2a" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M6 0H62M24 0L31 -9M24 0L31 9M43 0L49 -8M43 0L49 8" fill="none" stroke="#eef4df" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+    </g>
+    <g transform="rotate(-10 100 110)">
+      <path d="M95 48C93 38 96 30 104 23C107 21 112 23 110 27C105 33 104 40 106 48Z" fill="#7d5130" stroke="#4a2a14" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M56 94C54 128 70 158 92 172C96 175 98 178 100 182C102 178 104 175 108 172C130 158 146 128 144 94Z" fill="url(#acorn-nut)" stroke="#5a341a" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M62 106C80 114 120 114 138 106" fill="none" stroke="#a0612a" stroke-width="6" stroke-linecap="round" opacity="0.3"/>
+      <path d="M70 116C70 132 76 146 88 158" fill="none" stroke="#fff4dc" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+      <path d="M40 94C38 66 66 46 100 46C134 46 162 66 160 94C152 104 136 106 128 100C120 106 108 107 100 102C92 107 80 106 72 100C64 106 48 104 40 94Z" fill="url(#acorn-cap)" stroke="#4a2a14" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M40 94C38 66 66 46 100 46C134 46 162 66 160 94C152 104 136 106 128 100C120 106 108 107 100 102C92 107 80 106 72 100C64 106 48 104 40 94Z" fill="url(#acorn-scales)"/>
+      <path d="M56 74C64 62 78 55 92 53" fill="none" stroke="#f3d8b0" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+    </g>
+  </g>
+</svg>

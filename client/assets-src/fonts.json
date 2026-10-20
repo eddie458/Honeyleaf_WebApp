@@ -1,0 +1,19 @@
+{
+  "$comment": "Source list for scripts/build-fonts.mjs. Each entry names a Fontsource package (OFL-1.1 or Apache-2.0). The script copies the latin + latin-ext woff2 files and license, measures real metrics, and writes library/manifests/fonts.json with normalized size-adjust and baseline overrides. 'tweak' nudges the computed optical size for one font.",
+  "target": { "optical": 0.5, "capWeight": 0.4, "capToX": 0.714, "ascent": 0.8, "descent": 0.24, "minAdjust": 0.8, "maxAdjust": 1.5 },
+  "fonts": [
+    { "id": "caveat", "name": "Caveat", "pkg": "caveat", "category": "handwriting", "weights": [400, 700] },
+    { "id": "patrick-hand", "name": "Patrick Hand", "pkg": "patrick-hand", "category": "handwriting", "weights": [400] },
+    { "id": "kalam", "name": "Kalam", "pkg": "kalam", "category": "handwriting", "weights": [400, 700] },
+    { "id": "indie-flower", "name": "Indie Flower", "pkg": "indie-flower", "category": "handwriting", "weights": [400] },
+    { "id": "gochi-hand", "name": "Gochi Hand", "pkg": "gochi-hand", "category": "handwriting", "weights": [400] },
+    { "id": "dancing-script", "name": "Dancing Script", "pkg": "dancing-script", "category": "script", "weights": [400, 700] },
+    { "id": "sacramento", "name": "Sacramento", "pkg": "sacramento", "category": "script", "weights": [400] },
+    { "id": "lora", "name": "Lora", "pkg": "lora", "category": "serif", "weights": [400, 700] },
+    { "id": "eb-garamond", "name": "EB Garamond", "pkg": "eb-garamond", "category": "serif", "weights": [400, 700] },
+    { "id": "special-elite", "name": "Special Elite", "pkg": "special-elite", "category": "typewriter", "weights": [400] },
+    { "id": "courier-prime", "name": "Courier Prime", "pkg": "courier-prime", "category": "typewriter", "weights": [400, 700] },
+    { "id": "fredoka", "name": "Fredoka", "pkg": "fredoka", "category": "display", "weights": [400, 600] },
+    { "id": "atkinson", "name": "Atkinson Hyperlegible", "pkg": "atkinson-hyperlegible", "category": "readable", "weights": [400, 700] }
+  ]
+}

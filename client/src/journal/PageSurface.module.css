@@ -1,0 +1,154 @@
+.page {
+  position: absolute;
+  overflow: hidden;
+  background-color: var(--paper-base);
+  color: #3b2a22;
+}
+
+/* Pages dip slightly toward the spine at the top and bottom. */
+.page[data-side='left'] {
+  clip-path: path('M0 0H520C556 0 580 2 594 6V834C580 838 556 840 520 840H0Z');
+}
+
+.page[data-side='right'],
+.page[data-side='single'] {
+  clip-path: path('M74 0H594V840H74C38 840 14 838 0 834V6C14 2 38 0 74 0Z');
+}
+
+/* Paper: base color, grain, then the printed pattern. */
+.paper {
+  position: absolute;
+  inset: 0;
+  background-image: var(--paper-texture);
+  background-size: var(--paper-texture-w) var(--paper-texture-h);
+  background-blend-mode: multiply;
+  background-color: var(--paper-base);
+}
+
+.paper[data-pattern='lined'] {
+  background-image:
+    linear-gradient(90deg, transparent 63px, var(--paper-margin) 63px 64.4px, transparent 64.4px),
+    repeating-linear-gradient(180deg, transparent 0 20.8px, var(--paper-line) 20.8px 22px, transparent 22px 28px),
+    var(--paper-texture);
+  background-size:
+    100% 100%,
+    100% 728px,
+    var(--paper-texture-w) var(--paper-texture-h);
+  background-position:
+    0 0,
+    0 84px,
+    0 0;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-blend-mode: normal, normal, multiply;
+}
+
+.paper[data-pattern='lined'][data-double] {
+  background-image:
+    linear-gradient(90deg, transparent 58px, var(--paper-margin) 58px 59.4px, transparent 59.4px 63px, var(--paper-margin) 63px 64.4px, transparent 64.4px),
+    repeating-linear-gradient(180deg, transparent 0 20.8px, var(--paper-line) 20.8px 22px, transparent 22px 28px),
+    var(--paper-texture);
+}
+
+.paper[data-pattern='dotted'] {
+  background-image:
+    radial-gradient(circle at 14px 21.4px, var(--paper-line) 0 1.25px, transparent 1.7px),
+    var(--paper-texture);
+  background-size:
+    28px 28px,
+    var(--paper-texture-w) var(--paper-texture-h);
+  background-position:
+    -1px 0,
+    0 0;
+  background-blend-mode: normal, multiply;
+}
+
+.paper[data-pattern='grid'] {
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 27.2px, var(--paper-line) 27.2px 28px),
+    repeating-linear-gradient(180deg, transparent 0 21px, var(--paper-line) 21px 21.8px, transparent 21.8px 28px),
+    var(--paper-texture);
+  background-size:
+    100% 100%,
+    100% 100%,
+    var(--paper-texture-w) var(--paper-texture-h);
+  background-blend-mode: normal, normal, multiply;
+}
+
+/* Aged paper: tea-stained edges and a few foxing spots. */
+.paper[data-aged]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 82% 14%, rgb(150 100 40 / 0.12) 0 9px, transparent 14px),
+    radial-gradient(circle at 18% 78%, rgb(150 100 40 / 0.1) 0 6px, transparent 11px),
+    radial-gradient(130% 120% at 50% 50%, transparent 55%, rgb(150 100 40 / 0.22));
+  mix-blend-mode: multiply;
+}
+
+/* Decorations never take pointer events themselves: the decorating layer hit-tests them. */
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.area {
+  position: absolute;
+}
+
+.favorite {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 50px;
+  height: 50px;
+  rotate: 14deg;
+  filter: drop-shadow(1px 2px 1.2px rgb(58 34 16 / 0.4));
+  pointer-events: none;
+}
+
+/* The spine's shadow, the curve of the page, and a faint darkening at the edges. */
+.shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.page[data-side='left'] .shade {
+  background:
+    linear-gradient(270deg, rgb(70 40 18 / 0.42) 0, rgb(70 40 18 / 0.16) 16px, rgb(70 40 18 / 0.05) 46px, transparent 90px),
+    linear-gradient(90deg, rgb(70 40 18 / 0.1), transparent 22px),
+    linear-gradient(180deg, rgb(70 40 18 / 0.06), transparent 18px, transparent 96%, rgb(70 40 18 / 0.09));
+}
+
+.page[data-side='right'] .shade,
+.page[data-side='single'] .shade {
+  background:
+    linear-gradient(90deg, rgb(70 40 18 / 0.46) 0, rgb(70 40 18 / 0.18) 16px, rgb(70 40 18 / 0.06) 48px, transparent 96px),
+    linear-gradient(270deg, rgb(70 40 18 / 0.12), transparent 22px),
+    linear-gradient(180deg, rgb(70 40 18 / 0.06), transparent 18px, transparent 96%, rgb(70 40 18 / 0.1));
+}
+
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+
+.page[data-side='left'] .sheen {
+  background: linear-gradient(270deg, transparent 60px, rgb(255 255 255 / 0.45) 104px, transparent 170px);
+}
+
+.page[data-side='right'] .sheen,
+.page[data-side='single'] .sheen {
+  background: linear-gradient(90deg, transparent 64px, rgb(255 255 255 / 0.38) 108px, transparent 176px);
+}
+
+/* Black paper: light shading instead of dark. */
+.page[data-dark] .shade {
+  mix-blend-mode: screen;
+  opacity: 0.25;
+}

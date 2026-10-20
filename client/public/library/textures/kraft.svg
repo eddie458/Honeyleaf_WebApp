@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260">
+  <!-- Kraft paper: mottled fibers and flecks, as a light map. -->
+  <filter id="k" x="0" y="0" width="260" height="260" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.02 0.22" numOctaves="3" seed="3" stitchTiles="stitch" result="a"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.22 0.03" numOctaves="3" seed="6" stitchTiles="stitch" result="b"/>
+    <feColorMatrix in="a" type="matrix" values="0.22 0 0 0 0.82  0.22 0 0 0 0.82  0.22 0 0 0 0.82  0 0 0 0 1" result="a2"/>
+    <feColorMatrix in="b" type="matrix" values="0.18 0 0 0 0.85  0.18 0 0 0 0.85  0.18 0 0 0 0.85  0 0 0 0 1" result="b2"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="11" stitchTiles="stitch" result="c"/>
+    <feColorMatrix in="c" type="matrix" values="0.16 0 0 0 0.88  0.16 0 0 0 0.88  0.16 0 0 0 0.88  0 0 0 0 1" result="c2"/>
+    <feBlend in="a2" in2="b2" mode="multiply" result="ab"/>
+    <feBlend in="ab" in2="c2" mode="multiply"/>
+  </filter>
+  <rect width="260" height="260" filter="url(#k)"/>
+</svg>

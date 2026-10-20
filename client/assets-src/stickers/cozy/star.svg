@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="star" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffe189"/>
+      <stop offset="0.6" stop-color="#f2bd3e"/>
+      <stop offset="1" stop-color="#d9952a"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M100 22C106 22 108 28 112 40L122 66C124 72 128 74 134 74L162 76C176 77 180 84 170 92L148 110C144 114 142 118 144 124L152 152C156 166 150 172 138 164L114 148C108 144 92 144 86 148L62 164C50 172 44 166 48 152L56 124C58 118 56 114 52 110L30 92C20 84 24 77 38 76L66 74C72 74 76 72 78 66L88 40C92 28 94 22 100 22Z" fill="url(#star)" stroke="#6b4512" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M92 50L84 74M70 88L58 90" fill="none" stroke="#fff8dc" stroke-width="6" stroke-linecap="round" opacity="0.85"/>
+  </g>
+</svg>

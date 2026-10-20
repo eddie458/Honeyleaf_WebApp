@@ -1,0 +1,158 @@
+.journal {
+  position: relative;
+}
+
+/* Leather (or linen, kraft…) cover: recolored by --cover, grain multiplied over it. */
+.cover {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background-color: var(--cover);
+  background-image:
+    radial-gradient(120% 90% at 20% 10%, rgb(255 255 255 / 0.16), transparent 60%),
+    var(--cover-texture);
+  background-size:
+    100% 100%,
+    var(--cover-texture-w) var(--cover-texture-h);
+  background-blend-mode: normal, multiply;
+  box-shadow:
+    inset 0 0 0 1.5px rgb(255 255 255 / 0.12),
+    inset 0 -3px 6px rgb(0 0 0 / 0.25),
+    3px 5px 4px rgb(58 34 16 / 0.35),
+    16px 26px 34px rgb(58 34 16 / 0.42);
+}
+
+.stitching {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--stitch);
+  opacity: 0.75;
+}
+
+.headband {
+  position: absolute;
+  width: 28px;
+  height: 12px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(90deg, #e3b448 0 3px, #b5502f 3px 6px);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.25);
+}
+
+.stack {
+  position: absolute;
+  width: 594px;
+  height: 840px;
+  border-radius: 2px;
+  background: #f3e9d4;
+}
+
+.slot,
+.above {
+  position: absolute;
+  width: 594px;
+  height: 840px;
+}
+
+.journal[data-layout='spread'] .above {
+  width: 1188px;
+}
+
+.above {
+  pointer-events: none;
+}
+
+.above > * {
+  pointer-events: auto;
+}
+
+/* The deepest part of the fold where the two pages meet. */
+.gutter {
+  position: absolute;
+  width: 6px;
+  height: 840px;
+  background: linear-gradient(90deg, transparent, rgb(60 32 14 / 0.45) 50%, transparent);
+  pointer-events: none;
+}
+
+.tab {
+  position: absolute;
+  width: 70px;
+  height: 36px;
+  padding: 7px 0 0 10px;
+  text-align: left;
+  border-radius: 9px 2px 2px 9px;
+  font-family: var(--font-ui);
+  font-size: 17px;
+  line-height: 1;
+  color: #4a3424;
+  box-shadow:
+    inset 0 -2px 0 rgb(0 0 0 / 0.08),
+    -2px 3px 3px rgb(58 34 16 / 0.3);
+  transition: translate 0.2s ease;
+}
+
+/* Longer on the right, so the label clears the elastic band. */
+.tab[data-side='right'] {
+  width: 88px;
+  border-radius: 2px 9px 9px 2px;
+  padding: 7px 10px 0 0;
+  text-align: right;
+}
+
+.tab[data-side='left']:hover,
+.tab[data-side='left']:focus-visible {
+  translate: -6px 0;
+}
+
+.tab[data-side='right']:hover,
+.tab[data-side='right']:focus-visible {
+  translate: 6px 0;
+}
+
+.ribbon {
+  position: absolute;
+  width: 90px;
+  height: 150px;
+  z-index: 3;
+}
+
+.ribbon svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: translate 0.25s ease;
+}
+
+.ribbon:hover svg,
+.ribbon:focus-visible svg {
+  translate: 4px 6px;
+}
+
+.ribbonShadow {
+  fill: rgb(58 34 16 / 0.35);
+  filter: blur(3px);
+}
+
+/* The elastic band, stretched around the back cover's edge. */
+.elastic {
+  position: absolute;
+  right: -7px;
+  top: -14px;
+  width: 15px;
+  height: calc(100% + 28px);
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(180deg, rgb(255 255 255 / 0.08) 0 2px, transparent 2px 5px),
+    linear-gradient(90deg, color-mix(in srgb, var(--elastic) 70%, white), var(--elastic) 40%, color-mix(in srgb, var(--elastic) 70%, black));
+  box-shadow: 4px 6px 6px rgb(58 34 16 / 0.35);
+  pointer-events: none;
+}
+
+.status {
+  position: absolute;
+  right: 54px;
+  bottom: -38px;
+  pointer-events: none;
+}

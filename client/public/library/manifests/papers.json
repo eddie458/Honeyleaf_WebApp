@@ -1,0 +1,18 @@
+{
+  "$comment": "Papers. 'pattern' is lined, dotted, grid or blank; colors are CSS colors; 'texture' names an entry in textures.json multiplied over 'base'.",
+  "version": 1,
+  "papers": [
+    { "id": "lined-cream", "name": "Lined", "base": "#fbf4e6", "texture": "paper-grain", "pattern": "lined", "line": "#b7cfe6", "margin": "#e8a3a3" },
+    { "id": "dotted-cream", "name": "Dotted", "base": "#fbf5e8", "texture": "paper-grain", "pattern": "dotted", "line": "#c4b394" },
+    { "id": "grid-cream", "name": "Grid", "base": "#fbf6ea", "texture": "paper-grain", "pattern": "grid", "line": "#cfdfec" },
+    { "id": "blank-cream", "name": "Blank", "base": "#fbf4e6", "texture": "paper-grain", "pattern": "blank" },
+    { "id": "kraft", "name": "Kraft", "base": "#cda577", "texture": "kraft", "pattern": "blank", "ink": "#3b2a22" },
+    { "id": "aged", "name": "Aged vintage", "base": "#f1e2c1", "texture": "paper-grain", "pattern": "lined", "line": "#c9b48e", "margin": "#c98f7a", "aged": true },
+    { "id": "watercolor", "name": "Watercolor", "base": "#fbf8f1", "texture": "linen", "pattern": "blank" },
+    { "id": "pastel-pink", "name": "Pastel pink", "base": "#f9e3e1", "texture": "paper-grain", "pattern": "dotted", "line": "#d9a7a2" },
+    { "id": "pastel-mint", "name": "Pastel mint", "base": "#e3f0e2", "texture": "paper-grain", "pattern": "lined", "line": "#a9cbb0", "margin": "#e3a8a0" },
+    { "id": "pastel-sky", "name": "Pastel sky", "base": "#e2edf6", "texture": "paper-grain", "pattern": "grid", "line": "#b3cde3" },
+    { "id": "black", "name": "Black (for gel pens)", "base": "#262224", "texture": "paper-grain", "pattern": "dotted", "line": "#4b4448", "dark": true },
+    { "id": "legal-yellow", "name": "Legal pad", "base": "#f8ec9c", "texture": "paper-grain", "pattern": "lined", "line": "#9fc0d8", "margin": "#d9776b", "doubleMargin": true }
+  ]
+}

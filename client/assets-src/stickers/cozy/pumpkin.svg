@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="pumpkin-skin" gradientUnits="userSpaceOnUse" x1="52" y1="62" x2="150" y2="182">
+      <stop offset="0" stop-color="#ffc674"/>
+      <stop offset="0.5" stop-color="#f0903e"/>
+      <stop offset="1" stop-color="#cc5f28"/>
+    </linearGradient>
+    <linearGradient id="pumpkin-stem" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#b9a064"/>
+      <stop offset="1" stop-color="#76602f"/>
+    </linearGradient>
+    <linearGradient id="pumpkin-leaf" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#cadcae"/>
+      <stop offset="0.6" stop-color="#9db48c"/>
+      <stop offset="1" stop-color="#76916a"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M70 72C42 66 22 94 24 124C26 154 46 174 72 170C86 150 88 92 70 72Z" fill="url(#pumpkin-skin)" stroke="#6b2a14" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M130 72C158 66 178 94 176 124C174 154 154 174 128 170C114 150 112 92 130 72Z" fill="url(#pumpkin-skin)" stroke="#6b2a14" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M86 68C60 66 44 92 44 124C44 154 60 176 86 174C98 156 100 86 86 68Z" fill="url(#pumpkin-skin)" stroke="#6b2a14" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M114 68C140 66 156 92 156 124C156 154 140 176 114 174C102 156 100 86 114 68Z" fill="url(#pumpkin-skin)" stroke="#6b2a14" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M100 66C80 64 70 92 70 124C70 154 80 177 100 177C120 177 130 154 130 124C130 92 120 64 100 66Z" fill="url(#pumpkin-skin)" stroke="#6b2a14" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M86 90C81 104 81 118 83 130" fill="none" stroke="#fff0d6" stroke-width="6" stroke-linecap="round" opacity="0.75"/>
+    <path d="M56 102C53 112 53 122 55 132" fill="none" stroke="#fff0d6" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+    <path d="M90 66C78 68 68 60 72 52C76 44 86 48 82 54" fill="none" stroke="#5e6b34" stroke-width="4" stroke-linecap="round"/>
+    <path d="M90 72C91 62 93 52 96 45C98 39 102 34 108 31C112 29 116 33 113 37C108 42 106 50 106 58C106 63 107 68 109 72Z" fill="url(#pumpkin-stem)" stroke="#4a3a1a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M97 66C97 57 99 49 103 43" fill="none" stroke="#e2cf98" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    <path d="M108 66C116 50 138 42 158 50C150 64 132 72 108 66Z" fill="url(#pumpkin-leaf)" stroke="#3f5a2a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M113 64C126 58 140 53 151 51" fill="none" stroke="#eef4df" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+  </g>
+</svg>

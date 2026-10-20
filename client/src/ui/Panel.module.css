@@ -1,0 +1,92 @@
+.panel {
+  position: absolute;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  max-height: 1240px;
+  color: #4a3424;
+  font-family: var(--font-ui);
+  font-size: 24px;
+  outline: none;
+  filter: drop-shadow(4px 8px 10px rgb(58 34 16 / 0.35));
+}
+
+/* An index card: red header rule, blue lines. */
+.card {
+  background:
+    linear-gradient(180deg, transparent 0 58px, rgb(227 140 140 / 0.75) 58px 60px, transparent 60px),
+    repeating-linear-gradient(180deg, transparent 0 33px, rgb(183 207 230 / 0.55) 33px 34px),
+    #fffdf7;
+  background-position:
+    0 0,
+    0 60px,
+    0 0;
+  border-radius: 6px;
+}
+
+/* A kraft folder. */
+.kraft {
+  background-color: #d8b88a;
+  background-image: var(--tex-kraft);
+  background-size: var(--tex-kraft-w) var(--tex-kraft-h);
+  background-blend-mode: multiply;
+  border-radius: 10px 10px 8px 8px;
+}
+
+/* A page torn from a notebook. */
+.notebook {
+  background:
+    linear-gradient(90deg, transparent 54px, rgb(232 163 163 / 0.8) 54px 56px, transparent 56px),
+    repeating-linear-gradient(180deg, transparent 0 33px, rgb(183 207 230 / 0.6) 33px 34px),
+    #fbf4e6;
+  border-radius: 2px;
+}
+
+.head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 60px;
+  padding: 8px 64px 4px 24px;
+}
+
+.title {
+  margin: 0;
+  font-family: 'HL Caveat', var(--font-ui);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1;
+  color: #5a3d28;
+}
+
+/* The paperclip that puts the panel back. */
+.clip {
+  position: absolute;
+  right: 14px;
+  top: -14px;
+  width: 44px;
+  height: 64px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Cpath d='M8 30V8a5 5 0 0110 0v24a8 8 0 01-16 0V12' fill='none' stroke='%239a958c' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M8 30V8a5 5 0 0110 0v24' fill='none' stroke='%23e9e6df' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(1px 2px 1px rgb(0 0 0 / 0.3));
+  transition: rotate 0.2s ease;
+}
+
+.clip:hover,
+.clip:focus-visible {
+  rotate: 12deg;
+}
+
+.clip:focus-visible {
+  outline: 2.5px solid #c99522;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  padding: 10px 24px 24px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c9a173 transparent;
+}

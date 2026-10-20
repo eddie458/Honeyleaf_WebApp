@@ -1,0 +1,13 @@
+{
+  "$comment": "Every texture the app paints with. 'scale' is how many stage/page units one texture pixel covers. Light maps are multiplied over a tint; overlays are painted on top. Swap a file here to change the look without code.",
+  "version": 1,
+  "textures": {
+    "wood-planks": { "file": "textures/wood-planks.gen.png", "size": [1024, 384], "scale": 3, "kind": "lightmap" },
+    "wood-fibers": { "file": "textures/wood-fibers.svg", "size": [320, 320], "scale": 1, "kind": "overlay" },
+    "paper-grain": { "file": "textures/paper-grain.svg", "size": [256, 256], "scale": 1, "kind": "lightmap" },
+    "leather": { "file": "textures/leather.svg", "size": [220, 220], "scale": 1, "kind": "lightmap" },
+    "kraft": { "file": "textures/kraft.svg", "size": [260, 260], "scale": 1, "kind": "lightmap" },
+    "linen": { "file": "textures/linen.svg", "size": [120, 120], "scale": 1, "kind": "lightmap" },
+    "speckle": { "file": "textures/speckle.svg", "size": [240, 240], "scale": 1, "kind": "mask" }
+  }
+}

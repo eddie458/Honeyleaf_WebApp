@@ -1,0 +1,287 @@
+.loading {
+  position: absolute;
+  inset: 380px 0 auto;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-hand);
+  font-size: 24px;
+  color: rgb(59 42 34 / 0.45);
+}
+
+/* The fresh page: a pencil note inviting you to begin. */
+.fresh {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  /* The writing area of a first page (DEFAULT_AREA), one row per line, so
+     the note sits on the rules like handwriting. */
+  padding: 112px 36px 28px 76px;
+  text-align: left;
+  font-family: var(--font-hand);
+  color: rgb(59 42 34 / 0.5);
+  cursor: text;
+}
+
+.freshTitle {
+  font-size: 26px;
+  line-height: 28px;
+}
+
+.freshHint {
+  font-size: 21px;
+  line-height: 28px;
+}
+
+.fresh:hover .freshTitle,
+.fresh:focus-visible .freshTitle {
+  color: rgb(59 42 34 / 0.75);
+}
+
+.fresh:focus-visible {
+  outline: none;
+}
+
+.fresh:focus-visible .freshHint {
+  text-decoration: underline wavy rgb(201 149 34 / 0.7);
+}
+
+/* Endpapers: a small leafy repeat in honey and sage. */
+.endpaper {
+  position: absolute;
+  overflow: hidden;
+  background-color: #efe2c4;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23b48a52' stroke-width='1.4' stroke-linecap='round' opacity='.55'%3E%3Cpath d='M10 30c6-10 18-12 24-8-6 8-16 12-24 8zM10 30l16-4'/%3E%3Cpath d='M46 66c6-10 18-12 24-8-6 8-16 12-24 8zM46 66l16-4'/%3E%3C/g%3E%3Cg fill='%239db48c' opacity='.5'%3E%3Ccircle cx='52' cy='18' r='3'/%3E%3Ccircle cx='18' cy='56' r='2.4'/%3E%3C/g%3E%3C/svg%3E"),
+    var(--tex-paper-grain);
+  background-size:
+    72px 72px,
+    var(--tex-paper-grain-w) var(--tex-paper-grain-h);
+  background-blend-mode: normal, multiply;
+}
+
+.endpaper[data-side='left']::after,
+.endpaper[data-side='right']::after,
+.endpaper[data-side='single']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.endpaper[data-side='left']::after {
+  background: linear-gradient(270deg, rgb(70 40 18 / 0.4), transparent 90px);
+}
+
+.endpaper[data-side='right']::after,
+.endpaper[data-side='single']::after {
+  background: linear-gradient(90deg, rgb(70 40 18 / 0.42), transparent 90px);
+}
+
+.nameplate {
+  position: absolute;
+  left: 50%;
+  top: 280px;
+  width: 360px;
+  translate: -50% 0;
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  padding: 34px 26px 30px;
+  background-color: #fbf6ea;
+  background-image: var(--tex-paper-grain);
+  background-size: var(--tex-paper-grain-w) var(--tex-paper-grain-h);
+  background-blend-mode: multiply;
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 3px #fbf6ea,
+    inset 0 0 0 4.5px #b48a52,
+    2px 4px 8px rgb(58 34 16 / 0.25);
+  rotate: -1.2deg;
+}
+
+.belongs {
+  font-family: var(--font-ui);
+  font-size: 20px;
+  color: #8a6a4a;
+}
+
+.owner {
+  font-family: 'HL Dancing Script', var(--font-hand);
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 1.1;
+  color: #6e3b44;
+}
+
+.journalTitle {
+  font-family: var(--font-hand);
+  font-size: 22px;
+  color: #5a3d28;
+}
+
+/* Writing-area outline and its four clips (decorating only). */
+.areaOutline {
+  position: absolute;
+  border: 1.5px dashed rgb(110 74 40 / 0.35);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.clip {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  pointer-events: auto;
+  touch-action: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='8' width='18' height='8' rx='4' fill='%23e3b448' stroke='%238a6326' stroke-width='1.4'/%3E%3Cpath d='M8 12h8' stroke='%23fff3c8' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 32px no-repeat;
+  filter: drop-shadow(1px 2px 1px rgb(58 34 16 / 0.35));
+}
+
+.clip[data-edge='top'] {
+  left: 50%;
+  top: 0;
+  translate: -50% -50%;
+  cursor: ns-resize;
+}
+
+.clip[data-edge='bottom'] {
+  left: 50%;
+  bottom: 0;
+  translate: -50% 50%;
+  cursor: ns-resize;
+}
+
+.clip[data-edge='left'] {
+  left: 0;
+  top: 50%;
+  translate: -50% -50%;
+  rotate: 90deg;
+  cursor: ew-resize;
+}
+
+.clip[data-edge='right'] {
+  right: 0;
+  top: 50%;
+  translate: 50% -50%;
+  rotate: 90deg;
+  cursor: ew-resize;
+}
+
+/* Paper tab at the outer bottom corner. */
+/* Clear of the page's corners (96 units), which peel the page. */
+.paperTab {
+  position: absolute;
+  bottom: 8px;
+  z-index: 45;
+}
+
+.paperTab[data-side='left'] {
+  left: 110px;
+}
+
+.paperTab[data-side='right'],
+.paperTab[data-side='single'] {
+  right: 110px;
+}
+
+.paperButton {
+  height: 40px;
+  padding: 4px 14px 0;
+  font-family: var(--font-ui);
+  font-size: 20px;
+  color: #5a3d28;
+  background: #fffdf7;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 -3px 0 #e8a3a3,
+    2px 3px 5px rgb(58 34 16 / 0.25);
+  rotate: -2deg;
+}
+
+.paperCard {
+  position: absolute;
+  bottom: 52px;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 120px);
+  gap: 10px;
+  padding: 16px;
+  background:
+    linear-gradient(180deg, transparent 0 22px, rgb(227 140 140 / 0.6) 22px 23.5px, transparent 23.5px),
+    repeating-linear-gradient(180deg, transparent 0 27px, rgb(183 207 230 / 0.6) 27px 28px),
+    #fffdf7;
+  border-radius: 4px;
+  box-shadow: 3px 6px 14px rgb(58 34 16 / 0.32);
+}
+
+.paperTab[data-side='left'] .paperCard {
+  right: auto;
+  left: 0;
+}
+
+.swatch {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  padding: 6px;
+  border-radius: 6px;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  color: #4a3424;
+}
+
+.swatch[aria-selected='true'] {
+  background: rgb(227 180 72 / 0.28);
+}
+
+.swatch:hover {
+  background: rgb(227 180 72 / 0.16);
+}
+
+.swatchPaper {
+  width: 64px;
+  height: 84px;
+  border-radius: 2px;
+  background-color: var(--sw-base);
+  box-shadow: 1px 2px 4px rgb(58 34 16 / 0.3);
+}
+
+.swatch[data-pattern='lined'] .swatchPaper {
+  background-image: repeating-linear-gradient(180deg, transparent 0 8px, var(--sw-line) 8px 9px);
+}
+
+.swatch[data-pattern='dotted'] .swatchPaper {
+  background-image: radial-gradient(circle at 4px 4px, var(--sw-line) 0 1px, transparent 1.4px);
+  background-size: 8px 8px;
+}
+
+.swatch[data-pattern='grid'] .swatchPaper {
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 7.5px, var(--sw-line) 7.5px 8px),
+    repeating-linear-gradient(180deg, transparent 0 7.5px, var(--sw-line) 7.5px 8px);
+}
+
+.swatchName {
+  line-height: 1.1;
+  text-align: center;
+}
+
+.drawLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  touch-action: none;
+  cursor: var(--cursor-pencil, crosshair);
+}
+
+.drawPreview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

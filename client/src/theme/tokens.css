@@ -1,0 +1,38 @@
+/* Design tokens. Each scene and theme is a set of these custom properties. */
+
+:root {
+  /* Honey-oak palette from the brief */
+  --c-honey-oak: #b9814f;
+  --c-oak-shadow: #8a5a33;
+  --c-cream-paper: #fbf4e6;
+  --c-ruled-blue: #b7cfe6;
+  --c-margin-pink: #e8a3a3;
+  --c-ink: #3b2a22;
+  --c-sage: #9db48c;
+  --c-dusty-rose: #dda7a5;
+  --c-mustard: #e3b448;
+  --c-lamp-glow: #ffd9a0;
+  --c-night-room: #231b26;
+
+  /* Stationery */
+  --c-kraft: #c9a173;
+  --c-kraft-dark: #9b7149;
+  --c-tag: #ead2a8;
+  --c-string: #8d5f3c;
+  --c-brass: #c9a05a;
+
+  /* Light: one source, top-left. Shadows fall to the bottom-right. */
+  --shadow-rgb: 58 34 16;
+  --light-x: 0.36;
+  --light-y: 0.56;
+
+  /* Type */
+  --font-ui: 'HL Patrick Hand', 'HL Kalam', cursive;
+  --font-hand: 'HL Caveat', 'HL Patrick Hand', cursive;
+
+  /* Scene: honey oak at golden hour (the default) */
+  --desk-tint: #c48c55;
+  --desk-shade: #6e4422;
+  --sun: #ffcf8a;
+  --sun-strength: 0.55;
+}

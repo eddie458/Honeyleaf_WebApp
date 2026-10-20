@@ -1,0 +1,132 @@
+.flow {
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.para {
+  margin: 0;
+  min-height: 1em;
+}
+
+.grid .para {
+  position: relative;
+}
+
+.free .para {
+  line-height: 1.22;
+}
+
+.run {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background-repeat: no-repeat;
+}
+
+.underline {
+  text-decoration: underline;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.16em;
+}
+
+.strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 0.07em;
+}
+
+/* Marker stroke behind the lower part of the letters. */
+.highlight {
+  background-size: 100% 74%;
+  background-position: 0 78%;
+  mix-blend-mode: multiply;
+}
+
+.wavy {
+  background-repeat: repeat-x;
+  background-size: 0.62em 0.26em;
+  background-position: 0 calc(100% + 0.02em);
+}
+
+.wavy.highlight {
+  background-repeat: repeat-x, no-repeat;
+  background-size: 0.62em 0.26em, 100% 74%;
+  background-position: 0 calc(100% + 0.02em), 0 78%;
+}
+
+.scribble {
+  background-size: 100% 52%;
+  background-position: 0 58%;
+}
+
+.loop {
+  padding: 0.3em 0.62em;
+  margin: 0 -0.62em;
+  background-size: 100% 100%;
+  background-position: 0 40%;
+}
+
+.shadow {
+  text-shadow: 0.06em 0.06em 0 color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.bubble {
+  color: #fffaf0 !important;
+  -webkit-text-stroke: 0.09em currentColor;
+  paint-order: stroke fill;
+}
+
+.rainbow {
+  background-image: linear-gradient(90deg, #d0533b, #e3a03a, #c9a227, #5f8a4e, #3f7ca8, #7d3d6e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  caret-color: #3b2a22;
+}
+
+.done .run {
+  opacity: 0.8;
+}
+
+/* Checklists and bullets: a hand-drawn box in the left gutter. */
+.list {
+  margin: 0;
+}
+
+.item {
+  position: relative;
+  padding-left: 34px;
+}
+
+.box {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 23px;
+  height: 23px;
+  overflow: visible;
+}
+
+.bullet {
+  position: absolute;
+  left: 9px;
+  top: 11px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.divider {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider svg {
+  width: 64%;
+  height: 26px;
+  overflow: visible;
+}

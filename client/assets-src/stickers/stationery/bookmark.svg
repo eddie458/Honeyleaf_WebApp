@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bookmark-body" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f2a684"/>
+      <stop offset="0.6" stop-color="#d8714f"/>
+      <stop offset="1" stop-color="#ad4b31"/>
+    </linearGradient>
+    <linearGradient id="bookmark-tassel" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffd978"/>
+      <stop offset="0.6" stop-color="#e8aa3d"/>
+      <stop offset="1" stop-color="#c4822a"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <g transform="rotate(-8 100 106)">
+      <path d="M70 42C70 36 74 32 80 32L120 32C126 32 130 36 130 42L130 176L100 158L70 176Z" fill="url(#bookmark-body)" stroke="#6b2a14" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M77 45C77 41.5 79 39.5 82.5 39.5L117.5 39.5C121 39.5 123 41.5 123 45L123 163L100 149L77 163Z" fill="none" stroke="#fff1e2" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round" opacity="0.85"/>
+      <path d="M78 60V112" fill="none" stroke="#ffe2d0" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+      <circle cx="100" cy="48" r="5" fill="#fffdf8" stroke="#6b2a14" stroke-width="3"/>
+      <path d="M100 48C100 30 112 20 126 22C138 24 146 32 148 44" fill="none" stroke="#6b4512" stroke-width="7" stroke-linecap="round"/>
+      <path d="M100 48C100 30 112 20 126 22C138 24 146 32 148 44" fill="none" stroke="#eab34c" stroke-width="3" stroke-linecap="round"/>
+      <path d="M100 112C100 122 99 130 97 138" fill="none" stroke="#5e7a4c" stroke-width="3" stroke-linecap="round"/>
+      <path d="M99 126C92 124 87 119 86 113C93 113 98 118 99 126ZM98.5 132C104 128 110 127 115 129C111 134 104 135 98.5 132Z" fill="#a9c193" stroke="#3f5a2a" stroke-width="2" stroke-linejoin="round"/>
+      <g fill="#fff6e8" stroke="#8a3b22" stroke-width="2">
+        <circle cx="100" cy="91" r="7"/>
+        <circle cx="107.6" cy="96.5" r="7"/>
+        <circle cx="104.7" cy="105.5" r="7"/>
+        <circle cx="95.3" cy="105.5" r="7"/>
+        <circle cx="92.4" cy="96.5" r="7"/>
+      </g>
+      <circle cx="100" cy="99" r="5" fill="#f2c14e" stroke="#8a3b22" stroke-width="2"/>
+      <ellipse cx="148" cy="47" rx="6.5" ry="5.5" fill="url(#bookmark-tassel)" stroke="#6b4512" stroke-width="3"/>
+      <path d="M142 52L154 52C156 63 159 74 160 84L136 84C137 74 140 63 142 52Z" fill="url(#bookmark-tassel)" stroke="#6b4512" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M143 58L140 80M148 58L148 80M153 58L156 80" fill="none" stroke="#b8792a" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M141.5 55H154.5" fill="none" stroke="#6b4512" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

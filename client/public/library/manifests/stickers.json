@@ -1,0 +1,38 @@
+{
+  "$comment": "Sticker packs. To add a sticker: draw an SVG with the art inside <g id=\"art\">, save it as client/assets-src/stickers/<pack>/<id>.svg and add one line here. 'size' is the default size on the page, in page units.",
+  "version": 1,
+  "packs": [
+    {
+      "id": "cozy",
+      "name": "Cozy autumn",
+      "stickers": [
+        { "id": "honey-jar", "name": "Honey jar", "size": 104 },
+        { "id": "maple-leaf", "name": "Maple leaf", "size": 92 },
+        { "id": "mushroom", "name": "Toadstool", "size": 80 },
+        { "id": "star", "name": "Gold star", "size": 44 },
+        { "id": "heart", "name": "Heart", "size": 52 },
+        { "id": "acorn", "name": "Acorn", "size": 74 },
+        { "id": "pumpkin", "name": "Pumpkin", "size": 92 },
+        { "id": "teacup", "name": "Cup of tea", "size": 96 },
+        { "id": "candle", "name": "Little candle", "size": 84 },
+        { "id": "apple", "name": "Red apple", "size": 76 }
+      ]
+    },
+    {
+      "id": "stationery",
+      "name": "Stationery",
+      "stickers": [
+        { "id": "paperclip", "name": "Paperclip", "size": 72 },
+        { "id": "pencil", "name": "Pencil", "size": 100 },
+        { "id": "envelope", "name": "Love letter", "size": 92 },
+        { "id": "postage-stamp", "name": "Postage stamp", "size": 84 },
+        { "id": "ribbon-bow", "name": "Ribbon bow", "size": 80 },
+        { "id": "push-pin", "name": "Push pin", "size": 54 },
+        { "id": "scissors", "name": "Scissors", "size": 90 },
+        { "id": "hello-bubble", "name": "Say hi", "size": 88 },
+        { "id": "bookmark", "name": "Bookmark", "size": 90 },
+        { "id": "paint-palette", "name": "Paint palette", "size": 96 }
+      ]
+    }
+  ]
+}

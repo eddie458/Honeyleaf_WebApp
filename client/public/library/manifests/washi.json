@@ -1,0 +1,14 @@
+{
+  "$comment": "Washi tapes. 'file' is a repeating tile; 'tile' is its size and 'width' the default tape width, both in page units.",
+  "version": 1,
+  "tapes": [
+    { "id": "gingham-rose", "name": "Rose gingham", "file": "washi/gingham-rose.svg", "tile": 24, "width": 34 },
+    { "id": "dots-mustard", "name": "Mustard dots", "file": "washi/dots-mustard.svg", "tile": 24, "width": 34 },
+    { "id": "stripes-sage", "name": "Sage stripes", "file": "washi/stripes-sage.svg", "tile": 20, "width": 32 },
+    { "id": "pastel-mint", "name": "Pastel mint", "file": "washi/pastel-mint.svg", "tile": 32, "width": 34 },
+    { "id": "lilac-stars", "name": "Lilac stars", "file": "washi/lilac-stars.svg", "tile": 24, "width": 34 },
+    { "id": "cream-florals", "name": "Cream florals", "file": "washi/cream-florals.svg", "tile": 32, "width": 34 },
+    { "id": "rose-stripes", "name": "Rose stripes", "file": "washi/rose-stripes.svg", "tile": 20, "width": 32 },
+    { "id": "kraft-grid", "name": "Kraft grid", "file": "washi/kraft-grid.svg", "tile": 24, "width": 34 }
+  ]
+}

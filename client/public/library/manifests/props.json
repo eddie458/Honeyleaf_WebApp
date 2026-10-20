@@ -1,0 +1,24 @@
+{
+  "$comment": "Desk objects. 'w'/'h' are stage units (the stage is 2200 × 1300), 'lift' is how tall the object stands (it sets the shadow). Replace any file with your own art; keep the same size or change w/h here.",
+  "version": 1,
+  "props": {
+    "lamp": { "file": "props/lamp.svg", "w": 470, "h": 430, "lift": 230 },
+    "pencilCup": { "file": "props/pencil-cup.svg", "w": 360, "h": 360, "lift": 110 },
+    "washi": { "file": "props/washi-rolls.svg", "w": 340, "h": 240, "lift": 26 },
+    "stickerBook": { "file": "props/sticker-book.svg", "w": 290, "h": 350, "lift": 14 },
+    "camera": { "file": "props/camera.svg", "w": 420, "h": 300, "lift": 60 },
+    "stamps": { "file": "props/stamps.svg", "w": 360, "h": 240, "lift": 54 },
+    "stickyNotes": { "file": "props/sticky-notes.svg", "w": 280, "h": 240, "lift": 6 },
+    "calendar": { "file": "props/calendar.svg", "w": 240, "h": 200, "lift": 12 },
+    "magnifier": { "file": "props/magnifier.svg", "w": 340, "h": 150, "lift": 16 },
+    "promptJar": { "file": "props/prompt-jar.svg", "w": 190, "h": 210, "lift": 120 },
+    "radio": { "file": "props/radio.svg", "w": 320, "h": 210, "lift": 90 },
+    "mug": { "file": "props/mug-cocoa.svg", "w": 214, "h": 182, "lift": 90, "variants": { "cocoa": "props/mug-cocoa.svg", "coffee": "props/mug-coffee.svg", "tea": "props/mug-tea.svg" } },
+    "plant": { "file": "props/plant-3.svg", "w": 340, "h": 340, "lift": 150, "stages": ["props/plant-1.svg", "props/plant-2.svg", "props/plant-3.svg", "props/plant-4.svg", "props/plant-5.svg"] },
+    "drawer": { "file": "props/drawer.svg", "w": 350, "h": 300, "lift": 130 },
+    "journals": { "file": "props/journal-stack.svg", "w": 330, "h": 290, "lift": 44 },
+    "padlock": { "file": "props/padlock.svg", "w": 130, "h": 170, "lift": 20 },
+    "keyring": { "file": "props/keyring.svg", "w": 210, "h": 180, "lift": 10 },
+    "wastebasket": { "file": "props/wastebasket.svg", "w": 240, "h": 240, "lift": 170 }
+  }
+}

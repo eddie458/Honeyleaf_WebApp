@@ -1,0 +1,148 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  touch-action: none;
+  cursor: var(--cursor-hand, grab);
+}
+
+.taping {
+  cursor: var(--cursor-tape, crosshair);
+}
+
+.placing {
+  cursor: var(--cursor-sticker, copy);
+}
+
+/* Hand-drawn pencil frame around the selected decoration. */
+.frame {
+  position: absolute;
+  border: calc(2px * var(--ui)) dashed rgb(110 74 40 / 0.85);
+  border-radius: calc(8px * var(--ui));
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.glued {
+  border-style: dotted;
+  border-color: rgb(110 74 40 / 0.5);
+}
+
+.stalk {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 0;
+  border-left: calc(2px * var(--ui)) dashed rgb(110 74 40 / 0.7);
+}
+
+.rotate {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  translate: -50% -60%;
+  border-radius: 50%;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18 9a7 7 0 10.6 6' fill='none' stroke='%235a3d28' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M19 4v5h-5' fill='none' stroke='%235a3d28' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 64% no-repeat,
+    #f6e9cf;
+  box-shadow:
+    0 0 0 calc(1.5px * var(--ui)) #8a6440,
+    calc(1px * var(--ui)) calc(2px * var(--ui)) calc(3px * var(--ui)) rgb(58 34 16 / 0.35);
+  pointer-events: auto;
+  cursor: grab;
+}
+
+.corner {
+  position: absolute;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #fffaf0, #e8d4ae);
+  box-shadow:
+    0 0 0 calc(1.5px * var(--ui)) #8a6440,
+    calc(1px * var(--ui)) calc(2px * var(--ui)) calc(3px * var(--ui)) rgb(58 34 16 / 0.35);
+  cursor: nwse-resize;
+  scale: 0.62;
+}
+
+.corner[data-handle='ne'],
+.corner[data-handle='sw'] {
+  cursor: nesw-resize;
+}
+
+/* A strip torn from a kraft paper bag, lying crooked above the thing it
+   works on; the tools are inked on it. */
+.menu {
+  position: absolute;
+  display: flex;
+  gap: 0;
+  padding: 5px 14px 6px;
+  transform-origin: 50% 100%;
+  rotate: -1.2deg;
+  background-color: #d9be90;
+  background-image: var(--tex-kraft);
+  background-size: var(--tex-kraft-w) var(--tex-kraft-h);
+  background-blend-mode: multiply;
+  border-radius: 2px 7px 3px 6px / 6px 2px 7px 3px;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.18),
+    2px 4px 6px rgb(58 34 16 / 0.32);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.menuBtn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 38px;
+  border-radius: 52% 46% 50% 48% / 48% 54% 46% 52%;
+  color: #4a3424;
+  transition: translate 0.15s ease;
+}
+
+.menuBtn svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.menuBtn:hover {
+  translate: 0 -2px;
+}
+
+/* On: circled in ink, the way you'd mark a choice on paper. */
+.menuBtn[data-active] {
+  box-shadow: inset 0 0 0 2px rgb(74 52 36 / 0.6);
+}
+
+.menuBtn:focus-visible {
+  outline: 2.5px solid #c99522;
+  outline-offset: 1px;
+}
+
+.tapeGhost {
+  position: absolute;
+  background: repeating-linear-gradient(45deg, rgb(221 167 165 / 0.55) 0 8px, rgb(255 255 255 / 0.35) 8px 16px);
+  border-radius: 2px;
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.srList {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.srList button:focus-visible {
+  outline: none;
+}

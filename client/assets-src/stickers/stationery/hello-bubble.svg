@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="hello-bubble-fill" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#eef7fb"/>
+      <stop offset="0.6" stop-color="#c9e2ee"/>
+      <stop offset="1" stop-color="#a3c6da"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M100 30C148 30 180 56 180 90C180 124 148 148 100 148C90 148 81 147 73 145C66 156 54 166 38 172C46 160 50 150 50 138C32 126 20 110 20 90C20 56 52 30 100 30Z" fill="url(#hello-bubble-fill)" stroke="#5a341a" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M38 76C42 60 56 48 74 43" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.85"/>
+    <path d="M60 54C59 74 58 98 57 122M58 104C62 92 70 86 77 88C84 90 85 100 84 122M105 94C104 103 104 112 104 122M139 52C138 68 137 84 135 100" fill="none" stroke="#9a4426" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="134" cy="121" r="7" fill="#9a4426"/>
+    <path d="M106 79C101.5 75.5 97.5 72 97.5 68C97.5 65 100 63 102.5 63C104.2 63 105.4 64 106 65.2C106.6 64 107.8 63 109.5 63C112 63 114.5 65 114.5 68C114.5 72 110.5 75.5 106 79Z" fill="#e2706a" stroke="#9a4426" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+</svg>

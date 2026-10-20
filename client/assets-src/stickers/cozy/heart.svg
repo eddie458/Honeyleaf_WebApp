@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="heart" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f6b5ad"/>
+      <stop offset="0.6" stop-color="#e2857f"/>
+      <stop offset="1" stop-color="#c25e5f"/>
+    </linearGradient>
+  </defs>
+  <g id="art">
+    <path d="M100 170C60 142 26 112 28 76C30 50 50 34 72 36C86 38 96 48 100 60C104 48 114 38 128 36C150 34 170 50 172 76C174 112 140 142 100 170Z" fill="url(#heart)" stroke="#6b2a2e" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M56 60C48 72 48 86 54 98" fill="none" stroke="#fff1ec" stroke-width="7" stroke-linecap="round" opacity="0.8"/>
+  </g>
+</svg>

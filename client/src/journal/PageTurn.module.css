@@ -1,0 +1,29 @@
+.leaf {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.front,
+.back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 594px;
+  height: 840px;
+  will-change: transform, clip-path;
+}
+
+.back {
+  transform-origin: 0 0;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 594px;
+  height: 840px;
+  overflow: visible;
+}
