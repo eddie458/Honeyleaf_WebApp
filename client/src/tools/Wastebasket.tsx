@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { api } from '../data/api';
-import { useBook } from '../data/bookStore';
 import { useTrash, type TrashItem } from '../data/queries';
+import { saveNow } from '../data/sync';
+import { refreshIndex } from '../journal/entries';
 import { t } from '../strings/en';
 import { toast } from '../ui/toastStore';
 import { Panel } from '../ui/Panel';
@@ -16,9 +17,11 @@ export function Wastebasket({ onClose, x, y, onRestored }: { onClose(): void; x:
   const qc = useQueryClient();
   const [confirm, setConfirm] = useState<string | null>(null);
   const restore = async (item: TrashItem) => {
+    const entryId = item.type === 'entry' ? item.id : item.entryId;
+    // The entry comes back as the server has it now, so nothing unsent may be waiting.
+    if (entryId) await saveNow(entryId);
     await api('POST', 'trash/restore', { type: item.type, id: item.id });
-    if (item.entryId) useBook.getState().dropEntry(item.entryId);
-    if (item.type === 'entry') useBook.getState().dropEntry(item.id);
+    await refreshIndex(entryId);
     toast(t.trash.restored, 'done');
     await qc.invalidateQueries({ queryKey: ['trash'] });
     onRestored();

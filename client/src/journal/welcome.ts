@@ -32,7 +32,7 @@ export function welcomeLetter(name: string): TextDoc {
         content: items.map(([lead, rest]) => ({ type: 'listItem', content: [{ type: 'paragraph', content: [txt(lead, TEAL), txt(rest)] }] })),
       },
       p(txt('Write past the bottom of a page and your words '), txt('carry on to the next one', hl('#ffe94a')), txt(', just like a real notebook.')),
-      p(txt('When you’re ready, tear this letter out and make the first page your own.')),
+      p(txt('When you’re ready, pick up the tweezers, tear this letter out and make the first page your own.')),
       empty(),
       p(txt('With love,', OXBLOOD)),
       p(txt('the Honeyleaf desk ♡', OXBLOOD)),

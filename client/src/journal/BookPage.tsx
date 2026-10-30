@@ -4,6 +4,7 @@ import { useLibrary } from '../library/useLibrary';
 import type { BookSlot } from '../model/book';
 import { erase, ERASER_SIZE, sweep } from '../model/drawing';
 import { GRID, PAGE_H, PAGE_W, type WritingArea } from '../model/page';
+import { hasContent } from '../model/tear';
 import type { Point } from '../model/transform';
 import type { Decoration, PageDoc, Stroke, StrokePoint } from '../model/types';
 import { DecorationEditor } from '../decor/DecorationEditor';
@@ -13,9 +14,11 @@ import { PageEditor } from '../editor/PageEditor';
 import { reflowEntry } from '../editor/flowController';
 import { StaticText } from '../text/StaticText';
 import { t } from '../strings/en';
+import { useReducedMotion } from '../ui/motion';
 import { EntryHeader } from './EntryHeader';
 import { PageSurface, type PaperEntry } from './PageSurface';
 import { startFreshEntry } from './entries';
+import { tearOutPage } from './tearOut';
 import s from './BookPage.module.css';
 
 interface Props {
@@ -62,6 +65,20 @@ function JournalPage({ entryId, pageId, side, live }: { entryId: string; pageId:
       }),
     [],
   );
+  const reduced = useReducedMotion();
+  // Which page is being torn out: this same component may be showing the next one by then.
+  const [tearing, setTearing] = useState<string | null>(null);
+  const onTear = useCallback(() => {
+    if (reduced) {
+      tearOutPage(entryId, pageId);
+      return;
+    }
+    setTearing(pageId);
+    window.setTimeout(() => {
+      tearOutPage(entryId, pageId);
+      setTearing(null);
+    }, 420);
+  }, [entryId, pageId, reduced]);
 
   const page = entry?.pages.find((p) => p.id === pageId);
   if (!entry || !page) return <LoadingPaper side={side} />;
@@ -76,13 +93,14 @@ function JournalPage({ entryId, pageId, side, live }: { entryId: string; pageId:
         <AreaClips entryId={entryId} pageId={pageId} pageIndex={index} area={page.doc.area} />
         <DecorationEditor entryId={entryId} pageId={pageId} page={page.doc} onDraft={onDraft} onToss={onToss} />
         <PaperTab entryId={entryId} pageId={pageId} current={page.doc.paper.id} side={side} />
+        {(entry.pages.length > 1 || hasContent(page.doc)) && <TearTab side={side} onTear={onTear} />}
       </>
     );
   } else if (live && (mode === 'draw' || mode === 'erase')) {
     overlay = <DrawLayer entryId={entryId} pageId={pageId} page={page.doc} erasing={mode === 'erase'} />;
   }
   return (
-    <PageSurface page={page.doc} side={side} paper={paper} washi={washi} header={header} overlay={overlay} override={draft} leaving={leaving} entryId={entryId} pageId={pageId}>
+    <PageSurface page={page.doc} side={side} paper={paper} washi={washi} header={header} overlay={overlay} override={draft} leaving={leaving} entryId={entryId} pageId={pageId} className={tearing === pageId ? s.tearing : undefined}>
       {text}
     </PageSurface>
   );
@@ -223,6 +241,15 @@ function PaperTab({ entryId, pageId, current, side }: { entryId: string; pageId:
         </div>
       )}
     </div>
+  );
+}
+
+/** A perforated stub at the page's inner corner: tear the page out of the book. */
+function TearTab({ side, onTear }: { side: Props['side']; onTear(): void }) {
+  return (
+    <button type="button" className={s.tearTab} data-side={side} onPointerDown={(e) => e.stopPropagation()} onClick={onTear} aria-label={t.journal.tearOut} title={t.journal.tearOut}>
+      {t.journal.tearTab}
+    </button>
   );
 }
 

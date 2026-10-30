@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'r
 import { AnimatePresence } from 'motion/react';
 import { useBook } from '../data/bookStore';
 import { useSaveSettings, useSettings, useTrash, type SessionUser } from '../data/queries';
-import { useActiveEditor } from '../editor/activeEditor';
 import { TextToolbar } from '../editor/Toolbar';
 import { libraryUrl } from '../library/library';
 import { useLibrary } from '../library/useLibrary';
@@ -22,7 +21,7 @@ import { Radio } from '../tools/Radio';
 import { StickerBook } from '../tools/StickerBook';
 import { WashiRolls } from '../tools/WashiRolls';
 import { Wastebasket } from '../tools/Wastebasket';
-import { DeskScene, type Camera as Cam, type DeskObjectSpec } from './DeskScene';
+import { DeskScene, type DeskObjectSpec } from './DeskScene';
 import { AutumnLeaves, CalendarFace, RadioGlow, Steam } from './DeskLife';
 import { silence, useRadio, type Station } from './radio';
 import { InkLoader } from './InkLoader';
@@ -32,7 +31,7 @@ import { STAGE_H, STAGE_W, useLayoutMode, useStageScale, useTallStage } from './
 import { useDeskKeys } from './useDeskKeys';
 import { useIdleLock } from './useIdleLock';
 import { useJournalBoot } from './useJournalBoot';
-import { toggleMagnifier, useDeskZoom } from './zoom';
+import { toggleMagnifier, useDeskZoom, useWritingZoom, useZoom } from './zoom';
 import { ZoomControls } from './ZoomControls';
 import s from './DeskApp.module.css';
 
@@ -98,9 +97,9 @@ export function DeskApp({ user }: { user: SessionUser }) {
   const tall = useTallStage(SINGLE_STAGE.w, SINGLE_STAGE.h);
   const stage = layout === 'spread' ? { w: STAGE_W, h: STAGE_H } : tall;
   const fitted = useStageScale(stage.w, stage.h);
-  const zoomCamera = useDeskZoom(stage, fitted);
-  const caretCamera = useCaretCamera(layout === 'single' && !zoomCamera, stage);
-  const camera = zoomCamera ?? caretCamera;
+  const camera = useDeskZoom(stage, fitted);
+  useWritingZoom(layout === 'single');
+  const writingView = useZoom((st) => st.zoom?.writing === true);
 
   if (boot === 'error') return <InkLoader label={t.errors.network} />;
   if (boot === 'loading' || !scene) return <InkLoader label={t.app.loading} />;
@@ -128,7 +127,7 @@ export function DeskApp({ user }: { user: SessionUser }) {
       src: libraryUrl(`props/mug-${mug}.svg`),
       overlay: <Steam />,
     },
-    magnifier: { label: zoomCamera ? t.desk.magnifierDown : t.desk.magnifier, onActivate: toggleMagnifier, pressed: Boolean(zoomCamera) },
+    magnifier: { label: camera ? t.desk.magnifierDown : t.desk.magnifier, onActivate: toggleMagnifier, pressed: Boolean(camera) },
     radio: { label: playing ? t.radio.playing : t.desk.radio, onActivate: open('radio'), pressed: tool === 'radio', ...(playing ? { overlay: <RadioGlow /> } : {}) },
     plant: { label: t.desk.plant, onActivate: () => toast(t.desk.plantEntries(pages), 'info'), src: libraryUrl(`props/plant-${plantStage}.svg`) },
     // Quiet for now: their tools arrive in later milestones.
@@ -168,12 +167,11 @@ export function DeskApp({ user }: { user: SessionUser }) {
   })();
 
   const journalW = layout === 'spread' ? SPREAD_W : SINGLE_W;
-  const journalStyle: CSSProperties = {
-    position: 'absolute',
-    left: (stage.w - journalW) / 2,
-    // Phones: the page centered in the room above the pencil case.
-    top: layout === 'spread' ? (STAGE_H - FRAME_H) / 2 - 22 : Math.max(46, (stage.h - 150 - FRAME_H) / 2),
-  };
+  // Phones: the page centered in the room above the pencil case.
+  const journalTop = layout === 'spread' ? (STAGE_H - FRAME_H) / 2 - 22 : Math.max(46, (stage.h - 150 - FRAME_H) / 2);
+  const journalStyle: CSSProperties = { position: 'absolute', left: (stage.w - journalW) / 2, top: journalTop };
+  // ...with arrows under it to turn the page, when they fit above the case.
+  const pageNav = layout === 'single' && stage.h - 140 - (journalTop + FRAME_H) >= 160;
 
   return (
     <>
@@ -192,10 +190,10 @@ export function DeskApp({ user }: { user: SessionUser }) {
         above={<AnimatePresence>{panel}</AnimatePresence>}
       >
         <div style={journalStyle} className={s.journal} data-mode={mode}>
-          <Book layout={layout} />
+          <Book layout={layout} pageNav={pageNav} />
         </div>
       </DeskScene>
-      {zoomCamera && <ZoomControls />}
+      {camera && !writingView && <ZoomControls />}
       <TextToolbar />
       <Toasts />
     </>
@@ -235,58 +233,4 @@ function useFileDrops(): void {
       window.removeEventListener('paste', paste, true);
     };
   }, []);
-}
-
-/**
- * On phones, writing zooms the page to a comfortable size and follows the
- * caret, keeping it above the on-screen keyboard.
- */
-function useCaretCamera(enabled: boolean, stage: { w: number; h: number }): Cam | null {
-  const editor = useActiveEditor((st) => st.editor);
-  const fitted = useStageScale(stage.w, stage.h);
-  const [cam, setCam] = useState<Cam | null>(null);
-  useEffect(() => {
-    if (!enabled || !editor) {
-      setCam(null);
-      return;
-    }
-    const comfortable = 16 / 22;
-    if (fitted >= comfortable * 0.95) {
-      setCam(null);
-      return;
-    }
-    const follow = () => {
-      if (editor.isDestroyed || !editor.isFocused) {
-        setCam(null);
-        return;
-      }
-      const rect = editor.view.coordsAtPos(editor.state.selection.head);
-      const vv = window.visualViewport;
-      const viewH = vv?.height ?? window.innerHeight;
-      // Screen → stage at the current (fitted or zoomed) scale.
-      const stageEl = editor.view.dom.closest('[data-stage]') as HTMLElement | null;
-      if (!stageEl) return;
-      const sr = stageEl.getBoundingClientRect();
-      const k = stage.w / sr.width;
-      const x = (rect.left - sr.left) * k;
-      const y = (rect.top - sr.top) * k;
-      const scale = comfortable;
-      const halfW = window.innerWidth / scale / 2;
-      const cx = Math.min(stage.w - halfW, Math.max(halfW, x));
-      const cy = y + (viewH / scale) * 0.15;
-      setCam((prev) => (prev && Math.abs(prev.x - cx) < 6 && Math.abs(prev.y - cy) < 6 ? prev : { scale, x: cx, y: cy }));
-    };
-    follow();
-    editor.on('selectionUpdate', follow);
-    editor.on('focus', follow);
-    editor.on('blur', follow);
-    window.visualViewport?.addEventListener('resize', follow);
-    return () => {
-      editor.off('selectionUpdate', follow);
-      editor.off('focus', follow);
-      editor.off('blur', follow);
-      window.visualViewport?.removeEventListener('resize', follow);
-    };
-  }, [enabled, editor, fitted, stage.w, stage.h]);
-  return cam;
 }

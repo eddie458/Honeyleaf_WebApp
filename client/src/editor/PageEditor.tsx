@@ -103,7 +103,8 @@ export function PageEditor({ entryId, pageId, defaults, placeholder }: Props) {
 
   useEffect(() => () => useActiveEditor.getState().clearIf(editor), [editor]);
 
-  return <EditorContent editor={editor} className="hl-editor" style={textVars(defaults)} />;
+  // The whole writing area takes a tap (below the last line too), not just the lines written so far.
+  return <EditorContent editor={editor} className="hl-editor" style={{ ...textVars(defaults), height: '100%' }} />;
 }
 
 /* ------------------------------------------------- crossing page edges */

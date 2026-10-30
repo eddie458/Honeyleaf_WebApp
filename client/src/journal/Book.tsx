@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type PointerEvent as RPointerEvent, type ReactNode } from 'react';
 import { useBook } from '../data/bookStore';
 import { saveNow } from '../data/sync';
+import { useZoom } from '../desk/zoom';
 import { useLibrary } from '../library/useLibrary';
 import { bookSlots, monthTabs, spreadCount, spreadOf, type BookSlot } from '../model/book';
 import { PAGE_H, PAGE_W } from '../model/page';
@@ -8,7 +9,7 @@ import { t } from '../strings/en';
 import { useReducedMotion } from '../ui/motion';
 import { BookPage } from './BookPage';
 import { ensureEntry, goToToday } from './entries';
-import { JournalFrame, type FrameTab } from './JournalFrame';
+import { FRAME_H, JournalFrame, SINGLE_W, type FrameTab } from './JournalFrame';
 import { PageTurn, type TurnSpec } from './PageTurn';
 import { SaveMark } from './SaveMark';
 import s from './Book.module.css';
@@ -21,11 +22,17 @@ interface Turn {
 }
 
 const MONTH = new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' });
+const DAY = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
 const TAB_COLORS = ['#ecc977', '#bcd1a8', '#eab7b0', '#b7cfe6', '#d8c3e6', '#f2c49b'];
 const CORNER = 96;
+/** A flick this long (screen pixels), mostly sideways and quick, turns the page. */
+const SWIPE = 44;
 
-/** The open journal: the current spread (or page), page turns, tabs and ribbon. */
-export function Book({ layout }: { layout: Layout }) {
+/**
+ * The open journal: the current spread (or page), page turns, tabs and
+ * ribbon. `pageNav`: arrows under the book (phones, when there's room).
+ */
+export function Book({ layout, pageNav = false }: { layout: Layout; pageNav?: boolean }) {
   const index = useBook((st) => st.index);
   const slot = useBook((st) => st.slot);
   const setSlot = useBook((st) => st.setSlot);
@@ -110,6 +117,45 @@ export function Book({ layout }: { layout: Layout }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [begin]);
 
+  // One page at a time (phones): a quick sideways swipe across it turns it,
+  // with the pen in hand and the whole page in view (not while writing).
+  useEffect(() => {
+    if (layout !== 'single') return;
+    let swipe: { id: number; x: number; y: number; at: number } | null = null;
+    const down = (e: PointerEvent) => {
+      if (e.pointerType !== 'touch') return;
+      swipe = null; // a second finger is a pinch
+      const el = e.target as Element | null;
+      if (!e.isPrimary || !el?.closest('[data-book]') || el.closest('button, a, input, textarea, select')) return;
+      if (useZoom.getState().zoom || useBook.getState().mode !== 'write' || (document.activeElement as HTMLElement | null)?.isContentEditable) return;
+      swipe = { id: e.pointerId, x: e.clientX, y: e.clientY, at: e.timeStamp };
+    };
+    const move = (e: PointerEvent) => {
+      if (!swipe || e.pointerId !== swipe.id) return;
+      const dx = e.clientX - swipe.x;
+      const dy = e.clientY - swipe.y;
+      // A finger held still first is pressing to select, not swiping.
+      if (e.timeStamp - swipe.at > 450) swipe = null;
+      else if (Math.abs(dx) >= SWIPE && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        swipe = null;
+        begin(dx < 0 ? 'next' : 'prev', 'bottom');
+      }
+    };
+    const up = (e: PointerEvent) => {
+      if (swipe?.id === e.pointerId) swipe = null;
+    };
+    window.addEventListener('pointerdown', down);
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
+    return () => {
+      window.removeEventListener('pointerdown', down);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      window.removeEventListener('pointercancel', up);
+    };
+  }, [layout, begin]);
+
   if (!journal || !ready) return null;
 
   // What lies where while settled, and while a leaf is turning.
@@ -178,23 +224,55 @@ export function Book({ layout }: { layout: Layout }) {
     </>
   );
 
+  const here = slots[cur];
+  const where =
+    here?.kind === 'page'
+      ? t.journal.navWhere(DAY.format(new Date(`${here.date}T00:00:00Z`)), here.index + 1, index.find((e) => e.id === here.entryId)?.pageIds.length ?? 1)
+      : here?.kind === 'lining'
+        ? t.journal.navCover
+        : t.journal.navFresh;
+
   return (
-    <JournalFrame
-      layout={layout}
-      cover={journal.cover}
-      sheets={sheets}
-      left={left}
-      right={right}
-      above={
-        <>
-          {above}
-          {corners}
-        </>
-      }
-      tabs={tabs}
-      onRibbon={goToToday}
-      status={<SaveMark />}
-    />
+    <>
+      <JournalFrame
+        layout={layout}
+        cover={journal.cover}
+        sheets={sheets}
+        left={left}
+        right={right}
+        above={
+          <>
+            {above}
+            {corners}
+          </>
+        }
+        tabs={tabs}
+        onRibbon={goToToday}
+        status={<SaveMark />}
+      />
+      {pageNav && <PageNav where={where} canPrev={canPrev && !turn} canNext={canNext && !turn} onPrev={() => begin('prev', 'bottom')} onNext={() => begin('next', 'bottom')} />}
+    </>
+  );
+}
+
+/** Arrows under the book to turn the page, and which page you're on. */
+function PageNav({ where, canPrev, canNext, onPrev, onNext }: { where: string; canPrev: boolean; canNext: boolean; onPrev(): void; onNext(): void }) {
+  return (
+    <nav className={s.pageNav} style={{ top: FRAME_H + 56, width: SINGLE_W }} aria-label={t.journal.pageNav}>
+      <button type="button" className={s.navArrow} onClick={onPrev} disabled={!canPrev} aria-label={t.journal.prevPage} title={t.journal.prevPage}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14.5 5.5L8 12l6.5 6.5" />
+        </svg>
+      </button>
+      <span className={s.navWhere} aria-live="polite">
+        {where}
+      </span>
+      <button type="button" className={s.navArrow} onClick={onNext} disabled={!canNext} aria-label={t.journal.nextPage} title={t.journal.nextPage}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9.5 5.5L16 12l-6.5 6.5" />
+        </svg>
+      </button>
+    </nav>
   );
 }
 

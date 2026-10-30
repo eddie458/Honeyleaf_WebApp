@@ -90,6 +90,8 @@ function entryJson(e) {
   };
 }
 
+const wordsIn = (node) => Boolean(node) && ((typeof node.text === 'string' && node.text.trim() !== '') || (Array.isArray(node.content) && node.content.some(wordsIn)));
+
 function summary(e) {
   return { id: e.id, date: e.date, title: e.title, pageCount: e.pages.length, pageIds: e.pages.map((p) => p.id), version: e.version, hasPhotos: e.pages.some((p) => (p.doc?.decorations ?? []).some((d) => d.type === 'photo')), conflictOf: e.conflictOf ?? null, createdAt: e.createdAt, updatedAt: e.updatedAt };
 }
@@ -218,6 +220,17 @@ async function route(req, res, path, url) {
       }
       const next = { ...(e ?? { userId: me, id: seg[1], createdAt: nowIso(), version: 0 }), ...incoming, deletedAt: null, version: (e?.version ?? 0) + 1, updatedAt: nowIso() };
       db.entries[key] = next;
+      // As on the server: a page that left goes to the trash, unless it was blank or the text
+      // flow's own page that nobody tore out; a page that comes back leaves the trash.
+      const torn = new Set(b.torn ?? []);
+      db.trashedPages = (db.trashedPages ?? []).filter((t) => !(t.userId === me && incoming.pages.some((q) => q.id === t.page.id)));
+      for (const p of e && !e.deletedAt ? e.pages : []) {
+        if (incoming.pages.some((q) => q.id === p.id)) continue;
+        const decorated = (p.doc?.decorations ?? []).length > 0;
+        const blank = !decorated && !wordsIn(p.doc?.text);
+        const flowPage = p.doc?.flow === 'auto' && !decorated && !torn.has(p.id);
+        if (!blank && !flowPage) db.trashedPages.push({ userId: me, entryId: seg[1], page: p, deletedAt: nowIso() });
+      }
       persist();
       return { version: next.version, updatedAt: next.updatedAt };
     }
@@ -273,10 +286,26 @@ async function route(req, res, path, url) {
     const items = Object.values(db.entries)
       .filter((e) => e.userId === me && e.deletedAt)
       .map((e) => ({ type: 'entry', id: e.id, label: e.title || e.date, date: e.date, deletedAt: e.deletedAt, purgeAt: new Date(Date.parse(e.deletedAt) + 30 * 864e5).toISOString() }));
-    return { items };
+    for (const t of db.trashedPages ?? []) {
+      const e = db.entries[`${me}:${t.entryId}`];
+      if (t.userId !== me || !e || e.deletedAt) continue;
+      items.push({ type: 'page', id: t.page.id, entryId: t.entryId, label: e.title || e.date, date: e.date, deletedAt: t.deletedAt, purgeAt: new Date(Date.parse(t.deletedAt) + 30 * 864e5).toISOString() });
+    }
+    return { items: items.sort((a, b) => b.deletedAt.localeCompare(a.deletedAt)) };
   }
   if (path === 'trash/restore' && m === 'POST') {
     const b = await body(req);
+    if (b.type === 'page') {
+      // Back at the end of its entry, as a new version.
+      const i = (db.trashedPages ?? []).findIndex((t) => t.userId === me && t.page.id === b.id);
+      const e = i >= 0 ? db.entries[`${me}:${db.trashedPages[i].entryId}`] : null;
+      if (!e || e.deletedAt) throw new HttpError(404, 'not_found');
+      e.pages.push(db.trashedPages.splice(i, 1)[0].page);
+      e.version += 1;
+      e.updatedAt = nowIso();
+      persist();
+      return {};
+    }
     const e = db.entries[`${me}:${b.id}`];
     if (e) e.deletedAt = null;
     persist();
@@ -284,7 +313,8 @@ async function route(req, res, path, url) {
   }
   if (path === 'trash/purge' && m === 'POST') {
     const b = await body(req);
-    delete db.entries[`${me}:${b.id}`];
+    if (b.type === 'page') db.trashedPages = (db.trashedPages ?? []).filter((t) => !(t.userId === me && t.page.id === b.id));
+    else delete db.entries[`${me}:${b.id}`];
     persist();
     return {};
   }

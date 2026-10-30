@@ -270,6 +270,66 @@
   text-align: center;
 }
 
+/* Tear-out stub at the inner bottom corner, perforated along its top edge. */
+.tearTab {
+  position: absolute;
+  bottom: 8px;
+  z-index: 45;
+  height: 40px;
+  padding: 6px 14px 0;
+  font-family: var(--font-ui);
+  font-size: 20px;
+  color: #5a3d28;
+  background:
+    radial-gradient(circle, rgb(90 61 40 / 0.5) 0 1.3px, transparent 1.8px) 0 1px / 8px 6px repeat-x,
+    #fffdf7;
+  border-radius: 3px;
+  box-shadow: 2px 3px 5px rgb(58 34 16 / 0.25);
+  rotate: 2deg;
+}
+
+.tearTab[data-side='left'] {
+  right: 110px;
+}
+
+.tearTab[data-side='right'],
+.tearTab[data-side='single'] {
+  left: 110px;
+}
+
+.tearTab:hover {
+  color: #8a3f2c;
+}
+
+.tearTab:focus-visible {
+  outline: 2.5px solid #c99522;
+  outline-offset: 2px;
+}
+
+/* A page being torn out pulls away from the binding and is gone. */
+.tearing {
+  pointer-events: none;
+  transform-origin: 0 0;
+  animation: tear-away 0.42s cubic-bezier(0.5, 0, 0.75, 0.3) forwards;
+}
+
+.tearing[data-side='left'] {
+  --tear-x: -150px;
+  --tear-turn: -9deg;
+  transform-origin: 100% 0;
+}
+
+@keyframes tear-away {
+  20% {
+    transform: rotate(calc(var(--tear-turn, 9deg) * 0.25));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tear-x, 150px), 70px) rotate(var(--tear-turn, 9deg));
+    opacity: 0;
+  }
+}
+
 .drawLayer {
   position: absolute;
   inset: 0;

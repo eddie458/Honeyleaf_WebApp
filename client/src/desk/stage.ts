@@ -1,22 +1,12 @@
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useViewport } from './viewport';
 
 /** The desk is laid out on a fixed stage, scaled to fit the window. */
 export const STAGE_W = 2200;
 export const STAGE_H = 1300;
 
 export function useStageScale(w = STAGE_W, h = STAGE_H): number {
-  const [scale, setScale] = useState(() => fit(w, h));
-  useLayoutEffect(() => {
-    const onResize = () => setScale(fit(w, h));
-    onResize();
-    window.addEventListener('resize', onResize);
-    window.visualViewport?.addEventListener('resize', onResize);
-    return () => {
-      window.removeEventListener('resize', onResize);
-      window.visualViewport?.removeEventListener('resize', onResize);
-    };
-  }, [w, h]);
-  return scale;
+  return useViewport((v) => Math.min(v.w / w, v.h / h));
 }
 
 /**
@@ -25,32 +15,13 @@ export function useStageScale(w = STAGE_W, h = STAGE_H): number {
  * of floating in the middle, and the pencil case sits at the bottom.
  */
 export function useTallStage(w: number, minH: number): { w: number; h: number } {
-  const pick = () => Math.max(minH, Math.round((w * window.innerHeight) / Math.max(1, window.innerWidth)));
-  const [h, setH] = useState(pick);
-  useLayoutEffect(() => {
-    const onResize = () => setH(pick());
-    onResize();
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [w, minH]);
+  const h = useViewport((v) => Math.max(minH, Math.round((w * v.h) / Math.max(1, v.w))));
   return useMemo(() => ({ w, h }), [w, h]);
 }
 
 /** Wide screens get the two-page spread; portrait tablets and phones one page. */
 export function useLayoutMode(): 'spread' | 'single' {
-  const pick = () => (window.innerWidth >= 900 && window.innerWidth / window.innerHeight >= 1.15 ? 'spread' : 'single');
-  const [mode, setMode] = useState<'spread' | 'single'>(pick);
-  useLayoutEffect(() => {
-    const onResize = () => setMode(pick());
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-  return mode;
-}
-
-
-function fit(w: number, h: number): number {
-  return Math.min(window.innerWidth / w, window.innerHeight / h);
+  return useViewport((v) => (v.w >= 900 && v.w / v.h >= 1.15 ? 'spread' : 'single'));
 }
 
 /** Shadow offset for an object standing `lift` units above the desk. */

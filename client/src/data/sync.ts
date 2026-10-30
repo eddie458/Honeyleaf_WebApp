@@ -9,6 +9,7 @@
 import { api, ApiError, isOffline } from './api';
 import { useBook, type EntryState } from './bookStore';
 import { idbAll, idbDelete, idbPut } from './idb';
+import { queryClient } from './queries';
 import { toast } from '../ui/toastStore';
 import { t } from '../strings/en';
 import { migrateHeader, migratePage } from '../model/migrations';
@@ -32,6 +33,8 @@ export interface EntryPayload {
   baseVersion: number | null;
   entry: { journalId: string; date: string; title: string; header: EntryState['header']; schema: number };
   pages: { id: string; index: number; doc: EntryState['pages'][number]['doc'] }[];
+  /** Pages the person tore out, kept in the wastebasket (the flow's own leftovers are just dropped). */
+  torn?: string[];
 }
 
 export function payloadOf(e: EntryState): EntryPayload {
@@ -39,6 +42,7 @@ export function payloadOf(e: EntryState): EntryPayload {
     baseVersion: e.version,
     entry: { journalId: e.journalId, date: e.header.date, title: e.header.title ?? '', header: e.header, schema: 1 },
     pages: e.pages.map((p, index) => ({ id: p.id, index, doc: p.doc })),
+    ...(e.torn?.length ? { torn: e.torn } : {}),
   };
 }
 
@@ -79,7 +83,8 @@ export async function saveNow(entryId: string, keepalive = false): Promise<void>
   const small = keepalive && JSON.stringify(body).length < 60_000;
   const job = api<{ version: number; updatedAt: string }>('PUT', `entries/${entryId}`, body, { keepalive: small })
     .then((res) => {
-      useBook.getState().markSaved(entryId, rev, res.version, res.updatedAt);
+      useBook.getState().markSaved(entryId, rev, res.version, res.updatedAt, body.torn);
+      if (body.torn) void queryClient.invalidateQueries({ queryKey: ['trash'] });
       backoff = 2000;
       const now = useBook.getState().entries[entryId];
       if (now && now.rev === now.savedRev) void idbDelete('drafts', entryId).catch(() => undefined);

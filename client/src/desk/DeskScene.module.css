@@ -6,6 +6,13 @@
   isolation: isolate;
 }
 
+/* Fingers on the desk are its own (pinch, pan, swipe): the browser shouldn't
+   zoom or slide the page as well. Panels, above, still scroll. */
+.desk,
+.stage {
+  touch-action: none;
+}
+
 /* The desk fills the whole window; the stage of objects sits on it. */
 .desk {
   position: absolute;

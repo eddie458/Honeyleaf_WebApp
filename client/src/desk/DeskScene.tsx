@@ -4,6 +4,7 @@ import type { PlacedProp, PropEntry, SceneEntry } from '../library/scene';
 import { DeskObject } from './DeskObject';
 import { DustMotes, FairyLights } from './DeskLife';
 import { useStageScale } from './stage';
+import { useViewport } from './viewport';
 import { WindowLight } from './WindowLight';
 import s from './DeskScene.module.css';
 
@@ -49,10 +50,12 @@ export interface DeskSceneProps {
 
 export function DeskScene({ scene, props, stage, layout, objects, children, scatter, front, above, camera, night = false, dust = true, light }: DeskSceneProps) {
   const fitted = useStageScale(stage.w, stage.h);
+  // An on-screen keyboard lies over the room; it never makes it shorter (see viewport.ts).
+  const roomH = useViewport((v) => v.h);
   const scale = camera?.scale ?? fitted;
   const stageStyle: CSSProperties = { width: stage.w, height: stage.h };
   if (camera) stageStyle.translate = `calc(-50% + ${(stage.w / 2 - camera.x) * scale}px) calc(-50% + ${(stage.h / 2 - camera.y) * scale}px)`;
-  const roomStyle = { '--s': scale, '--fit': fitted, '--desk-tint': scene.desk.tint } as CSSProperties;
+  const roomStyle = { height: roomH, bottom: 'auto', '--s': scale, '--fit': fitted, '--desk-tint': scene.desk.tint } as CSSProperties;
   const placed = layout ?? scene.layout;
   return (
     <div className={s.room} style={roomStyle} data-room="" data-scene={scene.id} data-light={scene.light} data-lamp={night ? 'off' : 'on'}>

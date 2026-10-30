@@ -52,7 +52,7 @@ export function JournalFrame({ layout, cover, sheets, left, right, above, tabs, 
   } as CSSProperties;
   const spineX = layout === 'spread' ? PAGE_X + PAGE_W : PAGE_X;
   return (
-    <div className={s.journal} style={style} data-layout={layout}>
+    <div className={s.journal} style={style} data-layout={layout} data-book="">
       <div className={s.cover}>
         <svg className={s.stitching} viewBox={`0 0 ${width} ${FRAME_H}`} aria-hidden="true">
           <rect x="8" y="8" width={width - 16} height={FRAME_H - 16} rx="14" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="7 6" />

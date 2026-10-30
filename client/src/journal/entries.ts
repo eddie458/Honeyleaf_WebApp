@@ -1,9 +1,9 @@
 // Opening, creating and finding entries.
 
 import { api } from '../data/api';
-import { nowIso, useBook, type EntryState } from '../data/bookStore';
+import { nowIso, summaryOf, useBook, type EntryState } from '../data/bookStore';
 import { entryFromServer } from '../data/sync';
-import { bookSlots, entryForDate, localDate, slotOf } from '../model/book';
+import { bookSlots, entryForDate, localDate, slotOf, type EntrySummary } from '../model/book';
 import { ulid } from '../model/ids';
 import { emptyPage } from '../model/migrations';
 import { DEFAULT_AREA } from '../model/page';
@@ -26,6 +26,22 @@ export function ensureEntry(id: string): Promise<void> {
     loading.set(id, job);
   }
   return job;
+}
+
+/**
+ * Reads the book's list of entries again, after the wastebasket gave
+ * something back. `stale` is an entry the server changed: it is fetched
+ * afresh when next opened.
+ */
+export async function refreshIndex(stale?: string): Promise<void> {
+  const journal = useBook.getState().journal;
+  if (!journal) return;
+  const { entries } = await api<{ entries: EntrySummary[] }>('GET', `journals/${journal.id}/entries`);
+  const store = useBook.getState();
+  if (stale) store.dropEntry(stale);
+  // Entries this device hasn't sent yet aren't on the server's list.
+  const unsent = Object.values(useBook.getState().entries).filter((e) => e.rev > e.savedRev && !entries.some((s) => s.id === e.id));
+  store.setIndex([...entries, ...unsent.map(summaryOf)]);
 }
 
 /** A new, empty entry for a date; it saves itself like any other change. */

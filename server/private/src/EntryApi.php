@@ -78,7 +78,7 @@ final class EntryApi
     /**
      * Checks a save request and turns it into rows to write.
      *
-     * @return array{base: ?int, journalId: string, date: string, title: string, header: string, schema: int, tags: list<string>, pages: list<array{id: string, doc: string, text: string, photo: bool, favorite: bool}>}
+     * @return array{base: ?int, journalId: string, date: string, title: string, header: string, schema: int, tags: list<string>, pages: list<array{id: string, doc: string, text: string, photo: bool, favorite: bool}>, torn: list<string>}
      */
     private function parse(int $uid): array
     {
@@ -126,6 +126,20 @@ final class EntryApi
         }
         if (count($pagesIn) > self::MAX_PAGES) {
             $fields['pages'] = 'too_long';
+        }
+        // Pages the person tore out (rather than the text flow dropping them).
+        $tornIn = $b->torn ?? [];
+        $torn = [];
+        if (!is_array($tornIn) || count($tornIn) > self::MAX_PAGES) {
+            $fields['torn'] = 'invalid';
+        } else {
+            foreach ($tornIn as $pageId) {
+                if (!Util::isUlid($pageId)) {
+                    $fields['torn'] = 'invalid';
+                    break;
+                }
+                $torn[$pageId] = true;
+            }
         }
         $tags = [];
         if ($header instanceof \stdClass && isset($header->tags) && is_array($header->tags)) {
@@ -183,6 +197,7 @@ final class EntryApi
             'schema' => (int) $schema,
             'tags' => array_keys($tags),
             'pages' => $pages,
+            'torn' => array_keys($torn),
         ];
     }
 
@@ -210,7 +225,7 @@ final class EntryApi
                 ON DUPLICATE KEY UPDATE journal_id = VALUES(journal_id), entry_date = VALUES(entry_date), title = VALUES(title), header = VALUES(header),
                   schema_version = VALUES(schema_version), version = VALUES(version), has_photos = VALUES(has_photos), updated_at = VALUES(updated_at), deleted_at = NULL')
                 ->execute([$uid, $id, $in['journalId'], $in['date'], $in['title'], $in['header'], $in['schema'], $version, $hasPhotos ? 1 : 0, $now, $now]);
-            $this->writePages($uid, $id, $in['pages'], $now);
+            $this->writePages($uid, $id, $in['pages'], $in['torn'], $now);
             $this->writeTags($uid, $id, $in['tags']);
             $db->commit();
         } catch (\Throwable $e) {
@@ -224,12 +239,14 @@ final class EntryApi
 
     /**
      * The entry's pages become exactly `$pages`. A page that's gone moves to
-     * the trash, unless it was a page the text flow added by itself with
-     * nothing else on it (its words moved to the pages around it).
+     * the trash, unless there was nothing on it, or it was a page the text
+     * flow added by itself with only words on it and nobody tore it out (its
+     * words moved to the pages around it).
      *
      * @param list<array{id: string, doc: string, text: string, photo: bool, favorite: bool}> $pages
+     * @param list<string> $torn pages the person tore out
      */
-    private function writePages(int $uid, string $entryId, array $pages, string $now): void
+    private function writePages(int $uid, string $entryId, array $pages, array $torn, string $now): void
     {
         $db = $this->app->db();
         $st = $db->prepare('SELECT id, doc FROM pages WHERE user_id = ? AND entry_id = ? AND deleted_at IS NULL');
@@ -248,10 +265,13 @@ final class EntryApi
         }
         $trash = $db->prepare('UPDATE pages SET deleted_at = ? WHERE user_id = ? AND id = ?');
         $drop = $db->prepare('DELETE FROM pages WHERE user_id = ? AND id = ?');
+        $torn = array_flip($torn);
         foreach ($before as $pageId => $docJson) {
             $doc = Util::decode($docJson);
-            $flowPage = $doc instanceof \stdClass && ($doc->flow ?? null) === 'auto' && (!isset($doc->decorations) || $doc->decorations === []);
-            if ($flowPage) {
+            $decorated = $doc instanceof \stdClass && isset($doc->decorations) && $doc->decorations !== [];
+            $blank = $doc instanceof \stdClass && !$decorated && trim(Util::plainText($doc)) === '';
+            $flowPage = $doc instanceof \stdClass && ($doc->flow ?? null) === 'auto' && !$decorated && !isset($torn[$pageId]);
+            if ($blank || $flowPage) {
                 $drop->execute([$uid, $pageId]);
             } else {
                 $trash->execute([$now, $uid, $pageId]);
@@ -290,7 +310,7 @@ final class EntryApi
             VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, NULL)')
             ->execute([$uid, $copyId, $in['journalId'], $in['date'], $title, Util::encode($header), $in['schema'], $hasPhotos ? 1 : 0, $originalId, $now, $now]);
         $pages = array_map(static fn ($p) => ['id' => Util::ulid()] + $p, $in['pages']);
-        $this->writePages($uid, $copyId, $pages, $now);
+        $this->writePages($uid, $copyId, $pages, [], $now);
         $this->writeTags($uid, $copyId, $in['tags']);
         return $copyId;
     }

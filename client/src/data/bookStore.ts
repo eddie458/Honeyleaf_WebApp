@@ -55,6 +55,8 @@ export interface EntryState {
   rev: number;
   savedRev: number;
   conflictOf?: string | null;
+  /** Pages torn out since the last save: the save tells the server to keep them in the wastebasket. */
+  torn?: string[];
 }
 
 export type Tool =
@@ -138,10 +140,11 @@ export interface BookState {
   setIndex(index: EntrySummary[]): void;
   putEntry(entry: EntryState): void;
   dropEntry(entryId: string): void;
-  editEntry(entryId: string, change: (e: EntryState) => Partial<Pick<EntryState, 'header' | 'pages'>>, group?: string | null): void;
+  editEntry(entryId: string, change: (e: EntryState) => Partial<Pick<EntryState, 'header' | 'pages' | 'torn'>>, group?: string | null): void;
   editPage(entryId: string, pageId: string, change: (page: PageDoc) => PageDoc, group?: string | null): void;
   editDecoration(entryId: string, pageId: string, decoId: string, change: (d: Decoration) => Decoration | null, group?: string | null): void;
-  markSaved(entryId: string, rev: number, version: number, updatedAt: string): void;
+  /** `torn`: the torn-out pages that save told the server about. */
+  markSaved(entryId: string, rev: number, version: number, updatedAt: string, torn?: string[]): void;
   undo(): boolean;
   redo(): boolean;
   setSlot(slot: number): void;
@@ -223,11 +226,12 @@ export const useBook = create<BookState>((set, get) => ({
       group,
     ),
 
-  markSaved: (entryId, rev, version, updatedAt) =>
+  markSaved: (entryId, rev, version, updatedAt, torn = []) =>
     set((s) => {
       const e = s.entries[entryId];
       if (!e) return {};
       const next = { ...e, version, savedRev: Math.max(e.savedRev, rev), updatedAt };
+      if (e.torn && torn.length) next.torn = e.torn.filter((id) => !torn.includes(id));
       const allSaved = Object.values({ ...s.entries, [entryId]: next }).every((x) => x.rev === x.savedRev);
       return { entries: { ...s.entries, [entryId]: next }, index: withSummary(s.index, next), saveStatus: allSaved ? 'saved' : s.saveStatus };
     }),

@@ -183,14 +183,16 @@ Saves a whole entry atomically (create or update).
 {
   "baseVersion": 7,            // null when creating
   "entry": { "journalId", "date", "title", "header": {…}, "schema": 1 },
-  "pages": [ { "id", "index": 0, "doc": {…} } ]
+  "pages": [ { "id", "index": 0, "doc": {…} } ],
+  "torn": [ "…" ]              // optional: IDs of pages the person tore out
 }
 ```
 - 200 → `{ "version": 8, "updatedAt": "…" }`.
 - Pages that exist on the server but are missing from `pages` move to the trash,
-  except pages the text flow added by itself (`doc.flow = "auto"`, no
-  decorations): their words already moved to the pages around them, so they
-  are simply removed.
+  except blank pages (no words, no decorations) and pages the text flow added
+  by itself (`doc.flow = "auto"`, no decorations) that aren't listed in
+  `torn`: their words already moved to the pages around them, so they are
+  simply removed.
 - Version check: if the stored version differs from `baseVersion` (or the
   entry exists and `baseVersion` is null), nothing is overwritten. The server
   stores the incoming entry as a **conflict copy** (new ID, `conflictOf` =
