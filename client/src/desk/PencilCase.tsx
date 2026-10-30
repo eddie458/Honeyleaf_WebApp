@@ -10,6 +10,7 @@ const TOOLS: { mode: Mode; file: string; label: string }[] = [
   { mode: 'write', file: 'props/tool-fountain-pen.svg', label: t.desk.writeTool },
   { mode: 'decorate', file: 'props/tool-tweezers.svg', label: t.desk.decorateTool },
   { mode: 'draw', file: 'props/tool-pencil.svg', label: t.desk.drawTool },
+  { mode: 'erase', file: 'props/tool-eraser.svg', label: t.desk.eraseTool },
 ];
 
 /**
@@ -32,7 +33,7 @@ export function PencilCase({ objects, mode, onMode, stage }: { objects: Record<s
     <div className={s.case} data-open={open ? '' : undefined} style={{ width: stage.w, top: stage.h - 140 }}>
       <div className={s.tools} role="radiogroup" aria-label={t.desk.penTray}>
         {TOOLS.map((tool) => (
-          <button key={tool.mode} type="button" role="radio" aria-checked={mode === tool.mode} aria-label={tool.label} className={s.tool} onClick={() => onMode(tool.mode)}>
+          <button key={tool.mode} type="button" role="radio" aria-checked={mode === tool.mode} aria-label={tool.label} className={s.tool} data-tool={tool.mode} onClick={() => onMode(tool.mode)}>
             <img src={libraryUrl(tool.file)} alt="" draggable={false} />
           </button>
         ))}

@@ -43,6 +43,7 @@ const files = {
   'tool-fountain-pen.svg': C.fountainPen(),
   'tool-tweezers.svg': C.tweezers(),
   'tool-pencil.svg': C.pencil(),
+  'tool-eraser.svg': C.eraser(),
   'leaf-maple-red.svg': C.leaf('maple', ['#f0a24a', '#d8612e', '#a8392a'], 3),
   'leaf-maple-gold.svg': C.leaf('maple', ['#f6d36a', '#e7a43a', '#c4702a'], 5),
   'leaf-oak.svg': C.leaf('oak', ['#d9a75a', '#b97a36', '#87501f'], 7),

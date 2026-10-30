@@ -45,7 +45,7 @@ export function Panel({ title, x, y, width, height, from = 'left', variant = 'ca
     };
   }, [onClose]);
 
-  const style: CSSProperties = { left: x, top: y, width, ...(height ? { height } : {}) };
+  const style = { left: x, top: y, width, '--panel-y': `${y}px`, ...(height ? { height } : {}) } as CSSProperties;
   return (
     <motion.section
       ref={ref}

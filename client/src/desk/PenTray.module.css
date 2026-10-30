@@ -39,6 +39,25 @@
   translate: 2px 3px;
 }
 
+/* The eraser lies on the desk just past the tray's end, its tag above it. */
+.loose {
+  left: 560px;
+  width: 120px;
+  height: 44px;
+}
+
+.loose .toolArt,
+.loose .toolShadow {
+  width: 120px;
+  height: 44px;
+}
+
+.loose .tag {
+  right: auto;
+  left: 18px;
+  top: -52px;
+}
+
 .tool:hover .toolArt {
   translate: 0 -3px;
 }

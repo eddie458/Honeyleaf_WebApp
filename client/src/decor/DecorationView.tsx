@@ -4,6 +4,7 @@ import { assetSrc, freshPhotos } from '../data/assets';
 import { freshDecorations } from './decorate';
 import { fontFamily } from '../library/fonts';
 import { libraryUrl } from '../library/library';
+import { strokeWidth } from '../model/drawing';
 import { DEFAULT_CROP, DEFAULT_RATIO, deckleEdge, hasCaptionStrip, photoLayout, type Rect } from '../model/photo';
 import type { Decoration, PhotoFilter, Stroke } from '../model/types';
 import { RichText } from '../text/RichText';
@@ -255,11 +256,22 @@ function Postmark({ id, text, ink, seed }: { id: string; text: string; ink: stri
   );
 }
 
-/** perfect-freehand outline → SVG path. */
+const paths = new WeakMap<Stroke, string>();
+
+/** perfect-freehand outline → SVG path, worked out once per stroke (strokes are never changed in place). */
 export function strokePath(st: Stroke): string {
+  let d = paths.get(st);
+  if (d === undefined) {
+    d = outlinePath(st);
+    paths.set(st, d);
+  }
+  return d;
+}
+
+function outlinePath(st: Stroke): string {
   const outline = getStroke(
     st.points.map((p) => [p.x, p.y, p.p]),
-    { size: st.size * (st.tool === 'brush' ? 2.2 : 1.6), thinning: st.tool === 'highlighter' ? 0 : 0.55, smoothing: 0.6, streamline: 0.45, simulatePressure: false, last: true },
+    { size: strokeWidth(st), thinning: st.tool === 'highlighter' ? 0 : 0.55, smoothing: 0.6, streamline: 0.45, simulatePressure: false, last: true },
   );
   const pts = outline as [number, number][];
   const first = pts[0];

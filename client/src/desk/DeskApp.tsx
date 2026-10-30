@@ -44,7 +44,8 @@ const PLANT_STAGES = [0, 6, 16, 40, 90];
 
 /** Where each tool opens on the wide desk (stage units). */
 const PANEL_AT: Record<ToolId, { x: number; y: number }> = {
-  pens: { x: 20, y: 250 },
+  // High enough for the whole pen card (about 1120 tall) to fit on the desk.
+  pens: { x: 20, y: 130 },
   washi: { x: 30, y: 520 },
   stickers: { x: 1500, y: 330 },
   camera: { x: 1720, y: 300 },

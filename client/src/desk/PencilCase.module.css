@@ -6,7 +6,7 @@
   justify-items: center;
 }
 
-/* The three tools lie on the case; the one in your hand is lifted. */
+/* The tools lie on the case; the one in your hand is lifted. */
 .tools {
   display: flex;
   gap: 4px;
@@ -30,6 +30,15 @@
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(1px 3px 2px rgb(0 0 0 / 0.35));
+}
+
+/* The short eraser, drawn to the same scale as the long tools beside it. */
+.tool[data-tool='erase'] {
+  width: 90px;
+}
+
+.tool[data-tool='erase'] img {
+  width: 56px;
 }
 
 .tool[aria-checked='true'] {

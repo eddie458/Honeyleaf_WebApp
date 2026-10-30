@@ -15,7 +15,7 @@ export function welcomeLetter(name: string): TextDoc {
   const items: [string, string][] = [
     ['The pencil cup', ' holds your pens: inks, hands and sizes.'],
     ['Washi tape, stickers and the instant camera', ' are for decorating. Pick up the tweezers in the pen tray to move things about.'],
-    ['The pencil', ' in the tray is for doodles.'],
+    ['The pencil', ' in the tray is for doodles, and the eraser beside it rubs them out.'],
     ['The desk calendar', ' takes you to any day; the ribbon brings you back to today.'],
     ['The drawer', ' keeps settings and backups, and the padlock locks your diary in a hurry.'],
     ['The wastebasket', ' keeps anything you throw away for 30 days.'],

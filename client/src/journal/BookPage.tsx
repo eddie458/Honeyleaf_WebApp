@@ -2,7 +2,9 @@ import { memo, useCallback, useRef, useState, type CSSProperties, type PointerEv
 import { useBook } from '../data/bookStore';
 import { useLibrary } from '../library/useLibrary';
 import type { BookSlot } from '../model/book';
+import { erase, ERASER_SIZE, sweep } from '../model/drawing';
 import { GRID, PAGE_H, PAGE_W, type WritingArea } from '../model/page';
+import type { Point } from '../model/transform';
 import type { Decoration, PageDoc, Stroke, StrokePoint } from '../model/types';
 import { DecorationEditor } from '../decor/DecorationEditor';
 import { addDecoration, type DecoDraft } from '../decor/decorate';
@@ -76,8 +78,8 @@ function JournalPage({ entryId, pageId, side, live }: { entryId: string; pageId:
         <PaperTab entryId={entryId} pageId={pageId} current={page.doc.paper.id} side={side} />
       </>
     );
-  } else if (live && mode === 'draw') {
-    overlay = <DrawLayer entryId={entryId} pageId={pageId} page={page.doc} />;
+  } else if (live && (mode === 'draw' || mode === 'erase')) {
+    overlay = <DrawLayer entryId={entryId} pageId={pageId} page={page.doc} erasing={mode === 'erase'} />;
   }
   return (
     <PageSurface page={page.doc} side={side} paper={paper} washi={washi} header={header} overlay={overlay} override={draft} leaving={leaving} entryId={entryId} pageId={pageId}>
@@ -226,30 +228,70 @@ function PaperTab({ entryId, pageId, current, side }: { entryId: string; pageId:
 
 /* ------------------------------------------------------------ drawing */
 
-/** The pencil: freehand strokes, with stylus pressure where there is one. */
-function DrawLayer({ entryId, pageId, page }: { entryId: string; pageId: string; page: PageDoc }) {
+/**
+ * The pencil: freehand strokes, with stylus pressure where there is one. The
+ * eraser rubs them out, and so does a stylus turned over to its eraser end.
+ */
+function DrawLayer({ entryId, pageId, page, erasing }: { entryId: string; pageId: string; page: PageDoc; erasing: boolean }) {
   const ink = useBook((st) => st.pen.ink.color);
   const ref = useRef<HTMLDivElement>(null);
   const [points, setPoints] = useState<StrokePoint[] | null>(null);
   const last = useRef<{ id: string; at: number } | null>(null);
+  // Where the eraser is, and the rub in progress: each rub is one undo step.
+  const [tip, setTip] = useState<Point | null>(null);
+  const rub = useRef<{ group: string; at: Point } | null>(null);
   const toPage = (e: { clientX: number; clientY: number }) => {
     const r = ref.current!.getBoundingClientRect();
     const k = PAGE_W / r.width;
     return { x: (e.clientX - r.left) * k, y: (e.clientY - r.top) * k };
   };
   const pressure = (e: RPointerEvent) => (e.pointerType === 'pen' && e.pressure > 0 ? e.pressure : 0.5);
+  const rubOut = (at: Point[]) => {
+    const book = useBook.getState();
+    const doc = book.entries[entryId]?.pages.find((p) => p.id === pageId)?.doc;
+    if (!doc || !rub.current) return;
+    const decorations = erase(doc.decorations, at);
+    if (decorations !== doc.decorations) book.editPage(entryId, pageId, (d) => ({ ...d, decorations }), rub.current.group);
+  };
   const down = (e: RPointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
     ref.current!.setPointerCapture(e.pointerId);
     const p = toPage(e);
+    if (erasing || (e.pointerType === 'pen' && (e.buttons & 32) !== 0)) {
+      rub.current = { group: `erase:${pageId}:${Date.now()}`, at: p };
+      setTip(p);
+      rubOut([p]);
+      return;
+    }
     setPoints([{ x: p.x, y: p.y, p: pressure(e) }]);
   };
   const move = (e: RPointerEvent<HTMLDivElement>) => {
-    if (!points) return;
     const events = 'getCoalescedEvents' in e.nativeEvent ? e.nativeEvent.getCoalescedEvents() : [e.nativeEvent];
-    const extra = (events.length ? events : [e.nativeEvent]).map((ev) => ({ ...toPage(ev), p: ev.pointerType === 'pen' && ev.pressure > 0 ? ev.pressure : 0.5 }));
+    const all = events.length ? events : [e.nativeEvent];
+    const r = rub.current;
+    if (r) {
+      const at = all.flatMap((ev) => {
+        const q = toPage(ev);
+        const steps = sweep(r.at, q, ERASER_SIZE / 4);
+        r.at = q;
+        return steps;
+      });
+      setTip(r.at);
+      rubOut(at);
+      return;
+    }
+    if (erasing) setTip(toPage(e));
+    if (!points) return;
+    const extra = all.map((ev) => ({ ...toPage(ev), p: ev.pointerType === 'pen' && ev.pressure > 0 ? ev.pressure : 0.5 }));
     setPoints((prev) => (prev ? [...prev, ...extra] : prev));
   };
-  const up = () => {
+  const up = (e: RPointerEvent<HTMLDivElement>) => {
+    if (rub.current) {
+      rub.current = null;
+      // A mouse (or a stylus hovering) still shows where the eraser is; a finger has lifted off.
+      if (!erasing || e.pointerType === 'touch') setTip(null);
+      return;
+    }
     if (!points || points.length < 2) {
       setPoints(null);
       return;
@@ -258,10 +300,22 @@ function DrawLayer({ entryId, pageId, page }: { entryId: string; pageId: string;
     setPoints(null);
   };
   return (
-    <div ref={ref} className={s.drawLayer} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
-      {points && (
+    <div
+      ref={ref}
+      className={s.drawLayer}
+      data-erasing={erasing ? '' : undefined}
+      onPointerDown={down}
+      onPointerMove={move}
+      onPointerUp={up}
+      onPointerCancel={up}
+      onPointerLeave={() => {
+        if (!rub.current) setTip(null);
+      }}
+    >
+      {(points || tip) && (
         <svg className={s.drawPreview} viewBox={`0 0 ${PAGE_W} ${PAGE_H}`} aria-hidden="true">
-          <path d={strokePath({ tool: 'pen', color: ink, size: 3.2, points })} fill={ink} />
+          {points && <path d={strokePath({ tool: 'pen', color: ink, size: 3.2, points })} fill={ink} />}
+          {tip && <circle className={s.eraserTip} cx={tip.x} cy={tip.y} r={ERASER_SIZE / 2} />}
         </svg>
       )}
     </div>

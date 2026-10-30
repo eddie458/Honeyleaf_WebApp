@@ -8,7 +8,7 @@ import type { EntrySummary } from '../model/book';
 import { History } from '../model/history';
 import type { Decoration, EntryHeader, PageDoc } from '../model/types';
 
-export type Mode = 'write' | 'decorate' | 'draw';
+export type Mode = 'write' | 'decorate' | 'draw' | 'erase';
 
 export interface JournalDefaults {
   paper: string;

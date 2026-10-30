@@ -285,3 +285,14 @@
   height: 100%;
   pointer-events: none;
 }
+
+/* Erasing: the eraser's own round tip shows where it will rub. */
+.drawLayer[data-erasing] {
+  cursor: none;
+}
+
+.eraserTip {
+  fill: rgb(232 154 150 / 0.22);
+  stroke: rgb(110 74 40 / 0.7);
+  stroke-width: 1.5;
+}

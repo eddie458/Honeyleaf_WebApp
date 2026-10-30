@@ -422,6 +422,26 @@ export function pencil() {
   return doc(W, H, defs, s, 'Pencil');
 }
 
+export function eraser() {
+  const W = 120;
+  const H = 44;
+  const rose = '#e89a96';
+  const teal = '#4f7f86';
+  const defs = [
+    lin('rubber', [[0, light(rose, 0.35)], [0.45, rose], [1, dark(rose, 0.25)]], [0, 0, 0, 1]),
+    lin('sleeve', [[0, light(teal, 0.3)], [0.4, teal], [1, dark(teal, 0.35)]], [0, 0, 0, 1]),
+  ].join('');
+  let s = '';
+  // The rubber, worn round at the end that does the rubbing.
+  s += path('M14 9H110C112 9 114 11 114 13V31C114 33 112 35 110 35H14C8 35 5 30 5 22C5 14 8 9 14 9Z', `fill="url(#rubber)" stroke="${dark(rose, 0.4)}" stroke-width="1.2"`);
+  s += path('M12 13H44', `stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" opacity="0.5"`);
+  // Its paper sleeve, printed with a honey leaf.
+  s += rect(50, 7, 66, 30, 2, `fill="url(#sleeve)" stroke="${dark(teal, 0.5)}" stroke-width="1.2"`);
+  s += path('M50 12H116M50 32H116', `stroke="#f6ecd6" stroke-width="1.4" opacity="0.85"`);
+  s += path('M74 23C78 16 87 15 92 17C88 24 80 26 74 23ZM74 23L87 18.5', `fill="#e3b448" stroke="#8a6326" stroke-width="0.8" stroke-linejoin="round"`);
+  return doc(W, H, defs, s, 'Eraser');
+}
+
 /* ------------------------------------------------------- fallen leaves */
 
 function leafPath(kind) {

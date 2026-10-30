@@ -1,18 +1,20 @@
+import type { Mode } from '../data/bookStore';
 import { libraryUrl } from '../library/library';
 import { t } from '../strings/en';
 import s from './PenTray.module.css';
 
-export type Mode = 'write' | 'decorate' | 'draw';
-
-const TOOLS: { mode: Mode; file: string; label: string; tag: string; y: number }[] = [
+const TOOLS: { mode: Mode; file: string; label: string; tag: string; y: number; loose?: boolean }[] = [
   { mode: 'write', file: 'props/tool-fountain-pen.svg', label: t.desk.writeTool, tag: t.desk.write, y: 30 },
   { mode: 'decorate', file: 'props/tool-tweezers.svg', label: t.desk.decorateTool, tag: t.desk.decorate, y: 58 },
   { mode: 'draw', file: 'props/tool-pencil.svg', label: t.desk.drawTool, tag: t.desk.draw, y: 86 },
+  // Too short for the tray: it lies on the desk beside it.
+  { mode: 'erase', file: 'props/tool-eraser.svg', label: t.desk.eraseTool, tag: t.desk.erase, y: 86, loose: true },
 ];
 
 /**
  * The pen tray says what is in your hand: the fountain pen writes, the
- * tweezers decorate, the pencil draws. The tool you hold is lifted out.
+ * tweezers decorate, the pencil draws and the eraser rubs it out. The tool
+ * you hold is lifted out.
  */
 export function PenTray({ x, y, mode, onMode }: { x: number; y: number; mode: Mode; onMode: (m: Mode) => void }) {
   return (
@@ -27,7 +29,7 @@ export function PenTray({ x, y, mode, onMode }: { x: number; y: number; mode: Mo
             role="radio"
             aria-checked={active}
             aria-label={tool.label}
-            className={`${s.tool} ${active ? s.active : ''}`}
+            className={`${s.tool} ${tool.loose ? s.loose : ''} ${active ? s.active : ''}`}
             style={{ top: tool.y - 20 }}
             onClick={() => onMode(tool.mode)}
           >

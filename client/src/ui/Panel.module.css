@@ -3,7 +3,8 @@
   z-index: 60;
   display: flex;
   flex-direction: column;
-  max-height: 1240px;
+  /* Never past the bottom of the desk, wherever it opens: a long panel scrolls instead. */
+  max-height: min(1240px, calc(100% - var(--panel-y, 0px) - 20px));
   color: #4a3424;
   font-family: var(--font-ui);
   font-size: 24px;
