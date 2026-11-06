@@ -4,7 +4,8 @@ import s from './ZoomControls.module.css';
 
 /** While looking closer: a brass lens showing how close, two knobs, and a tag back to the whole desk. */
 export function ZoomControls() {
-  const level = useZoom((st) => st.zoom?.level ?? 1);
+  // As shown, to one decimal: a pinch changes the exact level on every move.
+  const level = useZoom((st) => Math.round((st.zoom?.level ?? 1) * 10) / 10);
   return (
     <div className={s.zoom} role="group" aria-label={t.zoom.label}>
       <button type="button" className={s.knob} onClick={zoomOut} aria-label={t.zoom.out} title={t.zoom.out}>

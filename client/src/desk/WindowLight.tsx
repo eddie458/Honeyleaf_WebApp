@@ -1,4 +1,3 @@
-import { STAGE_H, STAGE_W } from './stage';
 import s from './DeskScene.module.css';
 
 /**
@@ -8,9 +7,11 @@ import s from './DeskScene.module.css';
  * casts long patches), with soft dapples where leaves outside catch it.
  * Static: drawn once, never animated, so its blur costs nothing after the
  * first paint. `at` moves the window's patch on the stage, so a scene can
- * keep the frame's cross-shaped shadow off the thing it shows.
+ * keep the frame's cross-shaped shadow off the thing it shows. `seen` is the
+ * part of the stage the window can show: only that much is drawn, which on a
+ * phone is far less than the light's whole patch.
  */
-export function WindowLight({ at = [-40, 400], tone = 'sun' }: { at?: readonly [number, number]; tone?: 'sun' | 'moon' }) {
+export function WindowLight({ seen, at = [-40, 400], tone = 'sun' }: { seen: { x: number; y: number; w: number; h: number }; at?: readonly [number, number]; tone?: 'sun' | 'moon' }) {
   const pane = 330;
   const bar = 44;
   const panes = [
@@ -21,7 +22,7 @@ export function WindowLight({ at = [-40, 400], tone = 'sun' }: { at?: readonly [
   ] as const;
   const filter = `wl-soft-${tone}`;
   return (
-    <svg className={tone === 'sun' ? s.windowLight : s.moonLight} viewBox={`0 0 ${STAGE_W} ${STAGE_H}`} width={STAGE_W} height={STAGE_H} aria-hidden="true">
+    <svg className={tone === 'sun' ? s.windowLight : s.moonLight} style={{ left: seen.x, top: seen.y }} viewBox={`${seen.x} ${seen.y} ${seen.w} ${seen.h}`} width={seen.w} height={seen.h} aria-hidden="true">
       <defs>
         <filter id={filter} x="-30%" y="-30%" width="160%" height="160%">
           <feGaussianBlur stdDeviation={tone === 'sun' ? 20 : 26} />

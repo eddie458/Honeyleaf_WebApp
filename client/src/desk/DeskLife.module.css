@@ -112,6 +112,14 @@
   transition: opacity 1s ease;
 }
 
+/* Too small to see on a touch screen, and drifting dust keeps a phone drawing
+   every frame even with nothing else moving. */
+@media (pointer: coarse) {
+  .motes {
+    display: none;
+  }
+}
+
 /* ------------------------------------------------------- fairy lights */
 
 .lights {

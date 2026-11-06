@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { libraryUrl } from '../library/library';
 import type { PlacedProp, PropEntry, SceneEntry } from '../library/scene';
 import { DeskObject } from './DeskObject';
@@ -6,6 +6,7 @@ import { DustMotes, FairyLights } from './DeskLife';
 import { useStageScale } from './stage';
 import { useViewport } from './viewport';
 import { WindowLight } from './WindowLight';
+import { useCamera } from './zoom';
 import s from './DeskScene.module.css';
 
 export interface DeskObjectSpec {
@@ -16,13 +17,6 @@ export interface DeskObjectSpec {
   /** Art override (the mug's drink, the plant's growth stage). */
   src?: string;
   overlay?: ReactNode;
-}
-
-export interface Camera {
-  scale: number;
-  /** Stage point to center on screen. */
-  x: number;
-  y: number;
 }
 
 export interface DeskSceneProps {
@@ -40,7 +34,8 @@ export interface DeskSceneProps {
   front?: ReactNode;
   /** Drawn above the room's lighting, so it stays easy to read: open panels. */
   above?: ReactNode;
-  camera?: Camera | null;
+  /** The camera (zoom.ts) moves this desk. */
+  zoomable?: boolean;
   /** The desk lamp is off: night, by moonlight and fairy lights. */
   night?: boolean;
   dust?: boolean;
@@ -48,19 +43,26 @@ export interface DeskSceneProps {
   light?: readonly [number, number];
 }
 
-export function DeskScene({ scene, props, stage, layout, objects, children, scatter, front, above, camera, night = false, dust = true, light }: DeskSceneProps) {
+export function DeskScene({ scene, props, stage, layout, objects, children, scatter, front, above, zoomable = false, night = false, dust = true, light }: DeskSceneProps) {
   const fitted = useStageScale(stage.w, stage.h);
   // An on-screen keyboard lies over the room; it never makes it shorter (see viewport.ts).
   const roomH = useViewport((v) => v.h);
-  const scale = camera?.scale ?? fitted;
+  const roomW = useViewport((v) => v.w);
+  const deskViewEl = useRef<HTMLDivElement>(null);
+  const stageEl = useRef<HTMLDivElement>(null);
+  const glowEl = useRef<HTMLDivElement>(null);
+  useCamera({ deskView: deskViewEl, stage: stageEl, glow: glowEl }, stage, fitted, zoomable);
   const stageStyle: CSSProperties = { width: stage.w, height: stage.h };
-  if (camera) stageStyle.translate = `calc(-50% + ${(stage.w / 2 - camera.x) * scale}px) calc(-50% + ${(stage.h / 2 - camera.y) * scale}px)`;
-  const roomStyle = { height: roomH, bottom: 'auto', '--s': scale, '--fit': fitted, '--desk-tint': scene.desk.tint } as CSSProperties;
+  const roomStyle = { height: roomH, bottom: 'auto', '--fit': fitted, '--desk-tint': scene.desk.tint } as CSSProperties;
+  // The stage as far as the window shows it: zooming only ever shows less.
+  const seen = { x: stage.w / 2 - roomW / fitted / 2, y: stage.h / 2 - roomH / fitted / 2, w: roomW / fitted, h: roomH / fitted };
   const placed = layout ?? scene.layout;
   return (
     <div className={s.room} style={roomStyle} data-room="" data-scene={scene.id} data-light={scene.light} data-lamp={night ? 'off' : 'on'}>
-      <div className={s.desk} aria-hidden="true" />
-      <div className={s.stage} style={stageStyle} data-stage="">
+      <div ref={deskViewEl} className={s.deskView}>
+        <div className={s.desk} aria-hidden="true" />
+      </div>
+      <div ref={stageEl} className={s.stage} style={stageStyle} data-stage="">
         {scatter}
         {Object.entries(placed).map(([id, place]) => {
           const spec = objects[id];
@@ -87,9 +89,9 @@ export function DeskScene({ scene, props, stage, layout, objects, children, scat
           );
         })}
         <div className={s.journalSlot}>{children}</div>
-        <WindowLight {...(light ? { at: light } : {})} />
+        <WindowLight seen={seen} {...(light ? { at: light } : {})} />
         {/* After dark: moonlight through the same window. */}
-        <WindowLight tone="moon" {...(light ? { at: light } : {})} />
+        <WindowLight seen={seen} tone="moon" {...(light ? { at: light } : {})} />
         {dust && <DustMotes />}
         {front}
       </div>
@@ -98,11 +100,9 @@ export function DeskScene({ scene, props, stage, layout, objects, children, scat
       {/* The lamp switched off: night falls, the open book still catching some light. */}
       <div className={s.night} aria-hidden="true" />
       {/* Lights glow over the dark, moving with the desk when it's zoomed. */}
-      {night && (
-        <div className={s.stageGlow} style={stageStyle}>
-          <FairyLights width={stage.w} />
-        </div>
-      )}
+      <div ref={glowEl} className={s.stageGlow} style={stageStyle}>
+        {night && <FairyLights width={stage.w} />}
+      </div>
       {/* Panels keep their usual place and size, however the desk is zoomed. */}
       {above && (
         <div className={s.stageAbove} style={{ width: stage.w, height: stage.h }}>

@@ -12,6 +12,12 @@ export const useMotionSetting = create<{ motion: 'auto' | 'on' | 'off'; set(m: '
 
 const query = typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
 
+/** The same answer as useReducedMotion, outside React. */
+export function reducedMotion(): boolean {
+  const setting = useMotionSetting.getState().motion;
+  return setting === 'on' || (setting === 'auto' && (query?.matches ?? false));
+}
+
 export function useReducedMotion(): boolean {
   const os = useSyncExternalStore(
     (cb) => {

@@ -97,7 +97,7 @@ export function DeskApp({ user }: { user: SessionUser }) {
   const tall = useTallStage(SINGLE_STAGE.w, SINGLE_STAGE.h);
   const stage = layout === 'spread' ? { w: STAGE_W, h: STAGE_H } : tall;
   const fitted = useStageScale(stage.w, stage.h);
-  const camera = useDeskZoom(stage, fitted);
+  const zoomed = useDeskZoom(stage, fitted);
   useWritingZoom(layout === 'single');
   const writingView = useZoom((st) => st.zoom?.writing === true);
 
@@ -127,7 +127,7 @@ export function DeskApp({ user }: { user: SessionUser }) {
       src: libraryUrl(`props/mug-${mug}.svg`),
       overlay: <Steam />,
     },
-    magnifier: { label: camera ? t.desk.magnifierDown : t.desk.magnifier, onActivate: toggleMagnifier, pressed: Boolean(camera) },
+    magnifier: { label: zoomed ? t.desk.magnifierDown : t.desk.magnifier, onActivate: toggleMagnifier, pressed: zoomed },
     radio: { label: playing ? t.radio.playing : t.desk.radio, onActivate: open('radio'), pressed: tool === 'radio', ...(playing ? { overlay: <RadioGlow /> } : {}) },
     plant: { label: t.desk.plant, onActivate: () => toast(t.desk.plantEntries(pages), 'info'), src: libraryUrl(`props/plant-${plantStage}.svg`) },
     // Quiet for now: their tools arrive in later milestones.
@@ -182,7 +182,7 @@ export function DeskApp({ user }: { user: SessionUser }) {
         layout={layout === 'spread' ? scene.layout : {}}
         objects={objects}
         night={!lampOn}
-        camera={camera}
+        zoomable
         scatter={layout === 'spread' ? <AutumnLeaves /> : null}
         front={
           layout === 'spread' ? <PenTray x={1300} y={1212} mode={mode} onMode={setMode} /> : <PencilCase objects={objects} mode={mode} onMode={setMode} stage={tall} />
@@ -193,7 +193,7 @@ export function DeskApp({ user }: { user: SessionUser }) {
           <Book layout={layout} pageNav={pageNav} />
         </div>
       </DeskScene>
-      {camera && !writingView && <ZoomControls />}
+      {zoomed && !writingView && <ZoomControls />}
       <TextToolbar />
       <Toasts />
     </>

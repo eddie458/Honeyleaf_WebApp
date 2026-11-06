@@ -5,11 +5,12 @@
 // caret as you write. On a phone, writing zooms in by itself. Tool panels
 // keep their usual size (they sit outside the zoomed stage).
 
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect, type RefObject } from 'react';
 import { create } from 'zustand';
 import { useBook } from '../data/bookStore';
 import { useActiveEditor } from '../editor/activeEditor';
-import type { Camera } from './DeskScene';
+import { reducedMotion } from '../ui/motion';
+import { flickOf, slowed, stageTransform, STOPPED, type Touch, type Zoom } from './camera';
 import { useViewport, viewport } from './viewport';
 
 export const MAX_ZOOM = 4;
@@ -28,8 +29,8 @@ interface ZoomState {
    * null = the whole desk. `level` is relative to the fitted scale. `writing`:
    * zoomed in by itself for writing on a phone, and out again after.
    */
-  zoom: { level: number; x: number; y: number; writing?: boolean } | null;
-  set(zoom: ZoomState['zoom']): void;
+  zoom: Zoom | null;
+  set(zoom: Zoom | null): void;
 }
 
 export const useZoom = create<ZoomState>((set) => ({
@@ -100,6 +101,31 @@ export function panBy(dx: number, dy: number): void {
   useZoom.getState().set({ ...z, ...clamp(z.level, z.x + dx / scale, z.y + dy / scale) });
 }
 
+let gliding = 0;
+
+function stopGlide(): void {
+  cancelAnimationFrame(gliding);
+  gliding = 0;
+}
+
+/** After a flick the view carries on, until friction or the edge of the desk stops it. */
+function glide(flick: { x: number; y: number }): void {
+  let v = flick;
+  let last = performance.now();
+  const step = (now: number) => {
+    const before = useZoom.getState().zoom;
+    if (!before) return;
+    const ms = Math.min(34, Math.max(1, now - last));
+    last = now;
+    gesturing();
+    panBy(v.x * ms, v.y * ms);
+    const after = useZoom.getState().zoom!;
+    v = slowed({ x: after.x === before.x ? 0 : v.x, y: after.y === before.y ? 0 : v.y }, ms);
+    gliding = Math.hypot(v.x, v.y) > STOPPED ? requestAnimationFrame(step) : 0;
+  };
+  gliding = requestAnimationFrame(step);
+}
+
 /** Centers a zoomed view on a screen point (the caret, the book). */
 export function zoomTo(level: number, sx: number, sy: number): void {
   const p = toStage(sx, sy);
@@ -136,11 +162,11 @@ const OWN_POINTERS = 'button, a, input, textarea, select, [contenteditable], [ro
 const SLOP = 10;
 
 /**
- * Wires the gestures and keeps the camera in step. Returns the camera for
- * DeskScene (null when not zoomed).
+ * Wires the gestures. Returns whether the desk is zoomed: that's all React
+ * needs to know, as the view itself moves by useCamera.
  */
-export function useDeskZoom(stage: { w: number; h: number }, fitted: number): Camera | null {
-  const zoom = useZoom((st) => st.zoom);
+export function useDeskZoom(stage: { w: number; h: number }, fitted: number): boolean {
+  const zoomed = useZoom((st) => st.zoom !== null);
   view = { stage, fitted };
 
   // Trackpad pinch and Ctrl+wheel zoom the desk (not the browser); while
@@ -172,12 +198,13 @@ export function useDeskZoom(stage: { w: number; h: number }, fitted: number): Ca
     const touches = new Map<number, { x: number; y: number }>();
     let pinch: { dist: number; level: number; mid: { x: number; y: number } } | null = null;
     // `held`: started on the page, so it only moves the view once it's clearly a drag (a tap places the caret).
-    let drag: { id: number; x: number; y: number; held: boolean } | null = null;
+    let drag: { id: number; x: number; y: number; held: boolean; trail: Touch[] } | null = null;
     const midOf = () => {
       const [a, b] = [...touches.values()];
       return { a: a!, b: b!, mid: { x: (a!.x + b!.x) / 2, y: (a!.y + b!.y) / 2 }, dist: Math.hypot(a!.x - b!.x, a!.y - b!.y) };
     };
     const down = (e: PointerEvent) => {
+      stopGlide();
       const target = e.target as Element | null;
       // A selected decoration takes two fingers for itself (to resize it, or zoom a photo in its frame).
       if (!target?.closest('[data-room]') || target.closest('[data-panel], [data-own-pinch]')) return;
@@ -193,17 +220,18 @@ export function useDeskZoom(stage: { w: number; h: number }, fitted: number): Ca
       const own = target.closest(OWN_POINTERS);
       // On a touch screen a finger also moves the page you're writing on.
       const onPage = e.pointerType === 'touch' && useBook.getState().mode === 'write' && own?.closest('[data-page-id]') && !target.closest('button, a, input, textarea, select');
-      if (!own || onPage) drag = { id: e.pointerId, x: e.clientX, y: e.clientY, held: Boolean(own) };
+      if (!own || onPage) drag = { id: e.pointerId, x: e.clientX, y: e.clientY, held: Boolean(own), trail: [] };
     };
     const move = (e: PointerEvent) => {
       if (touches.has(e.pointerId)) touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (pinch && touches.size === 2) {
         gesturing();
         const m = midOf();
-        zoomAround(pinch.level * (m.dist / pinch.dist), m.mid.x, m.mid.y);
+        // Added up here, not read back from the view: a slow pinch is too small to show at first.
+        pinch.level = Math.min(MAX_ZOOM, Math.max(1, pinch.level * (m.dist / pinch.dist)));
+        zoomAround(pinch.level, m.mid.x, m.mid.y);
         panBy(pinch.mid.x - m.mid.x, pinch.mid.y - m.mid.y);
         pinch.mid = m.mid;
-        pinch.level = current().level;
         pinch.dist = Math.max(1, m.dist);
         return;
       }
@@ -216,12 +244,18 @@ export function useDeskZoom(stage: { w: number; h: number }, fitted: number): Ca
         panBy(drag.x - e.clientX, drag.y - e.clientY);
         drag.x = e.clientX;
         drag.y = e.clientY;
+        drag.trail.push({ t: e.timeStamp, x: e.clientX, y: e.clientY });
+        if (drag.trail.length > 12) drag.trail.shift();
       }
     };
     const up = (e: PointerEvent) => {
       touches.delete(e.pointerId);
       if (touches.size < 2) pinch = null;
-      if (drag?.id === e.pointerId) drag = null;
+      if (drag?.id !== e.pointerId) return;
+      const flick = e.type === 'pointerup' && e.pointerType === 'touch' && !reducedMotion() ? flickOf(drag.trail, e.timeStamp) : null;
+      // The view goes the opposite way to the finger.
+      if (flick) glide({ x: -flick.x, y: -flick.y });
+      drag = null;
     };
     window.addEventListener('pointerdown', down);
     window.addEventListener('pointermove', move);
@@ -238,7 +272,7 @@ export function useDeskZoom(stage: { w: number; h: number }, fitted: number): Ca
   // While zoomed, the view keeps the caret in sight as you write, above an on-screen keyboard.
   const editor = useActiveEditor((st) => st.editor);
   useEffect(() => {
-    if (!editor || !zoom) return;
+    if (!editor || !zoomed) return;
     const follow = () => {
       const z = useZoom.getState().zoom;
       if (editor.isDestroyed || !editor.isFocused || !z) return;
@@ -264,7 +298,7 @@ export function useDeskZoom(stage: { w: number; h: number }, fitted: number): Ca
       editor.off('selectionUpdate', follow);
       unsubscribe();
     };
-  }, [editor, zoom]);
+  }, [editor, zoomed]);
 
   // Keys (when not typing): + and - zoom, 0 shows the whole desk.
   useEffect(() => {
@@ -291,7 +325,42 @@ export function useDeskZoom(stage: { w: number; h: number }, fitted: number): Ca
     [],
   );
 
-  return zoom ? { scale: fitted * zoom.level, x: zoom.x, y: zoom.y } : null;
+  return zoomed;
+}
+
+interface CameraLayers {
+  deskView: RefObject<HTMLElement | null>;
+  stage: RefObject<HTMLElement | null>;
+  glow: RefObject<HTMLElement | null>;
+}
+
+/**
+ * Keeps the desk's layers where the camera is. A finger moves them many times
+ * a second, so this goes straight onto the elements and not through React:
+ * drawing the desk again for each move is what made it choppy on a phone.
+ * The wood stays fitted to the window and is scaled like a picture, so it
+ * always covers the room.
+ */
+export function useCamera(layers: CameraLayers, stage: { w: number; h: number }, fitted: number, enabled: boolean): void {
+  const { w, h } = stage;
+  useLayoutEffect(() => {
+    if (!enabled) return;
+    const root = document.documentElement;
+    const show = () => {
+      const z = useZoom.getState().zoom;
+      const moved = stageTransform(z, { w, h }, fitted);
+      if (layers.stage.current) layers.stage.current.style.transform = moved;
+      if (layers.glow.current) layers.glow.current.style.transform = moved;
+      if (layers.deskView.current) layers.deskView.current.style.transform = z ? `scale(${z.level})` : '';
+      root.toggleAttribute('data-close-up', fitted * (z?.level ?? 1) > 1);
+    };
+    show();
+    const unsubscribe = useZoom.subscribe(show);
+    return () => {
+      unsubscribe();
+      root.removeAttribute('data-close-up');
+    };
+  }, [layers.deskView, layers.stage, layers.glow, w, h, fitted, enabled]);
 }
 
 /** Writing at a size you can read: 22 px text at most. */

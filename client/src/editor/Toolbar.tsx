@@ -2,6 +2,7 @@ import { useEffect, useReducer, useState, type CSSProperties, type ReactNode } f
 import { createPortal } from 'react-dom';
 import type { Editor } from '@tiptap/core';
 import { useBook } from '../data/bookStore';
+import { useZoom } from '../desk/zoom';
 import { fontFamily } from '../library/fonts';
 import { useLibrary } from '../library/useLibrary';
 import { t } from '../strings/en';
@@ -37,6 +38,10 @@ export function TextToolbar() {
   }, [editor]);
 
   useEffect(() => setPop(null), [editor]);
+
+  // The strip stays over the words as the desk moves under it.
+  const selecting = Boolean(editor && !editor.isDestroyed && !editor.state.selection.empty);
+  useEffect(() => (selecting ? useZoom.subscribe(() => rerender()) : undefined), [selecting]);
 
   if (!editor || editor.isDestroyed) return null;
   const { from, to, empty } = editor.state.selection;
