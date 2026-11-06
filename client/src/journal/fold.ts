@@ -11,17 +11,12 @@ export interface Pt {
   y: number;
 }
 
+/** CSS matrix(a, b, c, d, e, f) = [[a c e], [b d f]]. */
+export type Matrix = [number, number, number, number, number, number];
+
 export interface Fold {
-  /** Polygon of the leaf still lying flat (leaf coordinates). */
-  front: Pt[];
-  /** Polygon of the leaf that has lifted (leaf coordinates); the page beneath shows here. */
-  lifted: Pt[];
-  /** Polygon of the back face, in the back page's own coordinates. */
-  backClip: Pt[];
-  /** Where the lifted part now lies (leaf coordinates). */
-  flap: Pt[];
   /** CSS matrix() placing the back page (its own coordinates) onto the flap. */
-  backMatrix: [number, number, number, number, number, number];
+  backMatrix: Matrix;
   /** A point on the fold line and the unit normal pointing toward the corner. */
   mid: Pt;
   normal: Pt;
@@ -46,49 +41,15 @@ export function constrain(corner: Pt, p: Pt, w: number, h: number): Pt {
   return q;
 }
 
-/** Clips a convex polygon to the half-plane (X - m)·n <= 0 (or >= 0 when `keepPositive`). */
-export function clipHalfPlane(poly: Pt[], m: Pt, n: Pt, keepPositive: boolean): Pt[] {
-  const side = (p: Pt) => (keepPositive ? 1 : -1) * dot(sub(p, m), n);
-  const out: Pt[] = [];
-  for (let i = 0; i < poly.length; i++) {
-    const a = poly[i]!;
-    const b = poly[(i + 1) % poly.length]!;
-    const sa = side(a);
-    const sb = side(b);
-    if (sa >= 0) out.push(a);
-    if ((sa >= 0) !== (sb >= 0)) {
-      const t = sa / (sa - sb);
-      out.push({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
-    }
-  }
-  return out;
-}
-
-export function reflect(p: Pt, m: Pt, n: Pt): Pt {
-  const d = 2 * dot(sub(p, m), n);
-  return { x: p.x - d * n.x, y: p.y - d * n.y };
-}
-
 export function fold(corner: Pt, pointer: Pt, w: number, h: number): Fold {
   const p = constrain(corner, pointer, w, h);
-  const page: Pt[] = [
-    { x: 0, y: 0 },
-    { x: w, y: 0 },
-    { x: w, y: h },
-    { x: 0, y: h },
-  ];
   const cp = sub(corner, p);
   const dist = len(cp);
-  if (dist < 0.5) {
-    return { front: page, lifted: [], backClip: [], flap: [], backMatrix: [1, 0, 0, 1, 0, 0], mid: corner, normal: { x: 1, y: 0 }, progress: 0 };
-  }
+  // Flat: the fold lies on the outer edge, with the back page just past it.
+  if (dist < 0.5) return { backMatrix: [1, 0, 0, 1, w, 0], mid: corner, normal: { x: 1, y: 0 }, progress: 0 };
   const n = { x: cp.x / dist, y: cp.y / dist };
   const m = { x: (corner.x + p.x) / 2, y: (corner.y + p.y) / 2 };
-  const front = clipHalfPlane(page, m, n, false);
-  const lifted = clipHalfPlane(page, m, n, true);
-  const flap = lifted.map((q) => reflect(q, m, n));
   // Back page coordinates u map to leaf point X = (w - u.x, u.y), then reflect.
-  const backClip = lifted.map((q) => ({ x: w - q.x, y: q.y }));
   const l11 = 1 - 2 * n.x * n.x;
   const l12 = -2 * n.x * n.y;
   const l22 = 1 - 2 * n.y * n.y;
@@ -103,9 +64,43 @@ export function fold(corner: Pt, pointer: Pt, w: number, h: number): Fold {
   const e = l11 * w + tx;
   const f = l12 * w + ty;
   const progress = Math.min(1, Math.max(0, (corner.x - p.x) / (2 * w)));
-  return { front, lifted, backClip, flap, backMatrix: [a, b, c, d, e, f], mid: m, normal: n, progress };
+  return { backMatrix: [a, b, c, d, e, f], mid: m, normal: n, progress };
 }
 
-export const polygonCss = (pts: Pt[]) => (pts.length < 3 ? 'polygon(0 0, 0 0, 0 0)' : `polygon(${pts.map((q) => `${q.x.toFixed(2)}px ${q.y.toFixed(2)}px`).join(', ')})`);
+/** a after b. */
+export function compose(a: Matrix, b: Matrix): Matrix {
+  return [a[0] * b[0] + a[2] * b[1], a[1] * b[0] + a[3] * b[1], a[0] * b[2] + a[2] * b[3], a[1] * b[2] + a[3] * b[3], a[0] * b[4] + a[2] * b[5] + a[4], a[1] * b[4] + a[3] * b[5] + a[5]];
+}
 
-export const matrixCss = (m: Fold['backMatrix']) => `matrix(${m.map((v) => v.toFixed(5)).join(', ')})`;
+export function invert(m: Matrix): Matrix {
+  const det = m[0] * m[3] - m[1] * m[2];
+  const a = m[3] / det;
+  const b = -m[1] / det;
+  const c = -m[2] / det;
+  const d = m[0] / det;
+  return [a, b, c, d, -(a * m[4] + c * m[5]), -(b * m[4] + d * m[5])];
+}
+
+/** Where each moving part of the leaf goes for a fold (see PageTurn.module.css). */
+export interface Pose {
+  /** A box laid along the fold, its y axis toward the corner: the leaf is cut off at its y = 0. */
+  edge: Matrix;
+  /** Undoes `edge`, so what's inside the box stays where it was. */
+  flat: Matrix;
+  /** The back page, onto the flap. */
+  back: Matrix;
+  /** Keeps the sheen along the fold from inside the back page. */
+  sheen: Matrix;
+}
+
+/** `mirrored`: a left page, whose spine is at x = w, turning back to the right. */
+export function pose(f: Fold, w: number, mirrored: boolean): Pose {
+  const m = mirrored ? { x: w - f.mid.x, y: f.mid.y } : f.mid;
+  const n = mirrored ? { x: -f.normal.x, y: f.normal.y } : f.normal;
+  const flip: Matrix = [-1, 0, 0, 1, w, 0];
+  const back = mirrored ? compose(compose(flip, f.backMatrix), flip) : f.backMatrix;
+  const edge: Matrix = [n.y, -n.x, n.x, n.y, m.x, m.y];
+  return { edge, flat: invert(edge), back, sheen: compose(invert(back), edge) };
+}
+
+export const matrixCss = (m: Matrix) => `matrix(${m.map((v) => v.toFixed(5)).join(', ')})`;

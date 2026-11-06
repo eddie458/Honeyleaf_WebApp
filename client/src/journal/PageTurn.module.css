@@ -1,29 +1,76 @@
+/*
+ * Only transforms change while a page turns, so the browser moves pictures it
+ * already has. Moving a clip-path or a gradient here instead makes it redraw
+ * the page on every frame, which a phone can't keep up with.
+ *
+ * --reach is how far the boxes stretch from the fold: past the page's diagonal
+ * (1029px), so their far edges never show. Each one's origin is the leaf's
+ * (0, 0), which is why the numbers from fold.ts apply as they are.
+ */
 .leaf {
+  --reach: 1100px;
   position: absolute;
   top: 0;
   pointer-events: none;
   z-index: 20;
 }
 
-.front,
-.back {
+.edge,
+.sheen {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 594px;
-  height: 840px;
-  will-change: transform, clip-path;
+  left: calc(var(--reach) * -1);
+  top: calc(var(--reach) * -1);
+  width: calc(var(--reach) * 2);
+  height: var(--reach);
+  transform-origin: var(--reach) var(--reach);
+  will-change: transform;
 }
 
+/* Lying along the fold, this cuts off both faces of the leaf there. */
+.edge {
+  overflow: hidden;
+}
+
+.flat,
 .back {
+  position: absolute;
+  width: 594px;
+  height: 840px;
   transform-origin: 0 0;
+  will-change: transform;
 }
 
-.overlay {
-  position: absolute;
+/* Turned back upright inside .edge, so the page stays where it was. */
+.flat {
+  left: var(--reach);
+  top: var(--reach);
+}
+
+.back {
   left: 0;
   top: 0;
-  width: 594px;
-  height: 840px;
-  overflow: visible;
+  overflow: hidden;
+}
+
+/* Bright where the paper bends, then the plain shade of the folded-over part. */
+.sheen {
+  background: linear-gradient(0deg, rgb(255 250 240 / 0.55) 0, rgb(255 250 240 / 0.08) 35px, rgb(42 23 9 / 0.14) 140px);
+}
+
+/* The shadow the leaf casts on the page beneath. */
+.beneath {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.shadow {
+  position: absolute;
+  left: calc(var(--reach) * -1);
+  top: 0;
+  width: calc(var(--reach) * 2);
+  height: 70px;
+  transform-origin: var(--reach) 0;
+  will-change: transform;
+  background: linear-gradient(180deg, rgb(42 23 9 / 0.42), rgb(42 23 9 / 0));
 }
